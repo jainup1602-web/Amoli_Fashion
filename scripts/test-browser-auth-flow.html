@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Auth Test</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <h1>Firebase Authentication Test</h1>
+    
+    <div id="auth-status">Not logged in</div>
+    <br>
+    
+    <button onclick="signInWithGoogle()">Sign In with Google</button>
+    <button onclick="signOut()">Sign Out</button>
+    <button onclick="testAdminAPI()">Test Admin API</button>
+    
+    <br><br>
+    <div id="results"></div>
+
+    <script>
+        // Firebase configuration (replace with your actual config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzAYN54EVpl16z2tZzUGo76_bpQ_qfQNw",
+            authDomain: "amoli-eb83f.firebaseapp.com",
+            projectId: "amoli-eb83f",
+            storageBucket: "amoli-eb83f.firebasestorage.app",
+            messagingSenderId: "956664716572",
+            appId: "1:956664716572:web:807b511318f8858e06aed9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Auth state listener
+        auth.onAuthStateChanged((user) => {
+            const statusDiv = document.getElementById('auth-status');
+            if (user) {
+                statusDiv.innerHTML = `
+                    <strong>Logged in as:</strong><br>
+                    Email: ${user.email}<br>
+                    UID: ${user.uid}<br>
+                    Display Name: ${user.displayName}
+                `;
+                console.log('User logged in:', user);
+            } else {
+                statusDiv.innerHTML = 'Not logged in';
+                console.log('User logged out');
+            }
+        });
+
+        // Sign in with Google
+        async function signInWithGoogle() {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                const result = await auth.signInWithPopup(provider);
+                console.log('Sign in successful:', result.user);
+            } catch (error) {
+                console.error('Sign in error:', error);
+                document.getElementById('results').innerHTML = `<p style="color: red;">Sign in error: ${error.message}</p>`;
+            }
+        }
+
+        // Sign out
+        async function signOut() {
+            try {
+                await auth.signOut();
+                console.log('Sign out successful');
+                document.getElementById('results').innerHTML = '';
+            } catch (error) {
+                console.error('Sign out error:', error);
+            }
+        }
+
+        // Test Admin API
+        async function testAdminAPI() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                const user = auth.currentUser;
+                if (!user) {
+                    resultsDiv.innerHTML = '<p style="color: red;">Please log in first</p>';
+                    return;
+                }
+
+                // Get ID token
+                const token = await user.getIdToken();
+                console.log('Got token:', token.substring(0, 50) + '...');
+
+                // Test GET request
+                const response = await fetch('http://localhost:3000/api/admin/banners', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                resultsDiv.innerHTML = `
+                    <h3>API Test Results:</h3>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>Success:</strong> ${data.success}</p>
+                    <p><strong>Message:</strong> ${data.message || 'No message'}</p>
+                    <p><strong>Banners Count:</strong> ${data.banners ? data.banners.length : 'N/A'}</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+
+                if (response.status === 200) {
+                    console.log('✅ Admin API test successful!');
+                } else {
+                    console.log('❌ Admin API test failed:', data);
+                }
+
+            } catch (error) {
+                console.error('API test error:', error);
+                resultsDiv.innerHTML = `<p style="color: red;">API test error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
