@@ -167,7 +167,7 @@ export default function SearchPage() {
                           ? 'text-white'
                           : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
                       }`}
-                      style={currentPage === i + 1 ? { backgroundColor: '#043927' } : {}}
+                      style={currentPage === i + 1 ? { backgroundColor: '#B76E79' } : {}}
                     >
                       {i + 1}
                     </button>

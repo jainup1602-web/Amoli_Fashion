@@ -106,7 +106,7 @@ export default function ShippingPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Truck className="h-6 w-6" style={{ color: '#043927' }} />
+            <Truck className="h-6 w-6" style={{ color: '#B76E79' }} />
             Shipping Zones
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">Manage delivery zones, pincodes and charges</p>
@@ -114,7 +114,7 @@ export default function ShippingPage() {
         <button
           onClick={openAdd}
           className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg"
-          style={{ backgroundColor: '#043927' }}
+          style={{ backgroundColor: '#B76E79' }}
         >
           <Plus className="h-4 w-4" /> Add Zone
         </button>
@@ -129,7 +129,7 @@ export default function ShippingPage() {
         ].map(({ label, value }) => (
           <div key={label} className="bg-white border border-gray-200 rounded-lg p-4">
             <p className="text-xs text-gray-500 uppercase tracking-wide">{label}</p>
-            <p className="text-2xl font-bold mt-1" style={{ color: '#043927' }}>{value}</p>
+            <p className="text-2xl font-bold mt-1" style={{ color: '#B76E79' }}>{value}</p>
           </div>
         ))}
       </div>
@@ -137,7 +137,7 @@ export default function ShippingPage() {
       {/* Table */}
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
         <table className="w-full text-sm">
-          <thead style={{ backgroundColor: '#043927' }}>
+          <thead style={{ backgroundColor: '#B76E79' }}>
             <tr>
               {['Zone Name', 'Pincodes', 'Charge (₹)', 'Free Above (₹)', 'Status', 'Actions'].map(h => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-white uppercase tracking-wide">{h}</th>
@@ -211,7 +211,7 @@ export default function ShippingPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Zone Name <span className="text-red-500">*</span></label>
                 <input
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
-                  style={{ '--tw-ring-color': '#043927' } as any}
+                  style={{ '--tw-ring-color': '#B76E79' } as any}
                   placeholder="e.g. Metro Cities, North India"
                   value={form.name}
                   onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
@@ -258,7 +258,7 @@ export default function ShippingPage() {
                   type="button"
                   onClick={() => setForm(f => ({ ...f, isActive: !f.isActive }))}
                   className={`relative w-11 h-6 rounded-full transition-colors ${form.isActive ? '' : 'bg-gray-200'}`}
-                  style={form.isActive ? { backgroundColor: '#043927' } : {}}
+                  style={form.isActive ? { backgroundColor: '#B76E79' } : {}}
                 >
                   <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${form.isActive ? 'translate-x-5' : ''}`} />
                 </button>
@@ -274,7 +274,7 @@ export default function ShippingPage() {
                 onClick={handleSave}
                 disabled={saving || !form.name.trim() || !form.pincodes.trim() || !form.charges}
                 className="flex-1 px-4 py-2 text-sm font-medium text-white rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 transition-colors"
-                style={{ backgroundColor: '#043927' }}
+                style={{ backgroundColor: '#B76E79' }}
               >
                 {saving ? 'Saving...' : <><Check className="h-4 w-4" />{editZone ? 'Update Zone' : 'Add Zone'}</>}
               </button>

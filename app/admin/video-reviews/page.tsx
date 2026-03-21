@@ -285,7 +285,7 @@ export default function VideoReviewsPage() {
               </label>
 
               <div className="flex gap-2 pt-2">
-                <Button type="submit" disabled={saving} className="flex-1" style={{ backgroundColor: '#043927', color: '#fff' }}>
+                <Button type="submit" disabled={saving} className="flex-1" style={{ backgroundColor: '#B76E79', color: '#fff' }}>
                   {saving ? 'Saving...' : editingReview ? 'Update' : 'Create'}
                 </Button>
                 <Button type="button" variant="outline" onClick={resetForm} className="flex-1">Cancel</Button>

@@ -78,7 +78,7 @@ function ListRowCard({ product }: { product: any }) {
         transition={{ duration: 0.4, ease: 'easeOut' }}
       >
       <Link href={`/products/${product.slug}`}>
-        <div className="group flex gap-0 bg-white border border-gray-100 hover:border-[#043927]/20 hover:shadow-sm transition-all duration-300 overflow-hidden">
+        <div className="group flex gap-0 bg-white border border-gray-100 hover:border-[#B76E79]/20 hover:shadow-sm transition-all duration-300 overflow-hidden">
           {/* Image — fixed width */}
           <div className="relative w-52 sm:w-64 flex-shrink-0 aspect-square overflow-hidden bg-[#F8F6F2]">
             <Image
@@ -87,11 +87,11 @@ function ListRowCard({ product }: { product: any }) {
               unoptimized={img.startsWith('data:')}
             />
             {discount > 0 && (
-              <div className="absolute top-3 left-3 text-white text-[10px] font-semibold px-2 py-0.5 tracking-widest uppercase" style={{ backgroundColor: '#043927' }}>
+              <div className="absolute top-3 left-3 text-white text-[10px] font-semibold px-2 py-0.5 tracking-widest uppercase" style={{ backgroundColor: '#B76E79' }}>
                 -{discount}%
               </div>
             )}
-            <div className="absolute top-3 right-3 text-white text-[10px] font-semibold px-2 py-0.5 tracking-widest uppercase border border-white/60" style={{ backgroundColor: '#043927' }}>
+            <div className="absolute top-3 right-3 text-white text-[10px] font-semibold px-2 py-0.5 tracking-widest uppercase border border-white/60" style={{ backgroundColor: '#B76E79' }}>
               New
             </div>
           </div>
@@ -104,7 +104,7 @@ function ListRowCard({ product }: { product: any }) {
                 <p className="text-[10px] font-elegant tracking-[0.2em] uppercase text-gray-400 mb-1">{product.category.name}</p>
               )}
               {/* Name */}
-              <h3 className="font-fairplay text-lg text-[#1C1C1C] leading-snug mb-3 group-hover:text-[#043927] transition-colors line-clamp-2">
+              <h3 className="font-fairplay text-lg text-[#1C1C1C] leading-snug mb-3 group-hover:text-[#B76E79] transition-colors line-clamp-2">
                 {product.name}
               </h3>
               {/* Short description */}
@@ -139,14 +139,14 @@ function ListRowCard({ product }: { product: any }) {
                   onClick={handleCart}
                   disabled={product.stock === 0}
                   className="flex items-center gap-2 text-white text-xs font-elegant tracking-[0.15em] uppercase px-5 py-2.5 transition-colors disabled:opacity-50"
-                  style={{ backgroundColor: '#043927' }}
+                  style={{ backgroundColor: '#B76E79' }}
                 >
                   <ShoppingCart className="h-4 w-4" />
                   {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
                 <button
                   onClick={handleWishlist}
-                  className="p-2.5 border border-gray-200 hover:border-[#043927] transition-colors"
+                  className="p-2.5 border border-gray-200 hover:border-[#B76E79] transition-colors"
                   title={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
                 >
                   <Heart className={`h-4 w-4 ${isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-400'}`} />

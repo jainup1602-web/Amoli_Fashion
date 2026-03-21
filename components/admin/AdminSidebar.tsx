@@ -3,27 +3,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { logout } from '@/store/slices/authSlice';
 import {
-  Home,
-  Package,
-  ShoppingCart,
-  User,
-  Grid,
-  Star,
-  Mail,
-  Truck,
-  Settings,
-  Menu,
-  X,
-  CreditCard,
-  Image as ImageIcon,
-  File,
-  ChevronDown,
-  FileText,
-  Plus
-} from 'lucide-react';
+  Home, Package, ShoppingCart, User, Grid, Star, Mail, Truck, Settings,
+  Menu, X, CreditCard, Image as ImageIcon, File, ChevronDown, FileText,
+  Plus, LogOut, ExternalLink
+} from 'lucide-react';import { AuthModal } from '@/components/auth/AuthModal';
 
 const menuItems = [
   { title: 'Dashboard', href: '/admin', icon: Home },
@@ -57,7 +45,7 @@ const sidebarVariants = {
   visible: {
     x: 0,
     opacity: 1,
-    transition: { type: 'spring', stiffness: 300, damping: 30 },
+    transition: { type: 'spring' as const, stiffness: 300, damping: 30 },
   },
 };
 
@@ -65,14 +53,14 @@ const sidebarVariants = {
 const navContainerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.045, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.045, delayChildren: 0.1 } as any,
   },
 };
 
 // Each nav item fades + slides in from left
 const navItemVariants = {
   hidden: { x: -20, opacity: 0 },
-  visible: { x: 0, opacity: 1, transition: { type: 'spring', stiffness: 260, damping: 22 } },
+  visible: { x: 0, opacity: 1, transition: { type: 'spring' as const, stiffness: 260, damping: 22 } },
 };
 
 // Submenu expand/collapse
@@ -81,12 +69,12 @@ const submenuVariants = {
   visible: {
     height: 'auto',
     opacity: 1,
-    transition: { duration: 0.25, ease: 'easeOut' },
+    transition: { duration: 0.25, ease: 'easeOut' as const },
   },
   exit: {
     height: 0,
     opacity: 0,
-    transition: { duration: 0.2, ease: 'easeIn' },
+    transition: { duration: 0.2, ease: 'easeIn' as const },
   },
 };
 
@@ -99,12 +87,32 @@ const overlayVariants = {
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleSubmenu = (title: string) => {
     setOpenSubmenu(openSubmenu === title ? null : title);
+  };
+
+  const handleLogout = async () => {
+    try {
+      localStorage.setItem('manualLogout', 'true');
+      localStorage.removeItem('token');
+      dispatch(logout());
+      const { signOut } = await import('firebase/auth');
+      const { auth } = await import('@/lib/firebase');
+      if (auth) await signOut(auth);
+      router.push('/');
+    } catch {
+      localStorage.removeItem('token');
+      dispatch(logout());
+      router.push('/');
+    }
   };
 
   return (
@@ -112,7 +120,7 @@ export function AdminSidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={toggleMobileMenu}
-        className="lg:hidden fixed top-[144px] left-4 z-50 p-2.5 bg-gray-800 hover:bg-gray-900 text-white rounded-lg shadow-xl transition-all"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 bg-gray-800 hover:bg-gray-900 text-white rounded-lg shadow-xl transition-all"
         aria-label="Toggle menu"
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -150,13 +158,13 @@ export function AdminSidebar() {
         className={`
           w-64 bg-white text-gray-900 fixed left-0 z-40
           flex flex-col shadow-2xl border-r border-gray-200
-          top-[136px] h-[calc(100vh-136px)]
+          top-0 h-screen
           transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         {/* Logo Section */}
-        <div className="p-6 border-b border-gray-200 flex-shrink-0">
+        <div className="p-5 border-b border-gray-200 flex-shrink-0 flex items-center justify-between">
           <Link
             href="/admin"
             className="flex items-center gap-3 group"
@@ -172,7 +180,33 @@ export function AdminSidebar() {
               priority
             />
           </Link>
+          <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded text-white" style={{ backgroundColor: '#B76E79' }}>Admin</span>
         </div>
+
+        {/* User Info Bar — shows login button if not authenticated */}
+        {isAuthenticated && user ? (
+          <div className="px-4 py-3 border-b border-gray-100 bg-gray-50 flex items-center gap-3 flex-shrink-0">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium flex-shrink-0" style={{ backgroundColor: '#B76E79' }}>
+              {(user as any).displayName?.charAt(0)?.toUpperCase() || 'A'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium text-gray-800 truncate">{(user as any).displayName || 'Admin'}</p>
+              <p className="text-[10px] text-gray-500 truncate">{(user as any).email || ''}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="px-4 py-3 border-b border-gray-100 flex-shrink-0">
+            <button
+              onClick={() => setAuthModalOpen(true)}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95"
+              style={{ backgroundColor: '#B76E79' }}
+            >
+              <User className="h-4 w-4 flex-shrink-0" />
+              <span>Login to Admin</span>
+            </button>
+            <p className="text-[10px] text-gray-400 text-center mt-2">Admin access required</p>
+          </div>
+        )}
 
         {/* Navigation - Scrollable */}
         <nav className="flex-1 overflow-y-auto py-4">
@@ -260,16 +294,33 @@ export function AdminSidebar() {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 flex-shrink-0">
+        <div className="p-4 border-t border-gray-200 flex-shrink-0 space-y-1">
           <Link
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
           >
-            <span>← Back to Store</span>
+            <ExternalLink className="h-4 w-4" />
+            <span>Back to Store</span>
           </Link>
+          {isAuthenticated && (
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Logout</span>
+            </button>
+          )}
         </div>
       </motion.aside>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode="login"
+      />
     </>
   );
 }

@@ -25,7 +25,7 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   if (!isOpen) return null;
 
-  const confirmBg = variant === 'danger' ? '#dc2626' : variant === 'warning' ? '#d97706' : '#043927';
+  const confirmBg = variant === 'danger' ? '#dc2626' : variant === 'warning' ? '#d97706' : '#B76E79';
   const iconBg = variant === 'danger' ? 'bg-red-100' : variant === 'warning' ? 'bg-yellow-100' : 'bg-blue-100';
   const iconColor = variant === 'danger' ? 'text-red-600' : variant === 'warning' ? 'text-yellow-600' : 'text-blue-600';
 

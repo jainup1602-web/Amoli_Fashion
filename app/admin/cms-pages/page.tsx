@@ -135,7 +135,7 @@ export default function CmsPagesAdmin() {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">CMS Pages</h1>
-        <Button onClick={() => setShowForm(!showForm)} style={{ backgroundColor: '#043927', color: '#fff' }}>
+        <Button onClick={() => setShowForm(!showForm)} style={{ backgroundColor: '#B76E79', color: '#fff' }}>
           <Plus className="h-4 w-4 mr-2" />
           {showForm ? 'Cancel' : 'Add Page'}
         </Button>
@@ -212,7 +212,7 @@ export default function CmsPagesAdmin() {
             </div>
 
             <div className="flex space-x-2">
-              <Button type="submit" style={{ backgroundColor: '#043927', color: '#fff' }}>
+              <Button type="submit" style={{ backgroundColor: '#B76E79', color: '#fff' }}>
                 {editingPage ? 'Update Page' : 'Create Page'}
               </Button>
               <Button type="button" variant="outline" onClick={resetForm}>

@@ -84,12 +84,12 @@ export function NotificationBell() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 hover:bg-gray-100 rounded-full transition"
-        style={{ color: '#043927' }}
+        style={{ color: '#B76E79' }}
       >
         <Bell className="h-6 w-6" />
         {unreadCount > 0 && (
           <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{ backgroundColor: '#043927' }}
+            style={{ backgroundColor: '#B76E79' }}
           >
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
@@ -107,7 +107,7 @@ export function NotificationBell() {
                 <button
                   onClick={handleMarkAllAsRead}
                   className="text-sm hover:opacity-80 flex items-center"
-                  style={{ color: '#043927' }}
+                  style={{ color: '#B76E79' }}
                   title="Mark all as read"
                 >
                   <Check className="h-4 w-4 mr-1" />
@@ -181,7 +181,7 @@ export function NotificationBell() {
               <Link
                 href="/account/notifications"
                 className="text-sm hover:opacity-80 font-medium"
-                style={{ color: '#043927' }}
+                style={{ color: '#B76E79' }}
                 onClick={() => setIsOpen(false)}
               >
                 View All Notifications
@@ -217,7 +217,7 @@ function NotificationContent({
           <button
             onClick={(e) => handleMarkAsRead(notification._id, e)}
             className="p-1 hover:bg-gray-100 rounded"
-            style={{ color: '#043927' }}
+            style={{ color: '#B76E79' }}
             title="Mark as read"
           >
             <Check className="h-4 w-4" />

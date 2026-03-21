@@ -5,12 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Heart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { addToCartAsync, addToCart } from '@/store/slices/cartSlice';
 import { addToWishlistAsync, removeFromWishlistAsync, addToWishlist, removeFromWishlist } from '@/store/slices/wishlistSlice';
-import { AuthModal } from '@/components/auth/AuthModal';
 import toast from 'react-hot-toast';
 
 interface ProductCardProps {
@@ -32,7 +30,6 @@ function ProductCardComponent({ product }: ProductCardProps) {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const finalPrice = product.specialPrice || product.originalPrice;
   const discountPercent = product.specialPrice
@@ -49,12 +46,6 @@ function ProductCardComponent({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
 
-    // Check if user is authenticated
-    if (!isAuthenticated) {
-      setShowAuthModal(true);
-      return;
-    }
-
     setIsAddingToCart(true);
 
     const cartItem = {
@@ -68,33 +59,20 @@ function ProductCardComponent({ product }: ProductCardProps) {
       stock: product.stock,
     };
 
-    // Add to local cart first for immediate feedback
     dispatch(addToCart(cartItem));
     toast.success('Added to cart!');
     setIsAddingToCart(false);
 
-    // Try server sync in background
+    // Try server sync in background only if logged in
     const token = localStorage.getItem('token');
     if (token && token !== 'null' && token !== 'undefined' && token.length > 10) {
-      dispatch(addToCartAsync({ 
-        productId: product.id, 
-        quantity: 1, 
-        token
-      })).catch(() => {
-        // Silently ignore server sync failures
-      });
+      dispatch(addToCartAsync({ productId: product.id, quantity: 1, token })).catch(() => {});
     }
-  }, [dispatch, product, isAuthenticated]);
+  }, [dispatch, product]);
 
   const handleToggleWishlist = useCallback(async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // Check if user is authenticated
-    if (!isAuthenticated) {
-      setShowAuthModal(true);
-      return;
-    }
 
     const wishlistItem = {
       productId: product.id,
@@ -107,7 +85,6 @@ function ProductCardComponent({ product }: ProductCardProps) {
       stock: product.stock,
     };
 
-    // Update local wishlist first for immediate feedback
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
       toast.success('Removed from wishlist');
@@ -116,20 +93,16 @@ function ProductCardComponent({ product }: ProductCardProps) {
       toast.success('Added to wishlist!');
     }
 
-    // Try server sync in background
+    // Try server sync in background only if logged in
     const token = localStorage.getItem('token');
     if (token && token !== 'null' && token !== 'undefined' && token.length > 10) {
       if (isInWishlist) {
-        dispatch(removeFromWishlistAsync({ productId: product.id, token })).catch(() => {
-          // Silently ignore server sync failures
-        });
+        dispatch(removeFromWishlistAsync({ productId: product.id, token })).catch(() => {});
       } else {
-        dispatch(addToWishlistAsync({ productId: product.id, token })).catch(() => {
-          // Silently ignore server sync failures
-        });
+        dispatch(addToWishlistAsync({ productId: product.id, token })).catch(() => {});
       }
     }
-  }, [dispatch, isInWishlist, product, isAuthenticated]);
+  }, [dispatch, isInWishlist, product]);
 
   return (
     <>
@@ -142,28 +115,19 @@ function ProductCardComponent({ product }: ProductCardProps) {
       >
       <Link href={`/products/${product.slug}`}>
         <div className="group relative overflow-hidden transition-luxury hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gold/10 hover:border-gold/30" style={{ backgroundColor: '#F8F6F2' }}>
-          {/* Discount Badge */}
+          {/* Discount Badge - top-left corner touch */}
           {discountPercent > 0 && (
-            <div className="absolute top-4 left-4 z-10 text-white px-3 py-1 text-[10px] font-semibold tracking-[0.2em] uppercase shadow-md" style={{ backgroundColor: '#043927' }}>
-              SAVE {discountPercent}%
-            </div>
-          )}
-
-          {/* Wishlist Button - Only for authenticated users - Animated from right */}
-          {isAuthenticated && (
-            <button
-              onClick={handleToggleWishlist}
-              className="absolute top-4 right-4 z-10 p-2 transition-all duration-300 transform translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group/wishlist"
-              aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+            <div
+              className="absolute top-0 left-0 z-10 text-white text-[11px] font-bold tracking-widest uppercase px-3 py-1.5"
+              style={{
+                backgroundColor: '#B76E79',
+                clipPath: 'polygon(0 0, 100% 0, 82% 100%, 0 100%)',
+                paddingRight: '20px',
+                textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+              }}
             >
-              <Heart
-                className={`h-5 w-5 transition-all drop-shadow-md ${
-                  isInWishlist 
-                    ? 'text-red-500 fill-red-500' 
-                    : 'text-white group-hover/wishlist:fill-red-500'
-                }`}
-              />
-            </button>
+              -{discountPercent}%
+            </div>
           )}
 
           {/* Product Image */}
@@ -189,19 +153,29 @@ function ProductCardComponent({ product }: ProductCardProps) {
               />
             )}
 
-            {/* Quick Add to Cart Overlay - Animated with opacity */}
-            <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <Button
-                onClick={handleAddToCart}
-                disabled={product.stock === 0 || isAddingToCart}
-                className="text-white rounded-none border-none tracking-[0.1em] uppercase text-xs w-full py-4 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
-                style={{ backgroundColor: '#043927' }}
-                aria-label={product.stock === 0 ? 'Out of stock' : 'Add to cart'}
-              >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                {product.stock === 0 ? 'Exhausted' : isAddingToCart ? 'Adding...' : isAuthenticated ? 'Add to Bag' : 'Login to Add'}
-              </Button>
-            </div>
+            {/* Wishlist - bottom left - always visible */}
+            <button
+              onClick={handleToggleWishlist}
+              className="absolute bottom-2 left-2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
+              style={{ backgroundColor: isInWishlist ? '#B76E79' : 'rgba(255,255,255,0.92)' }}
+              aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+            >
+              <Heart
+                className="h-4 w-4"
+                style={{ color: isInWishlist ? '#fff' : '#B76E79', fill: isInWishlist ? '#fff' : 'none' }}
+              />
+            </button>
+
+            {/* Add to Cart - bottom right - always visible */}
+            <button
+              onClick={handleAddToCart}
+              disabled={product.stock === 0 || isAddingToCart}
+              className="absolute bottom-2 right-2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ backgroundColor: '#B76E79' }}
+              aria-label={product.stock === 0 ? 'Out of stock' : 'Add to cart'}
+            >
+              <ShoppingCart className="h-4 w-4 text-white" />
+            </button>
           </div>
 
           {/* Product Info */}
@@ -237,13 +211,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
       </Link>
       </motion.div>
 
-      {/* Auth Modal */}
-      {showAuthModal && (
-        <AuthModal 
-          isOpen={showAuthModal} 
-          onClose={() => setShowAuthModal(false)} 
-        />
-      )}
+      {/* Auth Modal removed - no longer needed for cart/wishlist */}
     </>
   );
 }

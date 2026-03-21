@@ -119,7 +119,7 @@ export function SearchBar() {
             <X className="h-4 w-4" />
           </button>
         )}
-        <button type="submit" className="px-4 py-2.5 text-white text-xs font-elegant tracking-widest uppercase transition-colors" style={{ backgroundColor: '#043927' }}>
+        <button type="submit" className="px-4 py-2.5 text-white text-xs font-elegant tracking-widest uppercase transition-colors" style={{ backgroundColor: '#B76E79' }}>
           Search
         </button>
       </form>
@@ -193,7 +193,7 @@ export function SearchBar() {
               <button
                 onClick={() => handleSearch()}
                 className="w-full px-4 py-3 text-center text-xs font-elegant tracking-widest uppercase border-t border-gold/10 hover:bg-[#F8F6F2] transition-colors"
-                style={{ color: '#043927' }}
+                style={{ color: '#B76E79' }}
               >
                 View all results for "{query}"
               </button>

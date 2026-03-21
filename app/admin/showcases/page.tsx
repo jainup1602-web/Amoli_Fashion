@@ -292,7 +292,7 @@ export default function ShowcasesAdmin() {
             </div>
 
             <div className="flex space-x-2">
-              <Button type="submit" disabled={uploading || !formData.image} style={{ backgroundColor: '#043927', color: '#fff' }}>
+              <Button type="submit" disabled={uploading || !formData.image} style={{ backgroundColor: '#B76E79', color: '#fff' }}>
                 {editingShowcase ? 'Update Showcase' : 'Create Showcase'}
               </Button>
               <Button type="button" variant="outline" onClick={resetForm}>

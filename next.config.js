@@ -13,9 +13,10 @@ const nextConfig = {
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: 'localhost' },
     ],
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/webp'],
     dangerouslyAllowSVG: true,
-    unoptimized: false,
+    unoptimized: true,
+    minimumCacheTTL: 60,
   },
   experimental: {
     serverActions: {

@@ -192,7 +192,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#043927' }} />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#B76E79' }} />
       </div>
     );
   }
@@ -202,7 +202,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center text-center">
         <div>
           <h2 className="text-2xl font-fairplay text-[#1C1C1C]">Product not found</h2>
-          <Link href="/products" className="mt-4 inline-block text-sm underline" style={{ color: '#043927' }}>Back to Collections</Link>
+          <Link href="/products" className="mt-4 inline-block text-sm underline" style={{ color: '#B76E79' }}>Back to Collections</Link>
         </div>
       </div>
     );
@@ -256,7 +256,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 unoptimized={product.images[selectedImage]?.startsWith('data:')}
               />
               {discount > 0 && (
-                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase" style={{ backgroundColor: '#043927' }}>
+                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase" style={{ backgroundColor: '#B76E79' }}>
                   -{discount}%
                 </div>
               )}
@@ -267,7 +267,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`relative aspect-square border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#043927]' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                    className={`relative aspect-square border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#B76E79]' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
                     <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="80px" className="object-cover" unoptimized={img.startsWith('data:')} />
                   </button>
@@ -281,7 +281,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Title + rating */}
             <div>
               {product.category && (
-                <Link href={`/products?category=${product.category.slug}`} className="text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#043927] transition-colors">
+                <Link href={`/products?category=${product.category.slug}`} className="text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#B76E79] transition-colors">
                   {product.category.name}
                   {product.subcategory && ` / ${product.subcategory.name}`}
                 </Link>
@@ -300,7 +300,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               {product.specialPrice && (
                 <>
                   <span className="text-lg text-gray-400 line-through font-light">{formatPrice(product.originalPrice)}</span>
-                  <span className="text-white text-xs px-2 py-1 font-elegant tracking-widest uppercase" style={{ backgroundColor: '#043927' }}>Save {discount}%</span>
+                  <span className="text-white text-xs px-2 py-1 font-elegant tracking-widest uppercase" style={{ backgroundColor: '#B76E79' }}>Save {discount}%</span>
                 </>
               )}
             </div>
@@ -315,7 +315,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               <div className="flex flex-wrap gap-2">
                 {product.tags.map((tag, i) => (
                   <Link key={i} href={`/search?q=${encodeURIComponent(tag)}`}
-                    className="text-[10px] font-elegant tracking-widest uppercase px-3 py-1 border border-gold/20 text-gray-500 hover:border-[#043927] hover:text-[#043927] transition-colors">
+                    className="text-[10px] font-elegant tracking-widest uppercase px-3 py-1 border border-gold/20 text-gray-500 hover:border-[#B76E79] hover:text-[#B76E79] transition-colors">
                     {tag}
                   </Link>
                 ))}
@@ -325,7 +325,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Stock */}
             <div>
               {product.stock > 0 ? (
-                <p className="text-xs font-elegant tracking-widest uppercase flex items-center gap-2" style={{ color: '#043927' }}>
+                <p className="text-xs font-elegant tracking-widest uppercase flex items-center gap-2" style={{ color: '#B76E79' }}>
                   <CheckCircle className="h-4 w-4" />
                   In Stock
                   {product.stock <= 10 && <span className="text-orange-500 normal-case tracking-normal font-light">— Only {product.stock} left</span>}
@@ -341,12 +341,12 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <label className="block text-xs font-elegant tracking-widest uppercase text-gray-500 mb-2">Quantity</label>
                 <div className="flex items-center w-32 border border-gold/30">
                   <button onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1}
-                    className="px-3 py-2 text-gray-600 hover:bg-[#043927] hover:text-white transition-colors disabled:opacity-40">
+                    className="px-3 py-2 text-gray-600 hover:bg-[#B76E79] hover:text-white transition-colors disabled:opacity-40">
                     <Minus className="h-4 w-4" />
                   </button>
                   <span className="flex-1 text-center text-sm font-medium">{quantity}</span>
                   <button onClick={() => setQuantity(q => Math.min(product.stock, q + 1))} disabled={quantity >= product.stock}
-                    className="px-3 py-2 text-gray-600 hover:bg-[#043927] hover:text-white transition-colors disabled:opacity-40">
+                    className="px-3 py-2 text-gray-600 hover:bg-[#B76E79] hover:text-white transition-colors disabled:opacity-40">
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
@@ -359,7 +359,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
                 className="w-full h-14 text-white rounded-none border-none tracking-[0.2em] uppercase text-sm font-medium transition-colors"
-                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#043927' }}
+                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#B76E79' }}
                 size="lg"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
@@ -369,7 +369,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <Button
                   variant="outline"
                   onClick={handleWishlist}
-                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#043927] hover:text-white hover:border-[#043927] transition-colors tracking-[0.1em] uppercase text-xs h-12"
+                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#B76E79] hover:text-white hover:border-[#B76E79] transition-colors tracking-[0.1em] uppercase text-xs h-12"
                 >
                   <Heart className={`mr-2 h-4 w-4 ${isInWishlist ? 'fill-red-500 text-red-500' : ''}`} />
                   {isInWishlist ? 'Saved' : 'Wishlist'}
@@ -377,7 +377,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <Button
                   variant="outline"
                   onClick={handleShare}
-                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#043927] hover:text-white hover:border-[#043927] transition-colors tracking-[0.1em] uppercase text-xs h-12"
+                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#B76E79] hover:text-white hover:border-[#B76E79] transition-colors tracking-[0.1em] uppercase text-xs h-12"
                 >
                   <Share2 className="mr-2 h-4 w-4" />
                   Share
@@ -388,15 +388,15 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Trust badges */}
             <div className="border-t border-gold/15 pt-4 space-y-2.5 text-sm text-gray-500 font-light">
               <div className="flex items-center gap-3">
-                <Truck className="h-4 w-4 flex-shrink-0" style={{ color: '#043927' }} />
+                <Truck className="h-4 w-4 flex-shrink-0" style={{ color: '#B76E79' }} />
                 <span>Free delivery on orders above {formatPrice(freeShipping)}</span>
               </div>
               <div className="flex items-center gap-3">
-                <RefreshCw className="h-4 w-4 flex-shrink-0" style={{ color: '#043927' }} />
+                <RefreshCw className="h-4 w-4 flex-shrink-0" style={{ color: '#B76E79' }} />
                 <span>{returnDays}-day easy returns</span>
               </div>
               <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 flex-shrink-0" style={{ color: '#043927' }} />
+                <Check className="h-4 w-4 flex-shrink-0" style={{ color: '#B76E79' }} />
                 <span>100% authentic & certified</span>
               </div>
             </div>
@@ -408,7 +408,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           <div className="border-b border-gold/10 flex">
             {(['description', 'details', 'reviews'] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`px-8 py-4 text-xs font-elegant tracking-widest uppercase transition-colors border-b-2 -mb-px ${activeTab === tab ? 'border-[#043927] text-[#043927]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>
+                className={`px-8 py-4 text-xs font-elegant tracking-widest uppercase transition-colors border-b-2 -mb-px ${activeTab === tab ? 'border-[#B76E79] text-[#B76E79]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>
                 {tab === 'reviews' ? `Reviews (${product.totalReviews})` : tab === 'details' ? 'Details' : 'Description'}
               </button>
             ))}
@@ -462,7 +462,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                             <span className="w-3">{star}</span>
                             <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                             <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                              <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: '#043927' }} />
+                              <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: '#B76E79' }} />
                             </div>
                             <span className="w-4 text-right">{count}</span>
                           </div>
@@ -506,7 +506,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                     <p className="text-sm text-gray-600 font-light mb-1">Purchased this product?</p>
                     <p className="text-xs text-gray-400 font-light mb-4">You can write a review from <span className="font-medium">My Orders</span> once your order is delivered.</p>
                     <Link href="/account/orders">
-                      <Button className="text-white rounded-none border-none tracking-widest uppercase text-xs px-6" style={{ backgroundColor: '#043927' }}>
+                      <Button className="text-white rounded-none border-none tracking-widest uppercase text-xs px-6" style={{ backgroundColor: '#B76E79' }}>
                         Go to My Orders
                       </Button>
                     </Link>
@@ -521,10 +521,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         {relatedProducts.length > 0 && (
           <div className="mt-16">
             <div className="flex items-center justify-between mb-6">
-              <div className="inline-block text-white px-6 py-2" style={{ backgroundColor: '#043927' }}>
+              <div className="inline-block text-white px-6 py-2" style={{ backgroundColor: '#B76E79' }}>
                 <h2 className="text-lg font-fairplay text-white tracking-wide">You May Also Like</h2>
               </div>
-              <Link href={`/products?category=${product.category?.slug}`} className="text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#043927] transition-colors">
+              <Link href={`/products?category=${product.category?.slug}`} className="text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#B76E79] transition-colors">
                 View All →
               </Link>
             </div>

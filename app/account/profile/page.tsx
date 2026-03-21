@@ -200,7 +200,7 @@ export default function ProfilePage() {
               {/* Profile Header */}
               <div className="flex items-center space-x-4 mb-8 pb-8 border-b">
                 <div className="relative flex-shrink-0">
-                  <div className="h-20 w-20 rounded-full overflow-hidden flex items-center justify-center text-white text-2xl font-bold" style={{ backgroundColor: '#043927' }}>
+                  <div className="h-20 w-20 rounded-full overflow-hidden flex items-center justify-center text-white text-2xl font-bold" style={{ backgroundColor: '#B76E79' }}>
                     {photoPreview
                       ? <img src={photoPreview} alt="Profile" className="w-full h-full object-cover" />
                       : (formData.displayName?.charAt(0)?.toUpperCase() || 'U')
@@ -212,7 +212,7 @@ export default function ProfilePage() {
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
                         className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 transition"
-                        style={{ backgroundColor: '#043927' }}
+                        style={{ backgroundColor: '#B76E79' }}
                         title="Change photo"
                       >
                         <Upload className="h-3.5 w-3.5" />
@@ -231,7 +231,7 @@ export default function ProfilePage() {
                   <h2 className="text-2xl font-bold text-gray-900">{formData.displayName || 'User'}</h2>
                   <p className="text-gray-600">{formData.email || formData.phoneNumber}</p>
                   {user?.role === 'admin' && (
-                    <span className="inline-block mt-1 px-3 py-1 text-white text-xs font-semibold rounded-full" style={{ backgroundColor: '#043927' }}>
+                    <span className="inline-block mt-1 px-3 py-1 text-white text-xs font-semibold rounded-full" style={{ backgroundColor: '#B76E79' }}>
                       Admin
                     </span>
                   )}
@@ -241,7 +241,7 @@ export default function ProfilePage() {
               {/* Personal Information */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <User className="h-5 w-5 mr-2" style={{ color: '#043927' }} />
+                  <User className="h-5 w-5 mr-2" style={{ color: '#B76E79' }} />
                   Personal Information
                 </h3>
 
@@ -341,7 +341,7 @@ export default function ProfilePage() {
               {/* Address Information */}
               <div className="space-y-6 mt-8 pt-8 border-t">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <MapPin className="h-5 w-5 mr-2" style={{ color: '#043927' }} />
+                  <MapPin className="h-5 w-5 mr-2" style={{ color: '#B76E79' }} />
                   Address Information
                 </h3>
 

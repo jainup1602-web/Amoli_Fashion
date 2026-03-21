@@ -200,9 +200,9 @@ export function Header() {
     };
   }, []);
 
-  // Fetch categories for search dropdown
+  // Fetch ALL categories for search dropdown
   useEffect(() => {
-    fetch('/api/categories')
+    fetch('/api/categories?limit=100')
       .then(r => r.json())
       .then(data => { if (data.categories) setCategories(data.categories); })
       .catch(() => {});
@@ -321,7 +321,7 @@ export function Header() {
       }}
     >
       {/* Top Announcement Slider */}
-      <div className="text-white relative overflow-hidden" style={{ backgroundColor: '#043927' }}>
+      <div className="text-white relative overflow-hidden" style={{ backgroundColor: '#B76E79' }}>
         <div className="relative h-10 flex items-center justify-center px-4">
           {/* Pincode Button - Left */}
           <div className="absolute left-4" ref={pincodeRef}>
@@ -351,7 +351,7 @@ export function Header() {
                         setPincodeOpen(false);
                       }
                     }}
-                    className="flex-1 border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-800 outline-none focus:border-[#043927]"
+                    className="flex-1 border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-800 outline-none focus:border-[#B76E79]"
                   />
                   <button
                     onClick={() => {
@@ -362,7 +362,7 @@ export function Header() {
                       }
                     }}
                     className="px-3 py-1.5 text-white text-sm rounded-md font-medium"
-                    style={{ backgroundColor: '#043927' }}
+                    style={{ backgroundColor: '#B76E79' }}
                   >
                     Apply
                   </button>
@@ -409,7 +409,7 @@ export function Header() {
               <button
                 onClick={() => setCategoryMenuOpen(true)}
                 className="p-2 transition"
-                style={{ color: '#043927' }}
+                style={{ color: '#B76E79' }}
                 title="Categories"
               >
                 <Menu className="h-6 w-6" />
@@ -433,25 +433,23 @@ export function Header() {
               {/* Notification Bell */}
               <NotificationBell />
 
-              {/* Wishlist - Only for authenticated users */}
-              {isAuthenticated && (
-                <Link 
-                  href="/account/wishlist" 
-                  className="relative p-2 transition group"
-                  style={{ color: '#043927' }}
-                  title="Wishlist"
-                >
-                  <Heart className="h-6 w-6 group-hover:fill-current" />
-                  {wishlistCount > 0 && (
-                    <span 
-                      className={`absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold leading-none text-white rounded-full z-10 ${wishlistBounce ? 'animate-bounce-count' : ''}`}
-                      style={{ backgroundColor: '#043927' }}
-                    >
-                      {wishlistCount}
-                    </span>
-                  )}
-                </Link>
-              )}
+              {/* Wishlist - Always visible */}
+              <Link 
+                href="/account/wishlist" 
+                className="relative p-2 transition group"
+                style={{ color: '#B76E79' }}
+                title="Wishlist"
+              >
+                <Heart className="h-6 w-6 group-hover:fill-current" />
+                {wishlistCount > 0 && (
+                  <span 
+                    className={`absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold leading-none text-white rounded-full z-10 ${wishlistBounce ? 'animate-bounce-count' : ''}`}
+                    style={{ backgroundColor: '#B76E79' }}
+                  >
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
 
               {/* Profile */}
               <div className="relative" ref={profileMenuRef}>
@@ -465,7 +463,7 @@ export function Header() {
                     }
                   }}
                   className="p-2 transition"
-                  style={{ color: '#043927' }}
+                  style={{ color: '#B76E79' }}
                   title={isAuthenticated ? 'Profile Menu' : 'Login'}
                 >
                   <ProfileIcon className="h-6 w-6" />
@@ -484,7 +482,7 @@ export function Header() {
                     {/* User Info */}
                     <div className="px-4 py-3 border-b border-gray-100">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#043927' }}>
+                        <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#B76E79' }}>
                           {user?.photoURL
                             ? <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full object-cover" />
                             : <span className="text-white text-sm font-medium">{user?.displayName?.charAt(0)?.toUpperCase() || 'U'}</span>
@@ -524,8 +522,8 @@ export function Header() {
                         Settings
                       </Link>
                       {user?.role === 'admin' && (
-                        <Link href="/admin" className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style={{ color: '#043927' }} onClick={() => setProfileMenuOpen(false)}>
-                          <Settings className="h-4 w-4 mr-3" style={{ color: '#043927' }} />
+                        <Link href="/admin" className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style={{ color: '#B76E79' }} onClick={() => setProfileMenuOpen(false)}>
+                          <Settings className="h-4 w-4 mr-3" style={{ color: '#B76E79' }} />
                           Admin Panel
                         </Link>
                       )}
@@ -541,25 +539,23 @@ export function Header() {
                 </AnimatePresence>
               </div>
 
-              {/* Cart - Only for authenticated users */}
-              {isAuthenticated && (
-                <Link 
-                  href="/cart" 
-                  className="relative p-2 transition group"
-                  style={{ color: '#043927' }}
-                  title="Shopping Cart"
-                >
-                  <ShoppingCart className="h-6 w-6" />
-                  {cartItemsCount > 0 && (
-                    <span 
-                      className={`absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold leading-none text-white rounded-full z-10 ${cartBounce ? 'animate-bounce-count' : ''}`}
-                      style={{ backgroundColor: '#043927' }}
-                    >
-                      {cartItemsCount}
-                    </span>
-                  )}
-                </Link>
-              )}
+              {/* Cart - Always visible */}
+              <Link 
+                href="/cart" 
+                className="relative p-2 transition group"
+                style={{ color: '#B76E79' }}
+                title="Shopping Cart"
+              >
+                <ShoppingCart className="h-6 w-6" />
+                {cartItemsCount > 0 && (
+                  <span 
+                    className={`absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold leading-none text-white rounded-full z-10 ${cartBounce ? 'animate-bounce-count' : ''}`}
+                    style={{ backgroundColor: '#B76E79' }}
+                  >
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Link>
             </div>
           </div>
         </div>
@@ -572,7 +568,7 @@ export function Header() {
             {/* Search Bar with Dropdown - Reduced Width */}
             <div ref={searchRef} className="relative max-w-lg w-full">
             <form 
-              className="flex items-center w-full bg-gray-100 rounded-lg shadow-sm border border-gray-200"
+              className="flex items-center w-full bg-white rounded-lg shadow-sm border border-gray-200 focus-within:border-[#B76E79] focus-within:shadow-[0_0_0_2px_rgba(183,110,121,0.15)] transition-all duration-200"
               onSubmit={(e) => {
                 e.preventDefault();
                 setSuggestionsOpen(false);
@@ -590,10 +586,10 @@ export function Header() {
                   className="flex items-center px-3 py-2 text-gray-600 font-medium hover:text-gray-800 hover:bg-gray-50 transition-colors min-w-[130px] text-sm rounded-l-lg"
                 >
                   <span className="truncate">{selectedCategory ? selectedCategory.name : 'All Categories'}</span>
-                  <ChevronDown className={`ml-2 h-3 w-3 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} style={{ color: '#043927' }} />
+                  <ChevronDown className={`ml-2 h-3 w-3 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} style={{ color: '#B76E79' }} />
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Dropdown Menu - Sidebar Style */}
                 <AnimatePresence>
                   {categoryDropdownOpen && (
                     <>
@@ -602,32 +598,189 @@ export function Header() {
                         onClick={() => setCategoryDropdownOpen(false)}
                       />
                       <motion.div 
-                        className="absolute top-full left-0 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-2 mt-1 max-h-64 overflow-y-auto scrollbar-hide"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        className="absolute top-full left-0 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-50 mt-1 overflow-hidden"
                         variants={searchDropdownVariants}
                         initial="closed"
                         animate="open"
                         exit="closed"
                       >
-                        <button
-                          type="button"
-                          onClick={() => { setSelectedCategory(null); setCategoryDropdownOpen(false); }}
-                          className={`w-full text-left px-4 py-2 text-sm transition-colors ${!selectedCategory ? 'text-white font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
-                          style={!selectedCategory ? { backgroundColor: '#043927' } : {}}
-                        >
-                          All Categories
-                        </button>
-                        {categories.map((cat) => (
+                        <div className="max-h-[420px] overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                          {/* All Categories */}
                           <button
-                            key={cat.id}
                             type="button"
-                            onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); }}
-                            className={`w-full text-left px-4 py-2 text-sm transition-colors ${selectedCategory?.slug === cat.slug ? 'text-white font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
-                            style={selectedCategory?.slug === cat.slug ? { backgroundColor: '#043927' } : {}}
+                            onClick={() => { setSelectedCategory(null); setCategoryDropdownOpen(false); }}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors border-b border-gray-100 ${!selectedCategory ? 'text-white' : 'text-gray-800 hover:bg-[#F8F6F2]'}`}
+                            style={!selectedCategory ? { backgroundColor: '#B76E79' } : {}}
                           >
-                            {cat.name}
+                            All Categories
                           </button>
-                        ))}
+
+                          {/* Dynamic Categories from API */}
+                          {categories.length > 0 && (
+                            <div className="py-1">
+                              <p className="px-4 pt-2 pb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Categories</p>
+                              {categories.map((cat) => (
+                                <button
+                                  key={cat.id}
+                                  type="button"
+                                  onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); }}
+                                  className={`w-full flex items-center justify-between px-4 py-2 text-sm transition-colors group ${selectedCategory?.slug === cat.slug ? 'text-white font-medium' : 'text-gray-700 hover:bg-[#F8F6F2]'}`}
+                                  style={selectedCategory?.slug === cat.slug ? { backgroundColor: '#B76E79' } : {}}
+                                >
+                                  <span>{cat.name}</span>
+                                  <ChevronRight className={`h-3 w-3 flex-shrink-0 ${selectedCategory?.slug === cat.slug ? 'text-white' : 'text-gray-300 group-hover:text-[#B76E79]'}`} />
+                                </button>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Ethnic Collection */}
+                          <div className="border-t border-gray-100">
+                            <button
+                              type="button"
+                              onClick={() => toggleDropdown('search-ethnic')}
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                            >
+                              <span className="text-[10px] uppercase tracking-widest text-gray-500">Ethnic Collection</span>
+                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-ethnic'] ? 'rotate-90' : ''}`} />
+                            </button>
+                            <AnimatePresence>
+                              {openDropdowns['search-ethnic'] && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="overflow-hidden bg-[#F8F6F2]"
+                                >
+                                  {[
+                                    { label: 'Necklaces', slug: 'necklaces', collection: 'ethnic' },
+                                    { label: 'Earrings', slug: 'earrings', collection: 'ethnic' },
+                                    { label: 'Rings', slug: 'rings', collection: 'ethnic' },
+                                    { label: 'Bangles', slug: 'bangles', collection: 'ethnic' },
+                                    { label: 'Tikka', slug: 'tikka', collection: 'ethnic' },
+                                  ].map((item) => (
+                                    <button
+                                      key={item.slug}
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedCategory({ name: `Ethnic ${item.label}`, slug: item.slug });
+                                        setCategoryDropdownOpen(false);
+                                      }}
+                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                    >
+                                      {item.label}
+                                    </button>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+
+                          {/* Western Collection */}
+                          <div className="border-t border-gray-100">
+                            <button
+                              type="button"
+                              onClick={() => toggleDropdown('search-western')}
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                            >
+                              <span className="text-[10px] uppercase tracking-widest text-gray-500">Western Collection</span>
+                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-western'] ? 'rotate-90' : ''}`} />
+                            </button>
+                            <AnimatePresence>
+                              {openDropdowns['search-western'] && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="overflow-hidden bg-[#F8F6F2]"
+                                >
+                                  {[
+                                    { label: 'Jewellery Sets', slug: 'jewellery-sets' },
+                                    { label: 'Earrings', slug: 'earrings' },
+                                    { label: 'Rings', slug: 'rings' },
+                                    { label: 'Wristwear', slug: 'wristwear' },
+                                  ].map((item) => (
+                                    <button
+                                      key={item.slug}
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedCategory({ name: `Western ${item.label}`, slug: item.slug });
+                                        setCategoryDropdownOpen(false);
+                                      }}
+                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                    >
+                                      {item.label}
+                                    </button>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+
+                          {/* Minimalist */}
+                          <div className="border-t border-gray-100">
+                            <button
+                              type="button"
+                              onClick={() => toggleDropdown('search-minimalist')}
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                            >
+                              <span className="text-[10px] uppercase tracking-widest text-gray-500">Minimalist</span>
+                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-minimalist'] ? 'rotate-90' : ''}`} />
+                            </button>
+                            <AnimatePresence>
+                              {openDropdowns['search-minimalist'] && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="overflow-hidden bg-[#F8F6F2]"
+                                >
+                                  {[
+                                    { label: 'Jewellery Sets', slug: 'jewellery-sets' },
+                                    { label: 'Earrings', slug: 'earrings' },
+                                    { label: 'Rings', slug: 'rings' },
+                                    { label: 'Wristwear', slug: 'wristwear' },
+                                  ].map((item) => (
+                                    <button
+                                      key={item.slug}
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedCategory({ name: `Minimalist ${item.label}`, slug: item.slug });
+                                        setCategoryDropdownOpen(false);
+                                      }}
+                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                    >
+                                      {item.label}
+                                    </button>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+
+                          {/* Other Sections */}
+                          <div className="border-t border-gray-100 py-1">
+                            <p className="px-4 pt-2 pb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Other</p>
+                            <button
+                              type="button"
+                              onClick={() => { setSelectedCategory({ name: 'New Arrivals', slug: 'new-arrivals' }); setCategoryDropdownOpen(false); }}
+                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors group"
+                            >
+                              <span>New Arrivals</span>
+                              <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: '#B76E79' }}>New</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => { setSelectedCategory({ name: 'Best Sellers', slug: 'best-sellers' }); setCategoryDropdownOpen(false); }}
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors"
+                            >
+                              Best Sellers
+                            </button>
+                          </div>
+                        </div>
                       </motion.div>
                     </>
                   )}
@@ -640,18 +793,22 @@ export function Header() {
               {/* Search Input */}
               <input
                 type="text"
-                placeholder="Search for products"
+                placeholder="Search jewellery, collections..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => { if (suggestions.length > 0) setSuggestionsOpen(true); }}
-                className="flex-1 px-3 py-2 bg-transparent border-none outline-none text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 text-sm"
+                className="flex-1 px-3 py-2 bg-transparent border-none outline-none text-gray-800 text-sm font-light tracking-wide placeholder-shown:italic search-input"
+                style={{
+                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                  letterSpacing: '0.03em',
+                }}
               />
 
               {/* Search Button */}
               <button
                 type="submit"
                 className="px-4 py-2 transition-colors flex items-center justify-center rounded-r-lg"
-                style={{ color: '#043927' }}
+                style={{ color: '#B76E79' }}
               >
                 <Search className="h-4 w-4" />
               </button>
@@ -688,7 +845,7 @@ export function Header() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-800 truncate">{product.name}</p>
-                          <p className="text-xs font-semibold" style={{ color: '#043927' }}>₹{price?.toLocaleString('en-IN')}</p>
+                          <p className="text-xs font-semibold" style={{ color: '#B76E79' }}>₹{price?.toLocaleString('en-IN')}</p>
                         </div>
                       </Link>
                     );
@@ -703,7 +860,7 @@ export function Header() {
                       router.push(`/search?${params.toString()}`);
                     }}
                     className="w-full px-4 py-2.5 text-sm font-medium text-center transition-colors"
-                    style={{ color: '#043927', backgroundColor: '#f0f7f4' }}
+                    style={{ color: '#B76E79', backgroundColor: '#f0f7f4' }}
                   >
                     View all results for "{searchQuery}"
                   </button>
@@ -754,7 +911,7 @@ export function Header() {
               <button
                 onClick={() => setCategoryMenuOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-all duration-200"
-                style={{ color: '#043927' }}
+                style={{ color: '#B76E79' }}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -778,57 +935,32 @@ export function Header() {
                     <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Categories</h3>
                   </div>
                   
-                  {/* Basic Categories */}
+                  {/* Dynamic Categories from API */}
                   <div className="space-y-0.5">
-                    <Link
-                      href="/products?category=rings"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Rings
-                    </Link>
-                    <Link
-                      href="/products?category=earrings"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Earrings
-                    </Link>
-                    <Link
-                      href="/products?category=bracelets"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Bracelets
-                    </Link>
-                    <Link
-                      href="/products?category=bangles"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Bangles
-                    </Link>
-                    <Link
-                      href="/products?category=necklaces"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Necklaces
-                    </Link>
-                    <Link
-                      href="/products?category=chains"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Chains
-                    </Link>
-                    <Link
-                      href="/products?category=anklets"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Anklets
-                    </Link>
+                    {categories.length > 0 ? categories.map((cat) => (
+                      <Link
+                        key={cat.id}
+                        href={`/products?category=${cat.slug}`}
+                        className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight group"
+                        onClick={() => setCategoryMenuOpen(false)}
+                      >
+                        <span className="group-hover:text-[#B76E79] transition-colors">{cat.name}</span>
+                        <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
+                      </Link>
+                    )) : (
+                      // Fallback hardcoded categories
+                      ['Rings', 'Earrings', 'Bracelets', 'Bangles', 'Necklaces', 'Chains', 'Anklets'].map((name) => (
+                        <Link
+                          key={name}
+                          href={`/products?category=${name.toLowerCase()}`}
+                          className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight group"
+                          onClick={() => setCategoryMenuOpen(false)}
+                        >
+                          <span className="group-hover:text-[#B76E79] transition-colors">{name}</span>
+                          <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
+                        </Link>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -841,7 +973,7 @@ export function Header() {
                     <button
                       onClick={() => toggleDropdown('ethnic')}
                       className="p-2 transition-all duration-200"
-                      style={{ color: '#043927' }}
+                      style={{ color: '#B76E79' }}
                     >
                       <ChevronRight 
                         className={`h-4 w-4 transform transition-transform duration-300 ${
@@ -912,7 +1044,7 @@ export function Header() {
                     <button
                       onClick={() => toggleDropdown('western')}
                       className="p-2 transition-all duration-200"
-                      style={{ color: '#043927' }}
+                      style={{ color: '#B76E79' }}
                     >
                       <ChevronRight 
                         className={`h-4 w-4 transform transition-transform duration-300 ${
@@ -976,7 +1108,7 @@ export function Header() {
                     <button
                       onClick={() => toggleDropdown('minimalist')}
                       className="p-2 transition-all duration-200"
-                      style={{ color: '#043927' }}
+                      style={{ color: '#B76E79' }}
                     >
                       <ChevronRight 
                         className={`h-4 w-4 transform transition-transform duration-300 ${
@@ -1044,7 +1176,7 @@ export function Header() {
                       onClick={() => setCategoryMenuOpen(false)}
                     >
                       <span>New Arrivals</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: '#043927', color: 'white' }}>New</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: '#B76E79', color: 'white' }}>New</span>
                     </Link>
                     <Link
                       href="/products?filter=best-seller"

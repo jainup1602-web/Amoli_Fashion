@@ -170,7 +170,7 @@ export default function PopupsPage() {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Popup Management</h1>
-        <Button onClick={() => setShowForm(true)} className="flex items-center gap-2" style={{ backgroundColor: '#043927', color: '#fff' }}>
+        <Button onClick={() => setShowForm(true)} className="flex items-center gap-2" style={{ backgroundColor: '#B76E79', color: '#fff' }}>
           <Plus className="h-4 w-4" />
           Add Popup
         </Button>
@@ -315,7 +315,7 @@ export default function PopupsPage() {
 
           {/* Sticky action buttons outside scroll area */}
           <div className="flex gap-2 p-4 border-t bg-white rounded-b-lg">
-            <Button type="submit" form="popup-form" disabled={saving} style={{ backgroundColor: '#043927', color: '#fff' }}>
+            <Button type="submit" form="popup-form" disabled={saving} style={{ backgroundColor: '#B76E79', color: '#fff' }}>
               {saving ? 'Saving...' : (editingPopup ? 'Update' : 'Create')}
             </Button>
             <Button type="button" variant="outline" onClick={resetForm}>

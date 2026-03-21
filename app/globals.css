@@ -7,12 +7,12 @@
 
 @layer base {
   :root {
-    /* Updated Theme with #F8F6F2 background, #043927 buttons, #1A1A1A text */
+    /* Updated Theme with #F8F6F2 background, #B76E79 buttons, #1A1A1A text */
     --cream-50: #FEFDFB;
     --cream-100: #F8F6F2;              /* New main theme color */
     --cream-200: #F5F1EE;
     --cream-300: #F0ECEB;
-    --accent-green: #043927;            /* Dark green for buttons */
+    --accent-green: #B76E79;            /* Dark green for buttons */
     --text-dark: #1A1A1A;              /* Dark charcoal text */
     
     --background: #F8F6F2;              /* New background color */
@@ -21,19 +21,19 @@
     --card-foreground: #1A1A1A;
     --popover: #F8F6F2;
     --popover-foreground: #1A1A1A;
-    --primary: #043927;                 /* Dark green primary (buttons) */
+    --primary: #B76E79;                 /* Dark green primary (buttons) */
     --primary-foreground: #FFFFFF;      /* White text on green buttons */
     --secondary: #F8F6F2;               /* Secondary elements */
     --secondary-foreground: #1A1A1A;    /* Dark text on cream */
     --muted: #F8F6F2;
     --muted-foreground: #6B7280;        /* Muted text */
-    --accent: #043927;                  /* Green accent */
+    --accent: #B76E79;                  /* Green accent */
     --accent-foreground: #FFFFFF;       /* White text on green */
     --destructive: 0 84% 60%;
     --destructive-foreground: #FFFFFF;
     --border: #E5E7EB;                  /* Light border */
     --input: #F8F6F2;
-    --ring: #043927;                    /* Green focus ring */
+    --ring: #B76E79;                    /* Green focus ring */
     --radius: 0.5rem;
   }
 }
@@ -113,7 +113,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #043927;
+  background: #B76E79;
 }
 
 /* Smooth transitions */
@@ -136,7 +136,7 @@ select:focus {
 
 /* Selection */
 ::selection {
-  background-color: #043927;
+  background-color: #B76E79;
   color: #F8F6F2;
 }
 
@@ -167,7 +167,7 @@ select:focus {
 }
 
 .prose a {
-  color: #043927;
+  color: #B76E79;
   @apply hover:underline;
 }
 
@@ -177,7 +177,7 @@ select:focus {
   width: 40px;
   height: 40px;
   border: 3px solid #E5E7EB;
-  border-top-color: #043927;
+  border-top-color: #B76E79;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -299,7 +299,7 @@ select:focus {
 }
 
 .category-nav-item:hover {
-  color: #043927;
+  color: #B76E79;
 }
 /* Elegant Minimal Headings with Lora Font */
 .elegant-heading {
@@ -322,7 +322,7 @@ select:focus {
   transform: translateX(-50%);
   width: 40px;
   height: 1px;
-  background-color: #043927;
+  background-color: #B76E79;
 }
 
 .elegant-heading-large {
@@ -345,7 +345,7 @@ select:focus {
   transform: translateX(-50%);
   width: 50px;
   height: 1px;
-  background-color: #043927;
+  background-color: #B76E79;
 }
 
 .elegant-subheading {
@@ -412,7 +412,7 @@ header,
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb {
-  background: #043927;
+  background: #B76E79;
   border-radius: 2px;
 }
 
@@ -518,10 +518,19 @@ header,
 }
 .model-pagination .swiper-pagination-bullet-active {
   width: 32px;
-  background: #043927;
+  background: #B76E79;
   border-radius: 9999px;
 }
 
 /* Hide scrollbar but keep scroll functionality */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Search bar elegant placeholder */
+.search-input::placeholder {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #9CA3AF;
+  letter-spacing: 0.04em;
+}

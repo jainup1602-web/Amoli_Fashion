@@ -13,27 +13,6 @@ import toast from 'react-hot-toast';
 export default function WishlistPage() {
   const dispatch = useAppDispatch();
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
-
-  // Redirect to login if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center py-20 px-4" style={{ backgroundColor: '#F8F6F2' }}>
-        <div className="text-center p-16 border border-gold/20 shadow-sm max-w-lg w-full" style={{ backgroundColor: '#F8F6F2' }}>
-          <Heart className="h-16 w-16 mx-auto mb-6" strokeWidth={1} style={{ color: '#043927' }} />
-          <h2 className="text-3xl font-fairplay text-[#1C1C1C] mb-4">Login Required</h2>
-          <p className="text-gray-500 font-light tracking-wide mb-8">Please login to view your wishlist.</p>
-          <Button
-            className="text-white rounded-none border-none tracking-[0.2em] uppercase text-xs px-10 py-6 transition-luxury"
-            style={{ backgroundColor: '#043927' }}
-            onClick={() => window.dispatchEvent(new CustomEvent('openLoginModal'))}
-          >
-            Login to Continue
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   const handleRemoveFromWishlist = (productId: string) => {
     dispatch(removeFromWishlist(productId));
@@ -60,10 +39,10 @@ export default function WishlistPage() {
     return (
       <div className="min-h-screen flex items-center justify-center py-20 px-4" style={{ backgroundColor: '#F8F6F2' }}>
         <div className="text-center p-16 border border-gold/20 shadow-sm max-w-lg w-full" style={{ backgroundColor: '#F8F6F2' }}>
-          <Heart className="h-16 w-16 mx-auto mb-6" strokeWidth={1} style={{ color: '#043927' }} />
+          <Heart className="h-16 w-16 mx-auto mb-6" strokeWidth={1} style={{ color: '#B76E79' }} />
           <h2 className="text-3xl font-fairplay text-[#1C1C1C] mb-4">Your Wishlist is Empty</h2>
           <p className="text-gray-500 font-light tracking-wide mb-8">Save items you love for later shopping.</p>
-          <Button asChild className="text-white rounded-none border-none tracking-[0.2em] uppercase text-xs px-10 py-6 transition-luxury" style={{ backgroundColor: '#043927' }}>
+          <Button asChild className="text-white rounded-none border-none tracking-[0.2em] uppercase text-xs px-10 py-6 transition-luxury" style={{ backgroundColor: '#B76E79' }}>
             <Link href="/products">Explore Collections</Link>
           </Button>
         </div>
@@ -128,7 +107,7 @@ export default function WishlistPage() {
                 <div className="flex gap-2">
                   <Button
                     className="flex-1 text-white rounded-none border-none tracking-[0.1em] uppercase text-xs py-3 transition-luxury"
-                    style={{ backgroundColor: '#043927' }}
+                    style={{ backgroundColor: '#B76E79' }}
                     onClick={() => moveToCart(item)}
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" />

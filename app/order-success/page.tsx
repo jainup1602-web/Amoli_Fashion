@@ -13,7 +13,7 @@ function OrderSuccessContent() {
   return (
     <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center py-16 px-4">
       <div className="w-full max-w-lg text-center">
-        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8" style={{ backgroundColor: '#043927' }}>
+        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8" style={{ backgroundColor: '#B76E79' }}>
           <Check className="h-10 w-10 text-white" strokeWidth={2.5} />
         </div>
         <h1 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] mb-3">Order Confirmed!</h1>
@@ -26,14 +26,14 @@ function OrderSuccessContent() {
         )}
         <div className="bg-white border border-gray-100 p-6 mb-8 text-left space-y-5">
           <div className="flex items-start gap-4">
-            <Package className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: '#043927' }} />
+            <Package className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: '#B76E79' }} />
             <div>
               <p className="text-sm font-medium text-[#1C1C1C]">Order Processing</p>
               <p className="text-xs text-gray-400 font-light mt-0.5">Your order is confirmed and being prepared.</p>
             </div>
           </div>
           <div className="flex items-start gap-4">
-            <Truck className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: '#043927' }} />
+            <Truck className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: '#B76E79' }} />
             <div>
               <p className="text-sm font-medium text-[#1C1C1C]">Shipping Updates</p>
               <p className="text-xs text-gray-400 font-light mt-0.5">You will receive tracking details via email once shipped.</p>
@@ -41,10 +41,10 @@ function OrderSuccessContent() {
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button asChild className="text-white rounded-none border-none tracking-widest uppercase text-xs h-12 px-8" style={{ backgroundColor: '#043927' }}>
+          <Button asChild className="text-white rounded-none border-none tracking-widest uppercase text-xs h-12 px-8" style={{ backgroundColor: '#B76E79' }}>
             <Link href="/account/orders">View My Orders</Link>
           </Button>
-          <Button asChild variant="outline" className="rounded-none border-gray-300 text-[#1C1C1C] hover:border-[#043927] tracking-widest uppercase text-xs h-12 px-8">
+          <Button asChild variant="outline" className="rounded-none border-gray-300 text-[#1C1C1C] hover:border-[#B76E79] tracking-widest uppercase text-xs h-12 px-8">
             <Link href="/products">Continue Shopping</Link>
           </Button>
         </div>
@@ -57,7 +57,7 @@ export default function OrderSuccessPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: '#043927' }} />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: '#B76E79' }} />
       </div>
     }>
       <OrderSuccessContent />

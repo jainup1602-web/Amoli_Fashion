@@ -200,7 +200,7 @@ export default function ModelGalleryAdmin() {
         <Button
           onClick={() => setShowForm(true)}
           className="flex items-center gap-2"
-          style={{ backgroundColor: '#043927' }}
+          style={{ backgroundColor: '#B76E79' }}
         >
           <Plus className="h-4 w-4" />
           Add Model
@@ -284,7 +284,7 @@ export default function ModelGalleryAdmin() {
               </div>
 
               <div className="flex gap-2 pt-4">
-                <Button type="submit" style={{ backgroundColor: '#043927' }}>
+                <Button type="submit" style={{ backgroundColor: '#B76E79' }}>
                   {editingModel ? 'Update' : 'Create'}
                 </Button>
                 <Button type="button" variant="outline" onClick={resetForm}>
@@ -359,7 +359,7 @@ export default function ModelGalleryAdmin() {
           <p className="text-gray-500 mb-4">No models found</p>
           <Button
             onClick={() => setShowForm(true)}
-            style={{ backgroundColor: '#043927' }}
+            style={{ backgroundColor: '#B76E79' }}
           >
             Add First Model
           </Button>

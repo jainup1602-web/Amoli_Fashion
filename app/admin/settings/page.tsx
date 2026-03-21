@@ -379,7 +379,7 @@ export default function SettingsPage() {
           </Card>
 
           <div className="flex justify-end">
-            <Button type="submit" disabled={saving} style={{ backgroundColor: '#043927', color: '#fff' }}>
+            <Button type="submit" disabled={saving} style={{ backgroundColor: '#B76E79', color: '#fff' }}>
               {saving ? 'Saving...' : 'Save Settings'}
             </Button>
           </div>

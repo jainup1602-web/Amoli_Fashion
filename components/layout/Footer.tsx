@@ -35,8 +35,8 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="w-9 h-9 flex items-center justify-center border border-gray-200 rounded-md hover:text-white transition-colors"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#043927';
-                    e.currentTarget.style.borderColor = '#043927';
+                    e.currentTarget.style.backgroundColor = '#B76E79';
+                    e.currentTarget.style.borderColor = '#B76E79';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';
@@ -53,8 +53,8 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="w-9 h-9 flex items-center justify-center border border-gray-200 rounded-md hover:text-white transition-colors"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#043927';
-                    e.currentTarget.style.borderColor = '#043927';
+                    e.currentTarget.style.backgroundColor = '#B76E79';
+                    e.currentTarget.style.borderColor = '#B76E79';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';
@@ -71,8 +71,8 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="w-9 h-9 flex items-center justify-center border border-gray-200 rounded-md hover:text-white transition-colors"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#043927';
-                    e.currentTarget.style.borderColor = '#043927';
+                    e.currentTarget.style.backgroundColor = '#B76E79';
+                    e.currentTarget.style.borderColor = '#B76E79';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';
@@ -89,8 +89,8 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="w-9 h-9 flex items-center justify-center border border-gray-200 rounded-md hover:text-white transition-colors"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#043927';
-                    e.currentTarget.style.borderColor = '#043927';
+                    e.currentTarget.style.backgroundColor = '#B76E79';
+                    e.currentTarget.style.borderColor = '#B76E79';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';

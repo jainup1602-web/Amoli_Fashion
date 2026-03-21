@@ -94,7 +94,7 @@ export function OfferPopup() {
         {/* Header */}
         <div
           className="relative px-8 pt-10 pb-8 text-center text-white"
-          style={{ backgroundColor: '#043927' }}
+          style={{ backgroundColor: '#B76E79' }}
         >
           {popupData.image && (
             <img
@@ -121,9 +121,9 @@ export function OfferPopup() {
           {popupData.offerText && (
             <div
               className="border rounded-lg px-4 py-3 mb-6"
-              style={{ borderColor: '#043927', backgroundColor: '#f0f7f4' }}
+              style={{ borderColor: '#B76E79', backgroundColor: '#f0f7f4' }}
             >
-              <p className="text-sm font-medium" style={{ color: '#043927' }}>
+              <p className="text-sm font-medium" style={{ color: '#B76E79' }}>
                 {popupData.offerText}
               </p>
             </div>
@@ -132,7 +132,7 @@ export function OfferPopup() {
           <button
             onClick={handleButtonClick}
             className="w-full text-white py-3 rounded-lg text-sm font-semibold tracking-wider uppercase transition-opacity hover:opacity-90"
-            style={{ backgroundColor: '#043927' }}
+            style={{ backgroundColor: '#B76E79' }}
           >
             {popupData.buttonText}
           </button>

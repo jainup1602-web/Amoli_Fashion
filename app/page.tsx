@@ -224,14 +224,14 @@ function ModelGallerySlider({ models }: { models: any[] }) {
         <button
           onClick={prev}
           className="bg-white/80 hover:bg-white border border-gray-200 shadow-md p-3 rounded-full transition-all"
-          style={{ color: '#043927' }}
+          style={{ color: '#B76E79' }}
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           onClick={next}
           className="bg-white/80 hover:bg-white border border-gray-200 shadow-md p-3 rounded-full transition-all"
-          style={{ color: '#043927' }}
+          style={{ color: '#B76E79' }}
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -246,7 +246,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
             className="h-1.5 rounded-full transition-all duration-300"
             style={{
               width: active === i ? '32px' : '6px',
-              backgroundColor: active === i ? '#043927' : '#d1d5db',
+              backgroundColor: active === i ? '#B76E79' : '#d1d5db',
             }}
           />
         ))}
@@ -453,7 +453,7 @@ export default function HomePage() {
                     </div>
                     {banner.link && (
                       <Link href={banner.link} className="inline-block mt-8">
-                        <Button size="lg" className="text-white border-none rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury" style={{ backgroundColor: '#043927' }}>
+                        <Button size="lg" className="text-white border-none rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury" style={{ backgroundColor: '#B76E79' }}>
                           Discover More
                         </Button>
                       </Link>
@@ -469,14 +469,14 @@ export default function HomePage() {
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 backdrop-blur-md bg-white/20 hover:bg-white/30 border border-white/30 shadow-xl p-3 rounded-full transition-all z-10 hover:scale-110"
-          style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', color: '#043927' }}
+          style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', color: '#B76E79' }}
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <button
           onClick={nextSlide}
           className="absolute right-4 top-1/2 -translate-y-1/2 backdrop-blur-md bg-white/20 hover:bg-white/30 border border-white/30 shadow-xl p-3 rounded-full transition-all z-10 hover:scale-110"
-          style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', color: '#043927' }}
+          style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', color: '#B76E79' }}
         >
           <ChevronRight className="h-6 w-6" />
         </button>
@@ -490,7 +490,7 @@ export default function HomePage() {
               className={`h-2 rounded-full transition-all ${
                 (currentSlide % banners.length) === index ? 'w-8' : 'w-2 bg-gray-50/50'
               }`}
-              style={(currentSlide % banners.length) === index ? { backgroundColor: '#043927' } : {}}
+              style={(currentSlide % banners.length) === index ? { backgroundColor: '#B76E79' } : {}}
             />
           ))}
         </div>
@@ -502,7 +502,7 @@ export default function HomePage() {
           {/* Section Title */}
           <div className="text-center mb-6">
             <h2 className="text-2xl md:text-3xl font-fairplay text-[#1C1C1C] tracking-widest uppercase">Shop by Essence</h2>
-            <div className="w-16 h-px mx-auto mt-3" style={{ backgroundColor: '#043927' }} />
+            <div className="w-16 h-px mx-auto mt-3" style={{ backgroundColor: '#B76E79' }} />
           </div>
 
           {/* Categories Grid */}
@@ -553,19 +553,19 @@ export default function HomePage() {
               <button
                 onClick={() => handleTabChange('all')}
                 className="px-4 py-1.5 text-xs font-elegant tracking-[0.15em] uppercase border transition-colors text-white"
-                style={{ backgroundColor: activeTab === 'all' ? '#043927' : 'transparent', borderColor: '#043927', color: activeTab === 'all' ? 'white' : '#043927' }}
+                style={{ backgroundColor: activeTab === 'all' ? '#B76E79' : 'transparent', borderColor: '#B76E79', color: activeTab === 'all' ? 'white' : '#B76E79' }}
               >All</button>
               <button
                 onClick={() => handleTabChange('best-sellers')}
                 className="px-4 py-1.5 text-xs font-elegant tracking-[0.15em] uppercase border transition-colors"
-                style={{ backgroundColor: activeTab === 'best-sellers' ? '#043927' : 'transparent', borderColor: '#043927', color: activeTab === 'best-sellers' ? 'white' : '#043927' }}
+                style={{ backgroundColor: activeTab === 'best-sellers' ? '#B76E79' : 'transparent', borderColor: '#B76E79', color: activeTab === 'best-sellers' ? 'white' : '#B76E79' }}
               >Best Sellers</button>
               {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => handleTabChange(cat.id, cat.id)}
                   className="px-4 py-1.5 text-xs font-elegant tracking-[0.15em] uppercase border transition-colors"
-                  style={{ backgroundColor: activeTab === cat.id ? '#043927' : 'transparent', borderColor: '#043927', color: activeTab === cat.id ? 'white' : '#043927' }}
+                  style={{ backgroundColor: activeTab === cat.id ? '#B76E79' : 'transparent', borderColor: '#B76E79', color: activeTab === cat.id ? 'white' : '#B76E79' }}
                 >{cat.name}</button>
               ))}
             </div>
@@ -630,7 +630,7 @@ export default function HomePage() {
               activeTab === 'best-sellers' ? '/products?sortBy=salesCount' :
               `/products?category=${categories.find(c => c.id === activeTab)?.slug || ''}`
             }>
-              <Button variant="outline" className="text-white rounded-none tracking-[0.15em] uppercase text-xs px-10 py-5" style={{ backgroundColor: '#043927', borderColor: '#043927' }}>
+              <Button variant="outline" className="text-white rounded-none tracking-[0.15em] uppercase text-xs px-10 py-5" style={{ backgroundColor: '#B76E79', borderColor: '#B76E79' }}>
                 View All
               </Button>
             </Link>
@@ -643,7 +643,7 @@ export default function HomePage() {
         <div className="w-full">
           {/* Section Header */}
           <div className="flex justify-center mb-8">
-            <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#043927' }}>
+            <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#B76E79' }}>
               <h2 className="text-xl font-fairplay text-white tracking-wide">Our Models</h2>
             </div>
           </div>
@@ -662,11 +662,11 @@ export default function HomePage() {
       {/* Showcases Section - Dynamic from Admin Panel */}
       {showcases.length > 0 && (
         <section className="py-16 bg-gray-50 relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#043927', opacity: '0.3' }}></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#B76E79', opacity: '0.3' }}></div>
           <div className="max-w-full">
             {/* Section Header - Button Style */}
             <div className="flex justify-center lg:justify-start mb-12 px-4">
-              <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#043927' }}>
+              <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#B76E79' }}>
                 <h2 className="text-xl font-fairplay text-white tracking-wide">Featured Collection</h2>
               </div>
             </div>
@@ -687,7 +687,7 @@ export default function HomePage() {
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                     unoptimized={showcase.image?.startsWith('data:') || showcase.image?.startsWith('http')}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 to-transparent flex items-end">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
                     <div className="p-12 text-white">
                       <h3 className="text-3xl font-bold mb-2">{showcase.title}</h3>
                       <p className="text-lg text-white/90">{showcase.subtitle}</p>
@@ -700,7 +700,7 @@ export default function HomePage() {
             {/* View All Button */}
             <div className="text-center mt-12">
               <Link href="/products">
-                <Button size="lg" className="px-12 text-white rounded-none tracking-[0.15em] uppercase transition-luxury" style={{ backgroundColor: '#043927' }}>
+                <Button size="lg" className="px-12 text-white rounded-none tracking-[0.15em] uppercase transition-luxury" style={{ backgroundColor: '#B76E79' }}>
                   View All Collection
                 </Button>
               </Link>
@@ -713,7 +713,7 @@ export default function HomePage() {
       <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
         <div className="w-full">
           <div className="flex justify-center mb-8">
-            <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#043927' }}>
+            <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#B76E79' }}>
               <h2 className="text-xl font-fairplay text-white tracking-wide">Customer Reviews</h2>
             </div>
           </div>
@@ -722,29 +722,29 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#043927' }}>
+      <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#B76E79' }}>
         {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent"></div>
-        <div className="absolute -top-24 -left-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#043927' }}></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#043927' }}></div>
+        <div className="absolute -top-24 -left-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#B76E79' }}></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#B76E79' }}></div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="elegant-subheading text-gray-400">Experience Elegance</span>
-          <h2 className="elegant-heading-large text-white mb-6">
+          <span className="text-sm tracking-[0.3em] uppercase font-elegant text-white/80 block mb-3">Experience Elegance</span>
+          <h2 className="text-4xl md:text-5xl font-fairplay text-white mb-6 leading-tight">
             Embrace Your True Brilliance
           </h2>
-          <p className="elegant-subheading text-white/70 mb-10 max-w-2xl mx-auto">
+          <p className="text-base text-white/85 mb-10 max-w-2xl mx-auto font-light">
             Discover our exclusive collections of finely crafted jewelry, designed to illuminate your every moment.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/products">
-              <Button size="lg" className="text-white border-none rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury" style={{ backgroundColor: '#043927' }}>
+              <Button size="lg" className="rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury border border-white text-white hover:bg-white hover:text-[#B76E79]" style={{ backgroundColor: 'transparent' }}>
                 Browse Products
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link href="/register">
-              <Button size="lg" variant="outline" className="border-white/30 text-white hover:text-[#1C1C1C] rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury bg-transparent hover:bg-white/10">
+              <Button size="lg" className="rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury text-[#B76E79] hover:text-[#B76E79]" style={{ backgroundColor: 'white' }}>
                 Join Now
               </Button>
             </Link>

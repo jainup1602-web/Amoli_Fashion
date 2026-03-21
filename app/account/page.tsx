@@ -78,7 +78,7 @@ export default function AccountPage() {
               {/* User info */}
               <div className="p-5 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0" style={{ backgroundColor: '#043927' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0" style={{ backgroundColor: '#B76E79' }}>
                     {user?.displayName?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                   <div className="min-w-0">
@@ -97,9 +97,9 @@ export default function AccountPage() {
                     className={`w-full flex items-center justify-between px-5 py-3 text-sm transition-colors ${
                       activeTab === id
                         ? 'text-white font-medium'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#043927]'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#B76E79]'
                     }`}
-                    style={activeTab === id ? { backgroundColor: '#043927' } : {}}
+                    style={activeTab === id ? { backgroundColor: '#B76E79' } : {}}
                   >
                     <div className="flex items-center gap-3">
                       <Icon className="h-4 w-4 flex-shrink-0" />
@@ -131,9 +131,9 @@ export default function AccountPage() {
                   key={id}
                   onClick={() => setActiveTab(id)}
                   className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-2 text-xs font-elegant tracking-widest uppercase border transition-colors ${
-                    activeTab === id ? 'text-white border-[#043927]' : 'text-gray-500 border-gray-200'
+                    activeTab === id ? 'text-white border-[#B76E79]' : 'text-gray-500 border-gray-200'
                   }`}
-                  style={activeTab === id ? { backgroundColor: '#043927' } : {}}
+                  style={activeTab === id ? { backgroundColor: '#B76E79' } : {}}
                 >
                   <Icon className="h-3.5 w-3.5" />
                   {label}
