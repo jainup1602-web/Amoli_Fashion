@@ -1,7 +1,18 @@
 import { PrismaClient } from '@prisma/client';
 
-// PrismaClient is attached to the `global` object in development to prevent
-// exhausting your database connection limit.
+// Build DATABASE_URL from individual parts if not provided directly
+function getDatabaseUrl(): string {
+  if (process.env.DATABASE_URL) return process.env.DATABASE_URL;
+
+  const host = process.env.DB_HOST || 'localhost';
+  const port = process.env.DB_PORT || '3306';
+  const user = process.env.DB_USER || 'root';
+  const password = process.env.DB_PASSWORD || 'root';
+  const name = process.env.DB_NAME || 'amoli_jewelry';
+
+  return `mysql://${user}:${password}@${host}:${port}/${name}`;
+}
+
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 export const prisma =
@@ -10,7 +21,7 @@ export const prisma =
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
     datasources: {
       db: {
-        url: process.env.DATABASE_URL,
+        url: getDatabaseUrl(),
       },
     },
   });

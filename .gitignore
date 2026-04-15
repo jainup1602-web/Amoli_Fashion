@@ -1,1 +1,95 @@
-node_modules
+# =============================================
+# Environment Files — NEVER commit these
+# =============================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+backend/.env
+backend/.env.production
+admin/.env
+admin/.env.production
+database/.env
+
+# =============================================
+# Dependencies
+# =============================================
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+admin/node_modules/
+database/node_modules/
+
+# =============================================
+# Next.js Build Output
+# =============================================
+frontend/.next/
+admin/.next/
+.next/
+out/
+
+# =============================================
+# Prisma Generated Client
+# =============================================
+frontend/node_modules/.prisma/
+backend/node_modules/.prisma/
+
+# =============================================
+# Logs
+# =============================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# =============================================
+# OS Files
+# =============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =============================================
+# IDE / Editor
+# =============================================
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# =============================================
+# Build & Cache
+# =============================================
+dist/
+build/
+.cache/
+*.tsbuildinfo
+frontend/tsconfig.tsbuildinfo
+admin/tsconfig.tsbuildinfo
+
+# =============================================
+# Sensitive / Misc
+# =============================================
+*.pem
+*.key
+*.cert
+*.p12
+ts_errors.txt
+query
+fix-admin-id-references.js
+test-prisma-models.js
+tailwind-test.html
+AMOLI_CONTENT_COMPLETE.txt
+WEBSITE_ANALYSIS.txt
+scripts/test-*.js
+scripts/debug-*.js
+scripts/check-*.js
+scripts/create-*.js
+scripts/comprehensive-*.js
+scripts/final-*.js
