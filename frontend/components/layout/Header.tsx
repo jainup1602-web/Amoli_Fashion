@@ -1025,23 +1025,17 @@ export function Header() {
                 </div>
 
                 {/* Ethnic Collection */}
-                <div className="pt-3">
-                  <div className="flex items-center justify-between">
-                    <div className="px-3 py-1.5">
-                      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Ethnic Collection</h3>
-                    </div>
-                    <button
-                      onClick={() => toggleDropdown('ethnic')}
-                      className="p-2 transition-all duration-200"
+                <div className="pt-2">
+                  <button
+                    onClick={() => toggleDropdown('ethnic')}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white rounded-lg transition-all duration-200 group"
+                  >
+                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#B76E79] transition-colors">Ethnic Collection</h3>
+                    <ChevronRight
+                      className={`h-4 w-4 transform transition-transform duration-300 ${openDropdowns['ethnic'] ? 'rotate-90' : ''}`}
                       style={{ color: '#B76E79' }}
-                    >
-                      <ChevronRight 
-                        className={`h-4 w-4 transform transition-transform duration-300 ${
-                          openDropdowns['ethnic'] ? 'rotate-90' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
+                    />
+                  </button>
                   
                   <AnimatePresence>
                     {openDropdowns['ethnic'] && (
@@ -1096,23 +1090,17 @@ export function Header() {
                 </div>
 
                 {/* Western Collection */}
-                <div className="pt-3">
-                  <div className="flex items-center justify-between">
-                    <div className="px-3 py-1.5">
-                      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Western Collection</h3>
-                    </div>
-                    <button
-                      onClick={() => toggleDropdown('western')}
-                      className="p-2 transition-all duration-200"
+                <div className="pt-2">
+                  <button
+                    onClick={() => toggleDropdown('western')}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white rounded-lg transition-all duration-200 group"
+                  >
+                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#B76E79] transition-colors">Western Collection</h3>
+                    <ChevronRight
+                      className={`h-4 w-4 transform transition-transform duration-300 ${openDropdowns['western'] ? 'rotate-90' : ''}`}
                       style={{ color: '#B76E79' }}
-                    >
-                      <ChevronRight 
-                        className={`h-4 w-4 transform transition-transform duration-300 ${
-                          openDropdowns['western'] ? 'rotate-90' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
+                    />
+                  </button>
                   
                   <AnimatePresence>
                     {openDropdowns['western'] && (
@@ -1160,23 +1148,17 @@ export function Header() {
                 </div>
 
                 {/* Minimalist Collection */}
-                <div className="pt-3">
-                  <div className="flex items-center justify-between">
-                    <div className="px-3 py-1.5">
-                      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Minimalist</h3>
-                    </div>
-                    <button
-                      onClick={() => toggleDropdown('minimalist')}
-                      className="p-2 transition-all duration-200"
+                <div className="pt-2">
+                  <button
+                    onClick={() => toggleDropdown('minimalist')}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white rounded-lg transition-all duration-200 group"
+                  >
+                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#B76E79] transition-colors">Minimalist</h3>
+                    <ChevronRight
+                      className={`h-4 w-4 transform transition-transform duration-300 ${openDropdowns['minimalist'] ? 'rotate-90' : ''}`}
                       style={{ color: '#B76E79' }}
-                    >
-                      <ChevronRight 
-                        className={`h-4 w-4 transform transition-transform duration-300 ${
-                          openDropdowns['minimalist'] ? 'rotate-90' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
+                    />
+                  </button>
                   
                   <AnimatePresence>
                     {openDropdowns['minimalist'] && (
