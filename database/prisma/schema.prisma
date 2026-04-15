@@ -1,0 +1,382 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model banner {
+  id          String   @id @default(uuid())
+  title       String
+  subtitle    String?
+  description String?  @db.Text
+  image       String   @db.LongText
+  link        String?  @db.LongText
+  buttonText  String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive], map: "Banner_isActive_idx")
+  @@index([order], map: "Banner_order_idx")
+}
+
+model cart {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([userId])
+}
+
+model category {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  slug        String        @unique
+  description String?       @db.Text
+  image       String?       @db.Text
+  isActive    Boolean       @default(true)
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  product     product[]
+  subcategory subcategory[]
+
+  @@index([slug])
+}
+
+model cmspage {
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  content         String   @db.LongText
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model coupon {
+  id                   String   @id @default(uuid())
+  code                 String   @unique
+  description          String?  @db.Text
+  discountType         String
+  discountValue        Float
+  minOrderValue        Float?
+  maxDiscount          Float?
+  usageLimit           Int?
+  usedCount            Int      @default(0)
+  validFrom            DateTime
+  validUntil           DateTime
+  isActive             Boolean  @default(true)
+  applicableProducts   String?  @db.LongText
+  applicableCategories String?  @db.LongText
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model enquiry {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String   @db.Text
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+}
+
+model modelgallery {
+  id          String   @id @default(uuid())
+  modelName   String
+  image       String   @db.Text
+  description String?  @db.Text
+  category    String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+}
+
+model newsletter {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String   @db.Text
+  type      String
+  link      String?  @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([isRead])
+  @@index([userId])
+}
+
+model order {
+  id                String      @id @default(uuid())
+  orderNumber       String      @unique
+  userId            String
+  customerName      String
+  customerEmail     String?
+  customerPhone     String
+  shippingAddress   String      @db.LongText
+  billingAddress    String?     @db.LongText
+  subtotal          Float
+  discount          Float       @default(0)
+  shippingCharges   Float       @default(0)
+  tax               Float       @default(0)
+  total             Float
+  couponCode        String?
+  paymentMethod     String
+  paymentStatus     String      @default("pending")
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  orderStatus       String      @default("pending")
+  trackingNumber    String?
+  shippingProvider  String?
+  notes             String?     @db.Text
+  cancelReason      String?     @db.Text
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  user              user        @relation(fields: [userId], references: [id])
+  orderitem         orderitem[]
+
+  @@index([orderNumber])
+  @@index([orderStatus])
+  @@index([paymentStatus])
+  @@index([userId])
+}
+
+model orderitem {
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  name      String
+  image     String  @db.Text
+  price     Float
+  quantity  Int
+  subtotal  Float
+  order     order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model popup {
+  id          String   @id @default(uuid())
+  title       String
+  subtitle    String?
+  description String?  @db.Text
+  image       String?  @db.LongText
+  offerText   String?  @db.Text
+  buttonText  String   @default("Shop Now")
+  buttonLink  String   @default("/products")
+  isActive    Boolean  @default(true)
+  showDelay   Int      @default(2000)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+model product {
+  id                 String       @id @default(uuid())
+  name               String
+  slug               String       @unique
+  description        String       @db.Text
+  shortDescription   String?      @db.Text
+  images             String       @db.LongText
+  categoryId         String
+  subcategoryId      String?
+  originalPrice      Float
+  specialPrice       Float?
+  discountPercentage Float?
+  stock              Int          @default(0)
+  sku                String?      @unique
+  weight             Float?
+  dimensions         String?      @db.LongText
+  material           String?
+  purity             String?
+  occasion           String?
+  gender             String?
+  tags               String?      @db.LongText
+  isFeatured         Boolean      @default(false)
+  isActive           Boolean      @default(true)
+  views              Int          @default(0)
+  salesCount         Int          @default(0)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  cart               cart[]
+  orderitem          orderitem[]
+  category           category     @relation(fields: [categoryId], references: [id])
+  subcategory        subcategory? @relation(fields: [subcategoryId], references: [id])
+  review             review[]
+  wishlist           wishlist[]
+
+  @@index([categoryId])
+  @@index([isFeatured])
+  @@index([slug])
+  @@index([subcategoryId])
+}
+
+model review {
+  id         String   @id @default(uuid())
+  productId  String
+  userId     String
+  userName   String
+  rating     Int
+  comment    String   @db.Text
+  images     String?  @db.LongText
+  isVerified Boolean  @default(false)
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user       user     @relation(fields: [userId], references: [id])
+
+  @@index([isApproved])
+  @@index([productId])
+  @@index([userId])
+}
+
+model settings {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}
+
+model shippingzone {
+  id        String   @id @default(uuid())
+  name      String
+  pincodes  String   @db.LongText
+  charges   Float
+  freeAbove Float?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+model showcase {
+  id        String   @id @default(uuid())
+  title     String
+  subtitle  String?
+  image     String   @db.Text
+  link      String?  @db.Text
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+}
+
+model subcategory {
+  id          String    @id @default(uuid())
+  name        String
+  slug        String    @unique
+  description String?   @db.Text
+  image       String?   @db.Text
+  categoryId  String
+  isActive    Boolean   @default(true)
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  product     product[]
+  category    category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+model user {
+  id           String         @id @default(uuid())
+  firebaseUid  String?        @unique
+  email        String?        @unique
+  phoneNumber  String?        @unique
+  displayName  String?
+  photoURL     String?        @db.Text
+  role         String         @default("customer")
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  cart         cart[]
+  notification notification[]
+  order        order[]
+  review       review[]
+  wishlist     wishlist[]
+
+  @@index([email])
+  @@index([firebaseUid])
+  @@index([phoneNumber])
+}
+
+model videoreview {
+  id               String   @id @default(uuid())
+  customerName     String
+  customerLocation String? 
+  rating           Int
+  videoUrl         String   @db.LongText
+  thumbnailUrl     String?  @db.LongText
+  isActive         Boolean  @default(true)
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+}
+
+model wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  product   product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([userId])
+}
