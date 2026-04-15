@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma, executeWithRetry } from '@/lib/prisma';
 import { verifyAdmin } from '@/middleware/auth';
