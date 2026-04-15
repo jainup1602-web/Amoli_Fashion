@@ -9,8 +9,9 @@ function getDatabaseUrl(): string {
   const user = process.env.DB_USER || 'root';
   const password = process.env.DB_PASSWORD || 'root';
   const name = process.env.DB_NAME || 'amoli_jewelry';
+  const ssl = process.env.DB_SSL === 'true' ? '?ssl-mode=REQUIRED' : '';
 
-  return `mysql://${user}:${password}@${host}:${port}/${name}`;
+  return `mysql://${user}:${encodeURIComponent(password)}@${host}:${port}/${name}${ssl}`;
 }
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
