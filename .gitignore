@@ -80,6 +80,7 @@ admin/tsconfig.tsbuildinfo
 *.key
 *.cert
 *.p12
+*.sql
 ts_errors.txt
 query
 fix-admin-id-references.js

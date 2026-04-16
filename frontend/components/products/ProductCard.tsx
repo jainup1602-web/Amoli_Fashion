@@ -126,6 +126,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className={`object-cover transition-all duration-700 ease-out ${hoverImageUrl ? 'group-hover:opacity-0' : 'group-hover:scale-105'}`}
               unoptimized={imageUrl.startsWith('data:') || imageUrl.startsWith('http')}
+              loading="lazy"
             />
             {/* Hover image */}
             {hoverImageUrl && (

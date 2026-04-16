@@ -310,7 +310,9 @@ export default function HomePage() {
   const duplicatedBanners = banners.length > 0 ? [...banners, ...banners, ...banners] : [];
 
   useEffect(() => {
-    fetchData();
+    // Max 3 seconds loader — force hide after 3s regardless
+    const maxTimer = setTimeout(() => setPageLoading(false), 3000);
+    fetchData().finally(() => clearTimeout(maxTimer));
   }, []);
 
   useEffect(() => {

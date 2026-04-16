@@ -16,6 +16,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: { bodySizeLimit: '2mb' },
+    optimizePackageImports: ['lucide-react', '@reduxjs/toolkit', 'framer-motion'],
   },
   async headers() {
     return [
