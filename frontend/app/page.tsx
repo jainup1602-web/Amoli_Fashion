@@ -465,46 +465,39 @@ export default function HomePage() {
   }
 
   // Step 2: Skeleton — while data loads
+  if (pageLoading) {
     return (
-      <div
-        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-        style={{ backgroundColor: '#F8F6F2' }}
-      >
+      <div className="min-h-screen" style={{ backgroundColor: '#F8F6F2' }}>
         <style>{`
-          @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
-          @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-          @keyframes dot { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
-          .l-name { animation: fadeUp 0.7s ease forwards; }
-          .l-sub { animation: fadeUp 0.7s ease 0.15s both; }
-          .l-bar { animation: fadeUp 0.7s ease 0.3s both; }
-          .d1 { animation: dot 1.4s ease-in-out 0s infinite; }
-          .d2 { animation: dot 1.4s ease-in-out 0.2s infinite; }
-          .d3 { animation: dot 1.4s ease-in-out 0.4s infinite; }
+          @keyframes shimmer-pulse {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
+          .skeleton {
+            background: linear-gradient(90deg, #ede8e3 25%, #f5f1ee 50%, #ede8e3 75%);
+            background-size: 200% 100%;
+            animation: shimmer-pulse 1.5s ease-in-out infinite;
+          }
         `}</style>
-
-        <div className="mb-8 l-name">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="22" stroke="#B76E79" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
-            <circle cx="24" cy="24" r="14" stroke="#B76E79" strokeWidth="1" opacity="0.6" />
-            <circle cx="24" cy="24" r="4" fill="#B76E79" />
-          </svg>
+        <div className="skeleton h-[300px] sm:h-[420px] md:h-[520px] lg:h-[600px] w-full" />
+        <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="skeleton h-5 w-40 mx-auto mb-2 rounded" />
+          <div className="skeleton h-px w-16 mx-auto mb-6" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5">
+            {[...Array(6)].map((_, i) => <div key={i} className="skeleton aspect-[3/4]" />)}
+          </div>
         </div>
-
-        <h1 className="l-name font-fairplay text-[#1C1C1C] tracking-[0.25em] uppercase mb-1" style={{ fontSize: 'clamp(22px, 5vw, 32px)' }}>
-          Amoli
-        </h1>
-        <p className="l-sub font-elegant text-gray-400 tracking-[0.4em] uppercase mb-10" style={{ fontSize: '9px' }}>
-          Fashion Jewellery
-        </p>
-
-        <div className="l-bar relative w-32 h-px overflow-hidden" style={{ backgroundColor: '#e8ddd9' }}>
-          <div className="absolute inset-y-0 left-0 w-1/3" style={{ backgroundColor: '#B76E79', animation: 'shimmer 1.6s ease-in-out infinite' }} />
-        </div>
-
-        <div className="flex gap-1.5 mt-6">
-          <span className="d1 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
-          <span className="d2 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
-          <span className="d3 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+        <div className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="skeleton h-5 w-32 mx-auto mb-8 rounded" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i}>
+                <div className="skeleton aspect-square mb-3" />
+                <div className="skeleton h-3 w-3/4 mb-2 rounded" />
+                <div className="skeleton h-3 w-1/2 rounded" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
