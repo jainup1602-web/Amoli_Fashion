@@ -4,9 +4,11 @@ import { useAppSelector } from '@/store/hooks';
 
 export function WhatsAppButton() {
   const { settings } = useAppSelector((s) => s.settings);
-  const phone = (settings as any)?.contactPhone || '919982470002';
-  // Remove +, spaces, dashes
-  const cleanPhone = phone.replace(/[\s+\-()]/g, '');
+  const rawPhone = (settings as any)?.contactPhone || '9982470002';
+  // Remove all non-digits
+  const digits = rawPhone.replace(/\D/g, '');
+  // Add India country code if not already present
+  const cleanPhone = digits.startsWith('91') ? digits : `91${digits}`;
   const message = encodeURIComponent('Hi! I am interested in your jewellery collection.');
   const url = `https://wa.me/${cleanPhone}?text=${message}`;
 
