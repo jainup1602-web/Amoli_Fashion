@@ -102,6 +102,16 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="py-5 text-center text-xs text-gray-400">
+          {/* Secure Payment */}
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/thumbnails/secure_payment.png"
+              alt="Secure Payment"
+              width={320}
+              height={40}
+              className="object-contain"
+            />
+          </div>
           <p>&copy; 2026 Amoli Fashion Jewellery. All Rights Reserved.</p>
           <div className="flex justify-center gap-4 mt-2">
             <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
@@ -174,9 +184,18 @@ export function Footer() {
 
         <div className="border-t border-gray-200 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
           <p>&copy; 2026 Amoli Fashion Jewellery. All Rights Reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
-            <Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy</Link>
+          <div className="flex items-center gap-6">
+            <Image
+              src="/thumbnails/secure_payment.png"
+              alt="Secure Payment"
+              width={280}
+              height={36}
+              className="object-contain"
+            />
+            <div className="flex space-x-6">
+              <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
+              <Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy</Link>
+            </div>
           </div>
         </div>
       </div>
