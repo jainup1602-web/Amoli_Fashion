@@ -8,6 +8,8 @@ import { Rating } from '@/components/common/Rating';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Heart, Truck, RefreshCw, Minus, Plus, Star, Check, CheckCircle, Share2 } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
+import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
+import { RecentlyViewedSection } from '@/components/common/RecentlyViewed';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCart, addToCartAsync } from '@/store/slices/cartSlice';
 import { addToWishlist, removeFromWishlist, addToWishlistAsync, removeFromWishlistAsync } from '@/store/slices/wishlistSlice';
@@ -72,6 +74,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
 
   const isInWishlist = product ? wishlistItems.some((item) => item.productId === product.id) : false;
+
+  // Track recently viewed
+  useRecentlyViewed(product?.id);
 
   useEffect(() => {
     fetchProduct();
@@ -360,6 +365,18 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3">
+              {/* Buy Now */}
+              <Button
+                onClick={() => {
+                  handleAddToCart();
+                  if (product.stock > 0) window.location.href = '/checkout';
+                }}
+                disabled={product.stock === 0}
+                className="w-full h-11 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs font-medium"
+                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#1C1C1C' }}
+              >
+                {product.stock === 0 ? 'Out of Stock' : 'Buy Now'}
+              </Button>
               <Button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
@@ -583,6 +600,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             </AnimatePresence>
           </div>
         </div>
+
+        {/* Recently Viewed */}
+        <RecentlyViewedSection currentId={product.id} />
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (

@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { clearCart } from '@/store/slices/cartSlice';
 import { ShoppingCart, Truck, Shield, RefreshCw, ChevronDown, ChevronUp, Phone, MapPin, CreditCard } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { PincodeCheck } from '@/components/common/PincodeCheck';
 
 declare global {
   interface Window { Razorpay: any; recaptchaVerifier: any; }
@@ -514,6 +515,10 @@ export default function CheckoutPage() {
                     <div>
                       <input name="pincode" placeholder="Pincode *" value={formData.pincode} onChange={handleInputChange} className={inputCls('pincode')} />
                       {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode}</p>}
+                      {/* Pincode delivery check */}
+                      {formData.pincode.length === 6 && (
+                        <PincodeCheck pincode={formData.pincode} />
+                      )}
                     </div>
                     <div>
                       <select name="country" value={formData.country} onChange={handleInputChange}
