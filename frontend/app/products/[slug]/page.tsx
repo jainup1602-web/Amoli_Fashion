@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumb } from '@/components/common/Breadcrumb';
@@ -54,6 +55,7 @@ interface Product {
 
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { settings } = useAppSelector((state) => state.settings);
   const { isAuthenticated, token } = useAppSelector((state) => state.auth);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
@@ -365,11 +367,26 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3">
-              {/* Buy Now */}
+              {/* Buy Now — direct checkout without adding to cart */}
               <Button
                 onClick={() => {
-                  handleAddToCart();
-                  if (product.stock > 0) window.location.href = '/checkout';
+                  if (product.stock === 0) return;
+                  if (!isAuthenticated) { setShowAuthModal(true); return; }
+                  // Store buy-now item in sessionStorage for checkout
+                  const buyNowItem = {
+                    productId: product.id,
+                    name: product.name,
+                    slug: product.slug,
+                    image: product.images[0] || '/placeholder.svg',
+                    price: product.specialPrice || product.originalPrice,
+                    originalPrice: product.originalPrice,
+                    quantity,
+                    stock: product.stock,
+                  };
+                  sessionStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
+                  // Add to cart and go to checkout
+                  dispatch(addToCart(buyNowItem));
+                  router.push('/checkout');
                 }}
                 disabled={product.stock === 0}
                 className="w-full h-11 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs font-medium"
