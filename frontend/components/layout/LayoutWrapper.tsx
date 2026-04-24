@@ -5,6 +5,7 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { AppInitializer } from '@/components/providers/AppInitializer';
 import { CookieConsent } from '@/components/common/CookieConsent';
+import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       </main>
       <Footer />
       <CookieConsent />
+      <WhatsAppButton />
     </AppInitializer>
   );
 }
