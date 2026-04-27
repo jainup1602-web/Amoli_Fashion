@@ -138,7 +138,6 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
   const handleAddToCart = () => {
     if (!product) return;
-    if (!isAuthenticated) { setShowAuthModal(true); return; }
 
     const cartItem = {
       productId: product.id,
@@ -153,14 +152,14 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     dispatch(addToCart(cartItem));
     toast.success('Added to cart!');
 
-    if (token && token.length > 10) {
+    // Sync with server if logged in
+    if (isAuthenticated && token && token.length > 10) {
       dispatch(addToCartAsync({ productId: product.id, quantity, token })).catch(() => {});
     }
   };
 
   const handleWishlist = () => {
     if (!product) return;
-    if (!isAuthenticated) { setShowAuthModal(true); return; }
 
     const item = {
       productId: product.id,
@@ -181,7 +180,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       toast.success('Added to wishlist!');
     }
 
-    if (token && token.length > 10) {
+    // Sync with server if logged in
+    if (isAuthenticated && token && token.length > 10) {
       if (isInWishlist) dispatch(removeFromWishlistAsync({ productId: product.id, token })).catch(() => {});
       else dispatch(addToWishlistAsync({ productId: product.id, token })).catch(() => {});
     }
@@ -371,7 +371,6 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               <Button
                 onClick={() => {
                   if (product.stock === 0) return;
-                  if (!isAuthenticated) { setShowAuthModal(true); return; }
                   // Store buy-now item in sessionStorage — cart mein add NAHI karna
                   const buyNowItem = {
                     productId: product.id,
@@ -399,7 +398,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#B76E79' }}
               >
                 <ShoppingCart className="mr-2 h-4 w-4" />
-                {product.stock === 0 ? 'Out of Stock' : !isAuthenticated ? 'Login to Add to Bag' : 'Add to Bag'}
+                {product.stock === 0 ? 'Out of Stock' : 'Add to Bag'}
               </Button>
               <div className="grid grid-cols-2 gap-3">
                 <Button
