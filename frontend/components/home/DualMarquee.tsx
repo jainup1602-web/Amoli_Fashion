@@ -108,9 +108,11 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               }}
             >
               <span 
-                className="text-2xl md:text-3xl lg:text-4xl font-fairplay text-[#1C1C1C] transition-all duration-300 group-hover:scale-105"
+                className="text-2xl md:text-3xl lg:text-4xl font-fairplay transition-all duration-300 group-hover:scale-105 px-6 py-3 rounded-full border-2"
                 style={{ 
                   color: hoveredItem === item.id ? '#B76E79' : '#1C1C1C',
+                  borderColor: hoveredItem === item.id ? '#B76E79' : '#D4AF37',
+                  backgroundColor: hoveredItem === item.id ? 'rgba(183, 110, 121, 0.05)' : 'rgba(212, 175, 55, 0.03)',
                   textShadow: hoveredItem === item.id ? '0 0 20px rgba(183, 110, 121, 0.3)' : 'none',
                 }}
               >
@@ -154,9 +156,11 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               }}
             >
               <span 
-                className="text-2xl md:text-3xl lg:text-4xl font-fairplay text-[#1C1C1C] transition-all duration-300 group-hover:scale-105"
+                className="text-2xl md:text-3xl lg:text-4xl font-fairplay transition-all duration-300 group-hover:scale-105 px-6 py-3 rounded-full border-2"
                 style={{ 
                   color: hoveredItem === item.id ? '#B76E79' : '#1C1C1C',
+                  borderColor: hoveredItem === item.id ? '#B76E79' : '#D4AF37',
+                  backgroundColor: hoveredItem === item.id ? 'rgba(183, 110, 121, 0.05)' : 'rgba(212, 175, 55, 0.03)',
                   textShadow: hoveredItem === item.id ? '0 0 20px rgba(183, 110, 121, 0.3)' : 'none',
                 }}
               >
