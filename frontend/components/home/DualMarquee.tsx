@@ -13,6 +13,7 @@ interface MarqueeItem {
   hoverImage?: string;
   row: number;
   order: number;
+  isActive?: boolean;
 }
 
 interface DualMarqueeProps {

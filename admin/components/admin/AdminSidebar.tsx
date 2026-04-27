@@ -31,6 +31,7 @@ const menuItems = [
   { title: 'Reviews', href: '/admin/reviews', icon: Star },
   { title: 'Video Reviews', href: '/admin/video-reviews', icon: FileText },
   { title: 'Model Gallery', href: '/admin/model-gallery', icon: User },
+  { title: 'Marquee', href: '/admin/marquee', icon: TrendingUp },
   { title: 'Banners', href: '/admin/banners', icon: ImageIcon },
   { title: 'Showcases', href: '/admin/showcases', icon: Grid },
   { title: 'Popups', href: '/admin/popups', icon: Plus },
