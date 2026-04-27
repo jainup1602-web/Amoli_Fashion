@@ -573,3 +573,64 @@ header,
   0%   { transform: translateX(0); }
   100% { transform: translateX(calc(-33.333%)); }
 }
+
+/* =============================================
+   Indian Aesthetic Motifs
+   ============================================= */
+
+/* Decorative divider with lotus motif */
+.motif-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #B76E79;
+  opacity: 0.5;
+}
+.motif-divider::before,
+.motif-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #B76E79, transparent);
+}
+
+/* Subtle paisley border pattern */
+.motif-border {
+  border-image: repeating-linear-gradient(
+    90deg,
+    #B76E79 0px,
+    #B76E79 4px,
+    transparent 4px,
+    transparent 12px
+  ) 1;
+}
+
+/* Gold shimmer text */
+.text-gold-shimmer {
+  background: linear-gradient(90deg, #B76E79, #d4a0a8, #B76E79);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gold-shimmer 3s ease-in-out infinite;
+}
+@keyframes gold-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Subtle mandala watermark */
+.motif-watermark {
+  position: relative;
+  overflow: hidden;
+}
+.motif-watermark::after {
+  content: '✦';
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  font-size: 120px;
+  color: #B76E79;
+  opacity: 0.04;
+  pointer-events: none;
+  user-select: none;
+}

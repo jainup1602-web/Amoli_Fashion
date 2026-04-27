@@ -6,6 +6,7 @@ import { Footer } from './Footer';
 import { AppInitializer } from '@/components/providers/AppInitializer';
 import { CookieConsent } from '@/components/common/CookieConsent';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
+import { NewsletterBanner } from '@/components/common/NewsletterBanner';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -25,6 +26,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <main className="min-h-screen flex flex-col" style={{ backgroundColor: '#F8F6F2', color: '#1A1A1A' }}>
         {children}
       </main>
+      <NewsletterBanner />
       <Footer />
       <CookieConsent />
       <WhatsAppButton />

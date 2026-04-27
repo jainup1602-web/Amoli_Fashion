@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Package, User, MapPin, Heart, Settings, Bell, LogOut, ChevronRight } from 'lucide-react';
+import { Package, User, MapPin, Heart, Settings, Bell, LogOut, ChevronRight, Star } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { logout } from '@/store/slices/authSlice';
 import { useRouter } from 'next/navigation';
+import { LoyaltyPoints } from '@/components/account/LoyaltyPoints';
+import { SavedAddresses } from '@/components/account/SavedAddresses';
 
 // Sub-page imports
 import dynamic from 'next/dynamic';
@@ -20,6 +22,7 @@ const NAV_ITEMS = [
   { id: 'profile', label: 'Profile', icon: User },
   { id: 'orders', label: 'My Orders', icon: Package },
   { id: 'addresses', label: 'Addresses', icon: MapPin },
+  { id: 'loyalty', label: 'Loyalty Points', icon: Star },
   { id: 'wishlist', label: 'Wishlist', icon: Heart },
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'settings', label: 'Settings', icon: Settings },
@@ -59,7 +62,27 @@ export default function AccountPage() {
     switch (activeTab) {
       case 'profile': return <ProfilePage />;
       case 'orders': return <OrdersPage />;
-      case 'addresses': return <AddressesPage />;
+      case 'addresses': return (
+        <div className="space-y-6">
+          <h2 className="text-xl font-fairplay text-[#1C1C1C]">Saved Addresses</h2>
+          <SavedAddresses />
+        </div>
+      );
+      case 'loyalty': return (
+        <div className="space-y-6">
+          <h2 className="text-xl font-fairplay text-[#1C1C1C]">Loyalty Points</h2>
+          <LoyaltyPoints points={(user as any)?.loyaltyPoints || 0} />
+          <div className="bg-white border border-gray-100 p-6">
+            <h3 className="text-sm font-semibold text-gray-800 mb-3">How it works</h3>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li>🛍️ Earn <strong>1 point</strong> for every ₹1 spent</li>
+              <li>💰 Redeem points at checkout — <strong>1 point = ₹0.50 off</strong></li>
+              <li>🎁 Bonus points on special occasions</li>
+              <li>⏰ Points valid for 1 year from earning date</li>
+            </ul>
+          </div>
+        </div>
+      );
       case 'wishlist': return <WishlistPage />;
       case 'notifications': return <NotificationsPage />;
       case 'settings': return <SettingsPage />;

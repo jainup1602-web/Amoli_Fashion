@@ -13,6 +13,9 @@ import { clearCart } from '@/store/slices/cartSlice';
 import { ShoppingCart, Truck, Shield, RefreshCw, ChevronDown, ChevronUp, Phone, MapPin, CreditCard } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { PincodeCheck } from '@/components/common/PincodeCheck';
+import { GiftOptions } from '@/components/checkout/GiftOptions';
+import { LoyaltyPoints } from '@/components/account/LoyaltyPoints';
+import { SavedAddresses } from '@/components/account/SavedAddresses';
 
 declare global {
   interface Window { Razorpay: any; recaptchaVerifier: any; }
@@ -59,17 +62,25 @@ export default function CheckoutPage() {
   const [couponLoading, setCouponLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [orderSummaryOpen, setOrderSummaryOpen] = useState(false);
+  // Gift options
+  const [isGift, setIsGift] = useState(false);
+  const [giftWrap, setGiftWrap] = useState(false);
+  const [giftMessage, setGiftMessage] = useState('');
+  // Loyalty points
+  const [redeemPoints, setRedeemPoints] = useState(0);
+  const userLoyaltyPoints = (user as any)?.loyaltyPoints || 0;
 
   const subtotal = checkoutItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const freeShippingThreshold = settings?.freeShippingThreshold || 999;
   const shippingCharge = settings?.shippingCharge || 50;
   const shipping = subtotal >= freeShippingThreshold ? 0 : shippingCharge;
   const discount = appliedCoupon?.discount || 0;
+  const loyaltyDiscount = redeemPoints * 0.5; // 1 point = ₹0.50
   const taxEnabled = (settings as any)?.taxEnabled ?? false;
   const taxRate = (settings as any)?.taxRate ?? 0;
   const taxLabel = (settings as any)?.taxLabel || 'GST';
   const tax = taxEnabled ? Math.round(((subtotal - discount) * taxRate) / 100 * 100) / 100 : 0;
-  const finalTotal = subtotal - discount + shipping + tax;
+  const finalTotal = subtotal - discount - loyaltyDiscount + shipping + tax;
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -293,7 +304,7 @@ export default function CheckoutPage() {
         const res = await fetch('/api/orders/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'cod', buyNowItems: isBuyNow ? checkoutItems : null }),
+          body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'cod', buyNowItems: isBuyNow ? checkoutItems : null, isGift, giftWrap, giftMessage, loyaltyPointsUsed: redeemPoints }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed to create order');
@@ -308,7 +319,7 @@ export default function CheckoutPage() {
       const res = await fetch('/api/orders/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'razorpay', buyNowItems: isBuyNow ? checkoutItems : null }),
+        body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'razorpay', buyNowItems: isBuyNow ? checkoutItems : null, isGift, giftWrap, giftMessage, loyaltyPointsUsed: redeemPoints }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to create order');
@@ -555,6 +566,28 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                 </div>
+
+                {/* Gift Options */}
+                <GiftOptions
+                  isGift={isGift}
+                  giftWrap={giftWrap}
+                  giftMessage={giftMessage}
+                  onChange={(field, value) => {
+                    if (field === 'isGift') setIsGift(value);
+                    else if (field === 'giftWrap') setGiftWrap(value);
+                    else if (field === 'giftMessage') setGiftMessage(value);
+                  }}
+                />
+
+                {/* Loyalty Points */}
+                {userLoyaltyPoints > 0 && (
+                  <LoyaltyPoints
+                    points={userLoyaltyPoints}
+                    orderTotal={subtotal}
+                    redeemPoints={redeemPoints}
+                    setRedeemPoints={setRedeemPoints}
+                  />
+                )}
 
                 {/* Payment Method */}
                 <div className="bg-white border border-gray-100 p-4 sm:p-8">
