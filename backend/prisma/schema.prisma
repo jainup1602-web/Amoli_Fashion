@@ -170,6 +170,11 @@ model order {
   shippingProvider  String?
   notes             String?     @db.Text
   cancelReason      String?     @db.Text
+  isGift            Boolean     @default(false)
+  giftMessage       String?     @db.Text
+  giftWrap          Boolean     @default(false)
+  loyaltyPointsUsed Int         @default(0)
+  loyaltyPointsEarned Int       @default(0)
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   user              user        @relation(fields: [userId], references: [id])
@@ -339,6 +344,8 @@ model user {
   photoURL     String?        @db.Text
   role         String         @default("customer")
   isActive     Boolean        @default(true)
+  loyaltyPoints Int           @default(0)
+  savedAddresses String?      @db.LongText
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   cart         cart[]
@@ -352,10 +359,27 @@ model user {
   @@index([phoneNumber])
 }
 
+model marqueeitem {
+  id          String   @id @default(uuid())
+  text        String
+  categoryId  String?
+  filterSlug  String?
+  hoverImage  String?  @db.LongText
+  row         Int      @default(1)
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([row])
+  @@index([order])
+}
+
 model videoreview {
   id               String   @id @default(uuid())
   customerName     String
-  customerLocation String?
+  customerLocation String? 
   rating           Int
   videoUrl         String   @db.LongText
   thumbnailUrl     String?  @db.LongText
