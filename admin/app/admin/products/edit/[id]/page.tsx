@@ -158,7 +158,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       const token = await getAuthToken();
       if (!token) { alertError('Please login first'); return; }
 
-      const res = await fetch(`/api/products/${productSlug}`, {
+      const res = await fetch(`/api/admin/products/${productSlug}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

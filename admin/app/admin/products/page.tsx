@@ -45,7 +45,7 @@ export default function AdminProductsPage() {
         return;
       }
 
-      const res = await fetch(`/api/products/${slug}`, {
+      const res = await fetch(`/api/admin/products/${slug}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
