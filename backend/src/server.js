@@ -31,6 +31,7 @@ app.use('/api/cms-pages',   require('./routes/cmsPages'));
 app.use('/api/showcases',   require('./routes/showcases'));
 app.use('/api/model-gallery', require('./routes/modelGallery'));
 app.use('/api/video-reviews', require('./routes/videoReviews'));
+app.use('/api/marquee',      require('./routes/marquee'));
 app.use('/api/popup',       require('./routes/popup'));
 app.use('/api/make-admin',  require('./routes/makeAdmin'));
 
@@ -50,6 +51,7 @@ app.use('/api/admin/cms-pages',    require('./routes/admin/cmsPages'));
 app.use('/api/admin/showcases',    require('./routes/admin/showcases'));
 app.use('/api/admin/model-gallery', require('./routes/admin/modelGallery'));
 app.use('/api/admin/video-reviews', require('./routes/admin/videoReviews'));
+app.use('/api/admin/marquee',      require('./routes/admin/marquee'));
 app.use('/api/admin/popups',       require('./routes/admin/popups'));
 app.use('/api/admin/reports',      require('./routes/admin/reports'));
 

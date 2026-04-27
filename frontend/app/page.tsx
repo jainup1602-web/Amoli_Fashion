@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/products/ProductCard';
 import { Truck, Package, RefreshCw, Phone, ChevronLeft, ChevronRight, ChevronRight as ArrowRight, Star, SlidersHorizontal, X } from 'lucide-react';
 import { OfferPopup } from '@/components/common/OfferPopup';
+import { DualMarquee } from '@/components/home/DualMarquee';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Product {
@@ -265,6 +266,7 @@ export default function HomePage() {
   const [showcases, setShowcases] = useState<any[]>([]);
   const [videoReviews, setVideoReviews] = useState<any[]>([]);
   const [modelGallery, setModelGallery] = useState<any[]>([]);
+  const [marqueeItems, setMarqueeItems] = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
   const [brandLoading, setBrandLoading] = useState(true); // 3 sec branded loader
 
@@ -317,13 +319,14 @@ export default function HomePage() {
       Promise.race([promise, new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))]);
 
     try {
-      const [bannersRes, productsRes, categoriesRes, showcasesRes, videoReviewsRes, modelGalleryRes] = await Promise.all([
+      const [bannersRes, productsRes, categoriesRes, showcasesRes, videoReviewsRes, modelGalleryRes, marqueeRes] = await Promise.all([
         withTimeout(fetch('/api/banners', { cache: 'no-store' })).catch(() => new Response('{}', { status: 500 })),
         withTimeout(fetch('/api/products?featured=true&limit=30')).catch(() => new Response('{}', { status: 500 })),
         withTimeout(fetch('/api/categories?limit=6')).catch(() => new Response('{}', { status: 500 })),
         withTimeout(fetch('/api/showcases')).catch(() => new Response('{}', { status: 500 })),
         withTimeout(fetch('/api/video-reviews?limit=10')).catch(() => new Response('{}', { status: 500 })),
         withTimeout(fetch('/api/model-gallery?limit=8')).catch(() => new Response('{}', { status: 500 })),
+        withTimeout(fetch('/api/marquee')).catch(() => new Response('{}', { status: 500 })),
       ]);
 
       if (bannersRes.ok) {
@@ -362,6 +365,13 @@ export default function HomePage() {
         const data = await modelGalleryRes.json();
         if (data.success && data.models) {
           setModelGallery(data.models);
+        }
+      }
+
+      if (marqueeRes.ok) {
+        const data = await marqueeRes.json();
+        if (data.success && data.items) {
+          setMarqueeItems(data.items);
         }
       }
     } catch (error) {
@@ -630,6 +640,15 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Marquee Section */}
+      {marqueeItems.length > 0 && (
+        <DualMarquee
+          items={marqueeItems}
+          title="Elevate Your Style Shines Bright"
+          subtitle="GLAMOROUS LIFE"
+        />
+      )}
 
       {/* Top Styles Section */}
       <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>

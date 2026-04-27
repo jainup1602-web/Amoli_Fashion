@@ -359,6 +359,23 @@ model user {
   @@index([phoneNumber])
 }
 
+model marqueeitem {
+  id          String   @id @default(uuid())
+  text        String
+  categoryId  String?
+  filterSlug  String?
+  hoverImage  String?  @db.LongText
+  row         Int      @default(1)
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([row])
+  @@index([order])
+}
+
 model videoreview {
   id               String   @id @default(uuid())
   customerName     String
