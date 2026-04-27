@@ -29,6 +29,13 @@ export default function CheckoutPage() {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
   const { settings } = useAppSelector((state) => state.settings);
 
+  // Buy Now mode — single item from sessionStorage, not from cart
+  const [buyNowItem, setBuyNowItem] = useState<any>(null);
+  const isBuyNow = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mode') === 'buynow';
+
+  // Items to checkout — either buyNow single item or full cart
+  const checkoutItems = buyNowItem ? [buyNowItem] : items;
+
   // Step state
   const [step, setStep] = useState<Step>('phone');
   const [phone, setPhone] = useState('');
@@ -53,7 +60,7 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [orderSummaryOpen, setOrderSummaryOpen] = useState(false);
 
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = checkoutItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const freeShippingThreshold = settings?.freeShippingThreshold || 999;
   const shippingCharge = settings?.shippingCharge || 50;
   const shipping = subtotal >= freeShippingThreshold ? 0 : shippingCharge;
@@ -65,7 +72,21 @@ export default function CheckoutPage() {
   const finalTotal = subtotal - discount + shipping + tax;
 
   useEffect(() => { setMounted(true); }, []);
-  useEffect(() => { if (mounted && items.length === 0) router.push('/cart'); }, [mounted, items, router]);
+
+  // Load buyNow item from sessionStorage
+  useEffect(() => {
+    if (isBuyNow) {
+      try {
+        const stored = sessionStorage.getItem('buyNowItem');
+        if (stored) setBuyNowItem(JSON.parse(stored));
+      } catch {}
+    }
+  }, [isBuyNow]);
+
+  // Redirect to cart if no items (only for normal checkout, not buynow)
+  useEffect(() => {
+    if (mounted && !isBuyNow && items.length === 0) router.push('/cart');
+  }, [mounted, items, router, isBuyNow]);
 
   // If already logged in, skip phone/otp steps
   useEffect(() => {
@@ -272,11 +293,12 @@ export default function CheckoutPage() {
         const res = await fetch('/api/orders/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'cod' }),
+          body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'cod', buyNowItems: isBuyNow ? checkoutItems : null }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed to create order');
-        dispatch(clearCart());
+        if (!isBuyNow) dispatch(clearCart());
+        else sessionStorage.removeItem('buyNowItem');
         toast.success('Order placed successfully!');
         router.push(`/order-success?orderId=${data.order.orderNumber}`);
         return;
@@ -286,7 +308,7 @@ export default function CheckoutPage() {
       const res = await fetch('/api/orders/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'razorpay' }),
+        body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'razorpay', buyNowItems: isBuyNow ? checkoutItems : null }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to create order');
@@ -304,7 +326,12 @@ export default function CheckoutPage() {
               body: JSON.stringify({ razorpayOrderId: response.razorpay_order_id, razorpayPaymentId: response.razorpay_payment_id, razorpaySignature: response.razorpay_signature }),
             });
             const vData = await vRes.json();
-            if (vData.success) { dispatch(clearCart()); toast.success('Payment successful!'); router.push(`/order-success?orderId=${vData.order.orderNumber}`); }
+            if (vData.success) {
+              if (!isBuyNow) dispatch(clearCart());
+              else sessionStorage.removeItem('buyNowItem');
+              toast.success('Payment successful!');
+              router.push(`/order-success?orderId=${vData.order.orderNumber}`);
+            }
             else toast.error('Payment verification failed.');
           } catch { toast.error('Payment verification failed'); }
         },
@@ -320,7 +347,7 @@ export default function CheckoutPage() {
     </div>
   );
 
-  if (items.length === 0) return (
+  if (!isBuyNow && items.length === 0) return (
     <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center py-20 px-4">
       <div className="text-center p-16 border border-gray-200 max-w-lg w-full bg-white">
         <ShoppingCart className="h-14 w-14 mx-auto mb-6 text-gray-300" strokeWidth={1} />
@@ -582,7 +609,7 @@ export default function CheckoutPage() {
                 className="w-full flex items-center justify-between px-6 py-4 lg:hidden border-b border-gray-100"
                 onClick={() => setOrderSummaryOpen(!orderSummaryOpen)}
               >
-                <span className="text-sm font-medium text-[#1C1C1C]">Order Summary ({items.length} items)</span>
+                <span className="text-sm font-medium text-[#1C1C1C]">Order Summary ({checkoutItems.length} items)</span>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium" style={{ color: '#B76E79' }}>{formatPrice(finalTotal)}</span>
                   {orderSummaryOpen ? <ChevronUp className="h-4 w-4 text-gray-400" /> : <ChevronDown className="h-4 w-4 text-gray-400" />}
@@ -596,7 +623,7 @@ export default function CheckoutPage() {
 
                 {/* Items */}
                 <div className="space-y-4 mb-5 max-h-56 overflow-y-auto">
-                  {items.map((item) => (
+                  {checkoutItems.map((item) => (
                     <div key={item.productId} className="flex gap-3">
                       <div className="relative w-14 h-14 flex-shrink-0 bg-[#F9F5F2] border border-gray-100">
                         <Image src={item.image || '/placeholder.svg'} alt={item.name} fill sizes="56px" className="object-cover" unoptimized={item.image?.startsWith('http')} />

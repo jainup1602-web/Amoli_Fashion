@@ -372,7 +372,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 onClick={() => {
                   if (product.stock === 0) return;
                   if (!isAuthenticated) { setShowAuthModal(true); return; }
-                  // Store buy-now item in sessionStorage for checkout
+                  // Store buy-now item in sessionStorage — cart mein add NAHI karna
                   const buyNowItem = {
                     productId: product.id,
                     name: product.name,
@@ -384,9 +384,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                     stock: product.stock,
                   };
                   sessionStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
-                  // Add to cart and go to checkout
-                  dispatch(addToCart(buyNowItem));
-                  router.push('/checkout');
+                  router.push('/checkout?mode=buynow');
                 }}
                 disabled={product.stock === 0}
                 className="w-full h-11 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs font-medium"
