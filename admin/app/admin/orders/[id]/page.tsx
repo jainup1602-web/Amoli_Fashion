@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Card } from '@/components/ui/card';
-import { Package, User, MapPin, CreditCard } from 'lucide-react';
+import { Package, User, MapPin } from 'lucide-react';
 import { alertSuccess, alertError } from '@/lib/alert';
 
 export default function OrderDetailPage() {
@@ -21,10 +21,9 @@ export default function OrderDetailPage() {
 
   const fetchOrder = async () => {
     try {
-      // Get fresh token from Firebase
       const { getAuthToken } = await import('@/lib/firebase-client');
       const token = await getAuthToken();
-      
+
       if (!token) {
         console.error('No token available');
         setLoading(false);
@@ -32,9 +31,7 @@ export default function OrderDetailPage() {
       }
 
       const res = await fetch(`/api/admin/orders/${params.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (data.success) {
@@ -50,10 +47,9 @@ export default function OrderDetailPage() {
   const updateOrderStatus = async (status: string) => {
     setUpdating(true);
     try {
-      // Get fresh token from Firebase
       const { getAuthToken } = await import('@/lib/firebase-client');
       const token = await getAuthToken();
-      
+
       if (!token) {
         alertError('Please login first');
         setUpdating(false);
@@ -154,7 +150,7 @@ export default function OrderDetailPage() {
           </Card>
         </div>
 
-        {/* Order Info */}
+        {/* Order Info Sidebar */}
         <div className="space-y-6">
           {/* Status */}
           <Card className="p-6">
@@ -221,6 +217,54 @@ export default function OrderDetailPage() {
               <p>{order.shippingAddress?.phone}</p>
             </div>
           </Card>
+
+          {/* Gift Info */}
+          {order.isGift && (
+            <Card className="p-6" style={{ borderLeft: '4px solid #B76E79' }}>
+              <h2 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: '#B76E79' }}>
+                🎁 Gift Order
+              </h2>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Gift Wrap:</span>
+                  <span className="font-medium">{order.giftWrap ? '✅ Yes' : 'No'}</span>
+                </div>
+                {order.giftMessage && (
+                  <div>
+                    <span className="text-gray-600 block mb-1">Gift Message:</span>
+                    <p className="bg-gray-50 p-3 text-sm italic text-gray-700" style={{ borderLeft: '2px solid #B76E79' }}>
+                      &ldquo;{order.giftMessage}&rdquo;
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+
+          {/* Loyalty Points */}
+          {(order.loyaltyPointsUsed > 0 || order.loyaltyPointsEarned > 0) && (
+            <Card className="p-6">
+              <h2 className="text-base font-bold mb-3">⭐ Loyalty Points</h2>
+              <div className="space-y-2 text-sm">
+                {order.loyaltyPointsUsed > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Points Used:</span>
+                    <span className="font-medium text-red-600">
+                      -{order.loyaltyPointsUsed} pts (₹{(order.loyaltyPointsUsed * 0.5).toFixed(0)} off)
+                    </span>
+                  </div>
+                )}
+                {order.loyaltyPointsEarned > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Points Earned:</span>
+                    <span className="font-medium text-green-600">
+                      +{order.loyaltyPointsEarned} pts
+                    </span>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </div>

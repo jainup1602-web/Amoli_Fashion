@@ -8,7 +8,7 @@ router.get('/', verifyAdmin, async (req, res) => {
     const page = parseInt(req.query.page || '1');
     const limit = parseInt(req.query.limit || '20');
     const [users, total] = await Promise.all([
-      prisma.user.findMany({ skip: (page - 1) * limit, take: limit, orderBy: { createdAt: 'desc' }, select: { id: true, email: true, displayName: true, role: true, isActive: true, createdAt: true } }),
+      prisma.user.findMany({ skip: (page - 1) * limit, take: limit, orderBy: { createdAt: 'desc' }, select: { id: true, email: true, displayName: true, phoneNumber: true, role: true, isActive: true, loyaltyPoints: true, createdAt: true } }),
       prisma.user.count(),
     ]);
     res.json({ success: true, users, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
@@ -29,8 +29,12 @@ router.get('/:id', verifyAdmin, async (req, res) => {
 
 router.put('/:id', verifyAdmin, async (req, res) => {
   try {
-    const { role, isActive } = req.body;
-    const user = await prisma.user.update({ where: { id: req.params.id }, data: { role, isActive } });
+    const { role, isActive, loyaltyPoints } = req.body;
+    const data = {};
+    if (role !== undefined) data.role = role;
+    if (isActive !== undefined) data.isActive = isActive;
+    if (loyaltyPoints !== undefined) data.loyaltyPoints = parseInt(loyaltyPoints);
+    const user = await prisma.user.update({ where: { id: req.params.id }, data });
     res.json({ success: true, user });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Eye, X, Check } from 'lucide-react';
+import { Search, Eye, X, Check, Pencil, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface User {
@@ -16,6 +16,7 @@ interface User {
   displayName?: string;
   role: string;
   isActive: boolean;
+  loyaltyPoints: number;
   createdAt: string;
 }
 
@@ -24,6 +25,8 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [editingUser, setEditingUser] = useState<string | null>(null);
+  const [editValues, setEditValues] = useState<{ role: string; loyaltyPoints: string }>({ role: '', loyaltyPoints: '' });
 
   useEffect(() => {
     fetchUsers();
@@ -96,6 +99,43 @@ export default function AdminUsersPage() {
     }
   };
 
+  const startEdit = (u: User) => {
+    setEditingUser(u.id);
+    setEditValues({ role: u.role, loyaltyPoints: String(u.loyaltyPoints ?? 0) });
+  };
+
+  const cancelEdit = () => {
+    setEditingUser(null);
+    setEditValues({ role: '', loyaltyPoints: '' });
+  };
+
+  const saveEdit = async (userId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) { toast.error('Please login first'); return; }
+
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({
+          role: editValues.role,
+          loyaltyPoints: parseInt(editValues.loyaltyPoints) || 0,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success('User updated successfully');
+        setEditingUser(null);
+        fetchUsers();
+      } else {
+        toast.error('Failed to update user');
+      }
+    } catch (error) {
+      console.error('Save edit error:', error);
+      toast.error('Failed to update user');
+    }
+  };
+
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
       case 'admin':
@@ -150,6 +190,7 @@ export default function AdminUsersPage() {
                 <th className="py-4 px-4 font-normal">Name</th>
                 <th className="py-4 px-4 font-normal">Email/Phone</th>
                 <th className="py-4 px-4 font-normal">Role</th>
+                <th className="py-4 px-4 font-normal">Loyalty Pts</th>
                 <th className="py-4 px-4 font-normal">Status</th>
                 <th className="py-4 px-4 font-normal">Joined</th>
                 <th className="py-4 px-4 font-normal text-right">Actions</th>
@@ -169,13 +210,41 @@ export default function AdminUsersPage() {
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <span className={`px-2 py-1 border text-[10px] uppercase tracking-widest font-medium ${u.role === 'admin' ? 'bg-purple-50 text-purple-700 border-purple-200' :
-                        u.role === 'distributor' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                          u.role === 'retailer' ? 'bg-green-50 text-green-700 border-green-200' :
-                            'bg-gray-50 text-gray-700 border-gray-200'
-                        }`}>
-                        {u.role}
-                      </span>
+                      {editingUser === u.id ? (
+                        <select
+                          value={editValues.role}
+                          onChange={(e) => setEditValues(v => ({ ...v, role: e.target.value }))}
+                          className="border border-gold/30 rounded-none text-xs px-2 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-gold"
+                        >
+                          <option value="customer">Customer</option>
+                          <option value="retailer">Retailer</option>
+                          <option value="distributor">Distributor</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      ) : (
+                        <span className={`px-2 py-1 border text-[10px] uppercase tracking-widest font-medium ${u.role === 'admin' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                          u.role === 'distributor' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                            u.role === 'retailer' ? 'bg-green-50 text-green-700 border-green-200' :
+                              'bg-gray-50 text-gray-700 border-gray-200'
+                          }`}>
+                          {u.role}
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-4 px-4">
+                      {editingUser === u.id ? (
+                        <input
+                          type="number"
+                          min="0"
+                          value={editValues.loyaltyPoints}
+                          onChange={(e) => setEditValues(v => ({ ...v, loyaltyPoints: e.target.value }))}
+                          className="border border-gold/30 rounded-none text-xs px-2 py-1 w-20 bg-white focus:outline-none focus:ring-1 focus:ring-gold"
+                        />
+                      ) : (
+                        <span className="text-sm font-medium text-amber-700">
+                          ⭐ {u.loyaltyPoints ?? 0}
+                        </span>
+                      )}
                     </td>
                     <td className="py-4 px-4">
                       <span className={`px-2 py-1 border text-[10px] uppercase tracking-widest font-medium ${u.isActive
@@ -190,31 +259,65 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="py-4 px-4 text-right">
                       <div className="flex justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Link href={`/admin/users/${u.id}`}>
-                          <Button variant="ghost" size="sm" title="View Details" className="h-8 w-8 p-0 text-gold hover:text-gold hover:bg-gold/10 rounded-none border border-transparent hover:border-gold/30">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </Link>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleToggleStatus(u.id, u.isActive)}
-                          title={u.isActive ? 'Deactivate' : 'Activate'}
-                          className={`h-8 w-8 p-0 rounded-none border border-transparent ${u.isActive ? 'text-red-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200' : 'text-green-500 hover:text-green-700 hover:bg-green-50 hover:border-green-200'}`}
-                        >
-                          {u.isActive ? (
-                            <X className="h-4 w-4" />
-                          ) : (
-                            <Check className="h-4 w-4" />
-                          )}
-                        </Button>
+                        {editingUser === u.id ? (
+                          <>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => saveEdit(u.id)}
+                              title="Save"
+                              className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-none border border-transparent hover:border-green-200"
+                            >
+                              <Save className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={cancelEdit}
+                              title="Cancel"
+                              className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-none border border-transparent hover:border-gray-200"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Link href={`/admin/users/${u.id}`}>
+                              <Button variant="ghost" size="sm" title="View Details" className="h-8 w-8 p-0 text-gold hover:text-gold hover:bg-gold/10 rounded-none border border-transparent hover:border-gold/30">
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </Link>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => startEdit(u)}
+                              title="Edit Role & Points"
+                              className="h-8 w-8 p-0 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-none border border-transparent hover:border-blue-200"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleToggleStatus(u.id, u.isActive)}
+                              title={u.isActive ? 'Deactivate' : 'Activate'}
+                              className={`h-8 w-8 p-0 rounded-none border border-transparent ${u.isActive ? 'text-red-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200' : 'text-green-500 hover:text-green-700 hover:bg-green-50 hover:border-green-200'}`}
+                            >
+                              {u.isActive ? (
+                                <X className="h-4 w-4" />
+                              ) : (
+                                <Check className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center">
+                  <td colSpan={7} className="py-16 text-center">
                     <div className="space-y-3">
                       <div className="text-gray-400 font-light italic text-sm">
                         {searchTerm ? 'No users found matching your search' : 'No users found in database'}

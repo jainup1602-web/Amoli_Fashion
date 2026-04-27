@@ -125,7 +125,16 @@ export default function AdminOrdersPage() {
               <tbody className="divide-y divide-gray-100">
                 {filteredOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-[#FDFBF7] transition-colors group">
-                    <td className="py-4 px-4 font-medium text-[#1C1C1C] tracking-wide">{order.orderId}</td>
+                    <td className="py-4 px-4 font-medium text-[#1C1C1C] tracking-wide">
+                      <div className="flex items-center gap-2">
+                        {order.orderNumber || order.orderId}
+                        {order.isGift && (
+                          <span className="text-[9px] px-1.5 py-0.5 font-bold tracking-widest uppercase text-white rounded-sm" style={{ backgroundColor: '#B76E79' }}>
+                            🎁 Gift
+                          </span>
+                        )}
+                      </div>
+                    </td>
                     <td className="py-4 px-4">
                       <div>
                         <p className="font-serif text-[#1C1C1C] text-lg leading-tight">{order.userId?.name || 'N/A'}</p>
