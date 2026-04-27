@@ -785,15 +785,18 @@ export default function HomePage() {
           )}
 
           {/* View All */}
-          <div className="text-center mt-10">
+          <div className="flex justify-end mt-10 pr-1">
             <Link href={
               activeTab === 'all' ? '/products' :
               activeTab === 'best-sellers' ? '/products?sortBy=salesCount' :
               `/products?category=${categories.find(c => c.id === activeTab)?.slug || ''}`
             }>
-              <Button variant="outline" className="text-white rounded-none tracking-[0.15em] uppercase text-xs px-10 py-5" style={{ backgroundColor: '#B76E79', borderColor: '#B76E79' }}>
-                View All
-              </Button>
+              <button className="group relative inline-flex items-center gap-3 px-8 py-3 overflow-hidden border transition-all duration-300"
+                style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#B76E79' }} />
+                <span className="relative font-elegant tracking-[0.25em] uppercase text-[11px] group-hover:text-white transition-colors duration-300">View All</span>
+                <ArrowRight className="relative h-3.5 w-3.5 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </button>
             </Link>
           </div>
         </div>
@@ -803,9 +806,10 @@ export default function HomePage() {
       <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
         <div className="w-full">
           {/* Section Header */}
-          <div className="flex justify-center mb-8">
-            <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#B76E79' }}>
-              <h2 className="text-xl font-fairplay text-white tracking-wide">Our Models</h2>
+          <div className="flex justify-end px-4 sm:px-8 mb-8">
+            <div className="relative inline-flex items-center gap-3 px-8 py-3 border" style={{ borderColor: '#B76E79' }}>
+              <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: '#B76E79' }} />
+              <h2 className="font-fairplay tracking-[0.2em] uppercase text-lg" style={{ color: '#B76E79' }}>Our Models</h2>
             </div>
           </div>
 
@@ -826,9 +830,10 @@ export default function HomePage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#B76E79', opacity: '0.3' }}></div>
           <div className="max-w-full">
             {/* Section Header - Button Style */}
-            <div className="flex justify-center lg:justify-start mb-12 px-4">
-              <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#B76E79' }}>
-                <h2 className="text-xl font-fairplay text-white tracking-wide">Featured Collection</h2>
+            <div className="flex justify-end mb-12 px-4">
+              <div className="relative inline-flex items-center gap-3 px-8 py-3 border" style={{ borderColor: '#B76E79' }}>
+                <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: '#B76E79' }} />
+                <h2 className="font-fairplay tracking-[0.2em] uppercase text-lg" style={{ color: '#B76E79' }}>Featured Collection</h2>
               </div>
             </div>
 
@@ -859,11 +864,14 @@ export default function HomePage() {
             </div>
 
             {/* View All Button */}
-            <div className="text-center mt-12">
+            <div className="flex justify-end mt-12 px-4">
               <Link href="/products">
-                <Button size="lg" className="px-12 text-white rounded-none tracking-[0.15em] uppercase transition-luxury" style={{ backgroundColor: '#B76E79' }}>
-                  View All Collection
-                </Button>
+                <button className="group relative inline-flex items-center gap-3 px-8 py-3 overflow-hidden border transition-all duration-300"
+                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                  <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#B76E79' }} />
+                  <span className="relative font-elegant tracking-[0.25em] uppercase text-[11px] group-hover:text-white transition-colors duration-300">View All Collection</span>
+                  <ArrowRight className="relative h-3.5 w-3.5 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                </button>
               </Link>
             </div>
           </div>
