@@ -1,53 +1,71 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
+    const authHeader = request.headers.get('authorization');
     
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    const response = await fetch(`${backendUrl}/api/admin/products/${params.slug}`, {
+    if (!authHeader) {
+      return NextResponse.json(
+        { success: false, message: 'Authorization required' },
+        { status: 401 }
+      );
+    }
+
+    const response = await fetch(`${BACKEND_URL}/api/admin/products/${params.slug}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': authHeader,
+        'Content-Type': 'application/json',
       },
     });
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-  } catch (error: any) {
+  } catch (error) {
+    console.error('Error proxying delete request:', error);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, message: 'Failed to delete product' },
       { status: 500 }
     );
   }
 }
 
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
-    const body = await request.json();
+    const authHeader = request.headers.get('authorization');
     
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    const response = await fetch(`${backendUrl}/api/admin/products/${params.slug}`, {
+    if (!authHeader) {
+      return NextResponse.json(
+        { success: false, message: 'Authorization required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+
+    const response = await fetch(`${BACKEND_URL}/api/admin/products/${params.slug}`, {
       method: 'PUT',
       headers: {
+        'Authorization': authHeader,
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-  } catch (error: any) {
+  } catch (error) {
+    console.error('Error proxying update request:', error);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, message: 'Failed to update product' },
       { status: 500 }
     );
   }

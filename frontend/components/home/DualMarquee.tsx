@@ -87,11 +87,11 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
             x: {
               repeat: Infinity,
               repeatType: 'loop',
-              duration: 40,
+              duration: 60,
               ease: 'linear',
             },
           }}
-          style={{ width: 'fit-content' }}
+          style={{ width: 'fit-content', willChange: 'transform' }}
         >
           {duplicatedRow1.map((item, index) => (
             <Link
@@ -135,11 +135,11 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
             x: {
               repeat: Infinity,
               repeatType: 'loop',
-              duration: 40,
+              duration: 60,
               ease: 'linear',
             },
           }}
-          style={{ width: 'fit-content' }}
+          style={{ width: 'fit-content', willChange: 'transform' }}
         >
           {duplicatedRow2.map((item, index) => (
             <Link
