@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Pencil, Trash2, GripVertical, Eye, EyeOff } from 'lucide-react';
-import { ImageUploadField } from '@/components/admin/ImageUploadField';
+import ImageUploadField from '@/components/admin/ImageUploadField';
 import toast from 'react-hot-toast';
 
 interface MarqueeItem {

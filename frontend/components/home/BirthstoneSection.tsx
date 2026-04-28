@@ -91,10 +91,10 @@ export function BirthstoneSection() {
             </div>
 
             {/* Circular Curved Text (SVG) */}
-            <div className="absolute top-[-30px] left-[-10px] lg:left-[-30px] w-full z-20 pointer-events-none opacity-90 hidden sm:block">
-               <svg viewBox="0 0 300 300" className="w-[380px] h-[380px] lg:w-[420px] lg:h-[420px] drop-shadow-md">
-                 <path id="arch-path" d="M 30, 150 A 120,120 0 0,1 270,150" fill="transparent" />
-                 <text fill="white" className="font-serif text-[14px] tracking-[0.15em]">
+            <div className="absolute top-[-20px] left-[5%] sm:left-[10%] lg:left-[15%] w-[85%] max-w-[420px] aspect-[1/1] z-20 pointer-events-none opacity-90 hidden sm:block">
+               <svg viewBox="0 0 300 300" className="w-full h-full drop-shadow-md">
+                 <path id="arch-path" d="M 35, 160 A 115,115 0 0,1 265,160" fill="transparent" />
+                 <text fill="white" className="font-serif text-[11px] tracking-[0.15em]">
                    <textPath href="#arch-path" startOffset="50%" textAnchor="middle">
                      {data.archText}
                    </textPath>
