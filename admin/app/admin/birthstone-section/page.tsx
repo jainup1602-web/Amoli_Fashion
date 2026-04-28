@@ -18,7 +18,6 @@ export default function BirthstoneSectionAdmin() {
   const [saving, setSaving] = useState(false);
 
   const [formData, setFormData] = useState({
-    archText: "Embrace Your Birthstone's Power And Beauty",
     subtitle: "Born To Shine, Crafted To Last",
     title: "A Gem For Every Birthday, A Story For Every Stone",
     description: "Vestibulum Vehicula Nunc Ad Fringilla Pretium Ex Ac Praesent Vitae...",
@@ -41,7 +40,10 @@ export default function BirthstoneSectionAdmin() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('/api/admin/settings');
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/admin/settings', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const data = await res.json();
       if (data.success && data.settings?.birthstone_section) {
         setFormData(data.settings.birthstone_section);
@@ -58,9 +60,13 @@ export default function BirthstoneSectionAdmin() {
     setSaving(true);
     
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch('/api/admin/settings', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({ birthstone_section: formData }),
       });
 
@@ -142,15 +148,6 @@ export default function BirthstoneSectionAdmin() {
           <Card className="p-6">
             <h2 className="text-xl font-semibold mb-4 border-b pb-2">Text Content</h2>
             <div className="grid gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Arch Curved Text (Left Image)</label>
-                <Input
-                  value={formData.archText}
-                  onChange={(e) => setFormData({ ...formData, archText: e.target.value })}
-                  placeholder="Embrace Your Birthstone's Power And Beauty"
-                  required
-                />
-              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Subtitle (Small Uppercase)</label>

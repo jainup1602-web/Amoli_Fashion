@@ -10,7 +10,6 @@ interface Stat {
 }
 
 interface BirthstoneData {
-  archText: string;
   subtitle: string;
   title: string;
   description: string;
@@ -23,7 +22,6 @@ interface BirthstoneData {
 }
 
 const defaultData: BirthstoneData = {
-  archText: "Embrace Your Birthstone's Power And Beauty",
   subtitle: "Born To Shine, Crafted To Last",
   title: "A Gem For Every Birthday, A Story For Every Stone",
   description: "Vestibulum Vehicula Nunc Ad Fringilla Pretium Ex Ac Praesent Vitae. Conubia Egestas Porta Per Maximus Sem Congue! Vulputate Tristique Interdum Consectetur Mollis Nulla Etiam Quam Lacinia Molestie. Class A Vestibulum Amet Iaculis Auctor Facilisis. Diam Facilisis Nascetur Morbi Consequat Primis Proin Lacus. Erat Urna Taciti Luctus Vel Bibendum Porta.",
@@ -88,18 +86,6 @@ export function BirthstoneSection() {
                 alt="Model"
                 className="w-full h-full object-cover object-top"
               />
-            </div>
-
-            {/* Circular Curved Text (SVG) */}
-            <div className="absolute top-[-20px] left-[5%] sm:left-[10%] lg:left-[15%] w-[85%] max-w-[420px] aspect-[1/1] z-20 pointer-events-none opacity-90 hidden sm:block">
-               <svg viewBox="0 0 300 300" className="w-full h-full drop-shadow-md">
-                 <path id="arch-path" d="M 35, 160 A 115,115 0 0,1 265,160" fill="transparent" />
-                 <text fill="white" className="font-serif text-[11px] tracking-[0.15em]">
-                   <textPath href="#arch-path" startOffset="50%" textAnchor="middle">
-                     {data.archText}
-                   </textPath>
-                 </text>
-               </svg>
             </div>
 
             {/* Circular Know More Button */}
