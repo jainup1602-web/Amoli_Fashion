@@ -35,6 +35,7 @@ const menuItems = [
   { title: 'Banners', href: '/admin/banners', icon: ImageIcon },
   { title: 'Showcases', href: '/admin/showcases', icon: Grid },
   { title: 'Popups', href: '/admin/popups', icon: Plus },
+  { title: 'Birthstone Section', href: '/admin/birthstone-section', icon: Star },
   { title: 'CMS Pages', href: '/admin/cms-pages', icon: File },
   { title: 'Newsletter', href: '/admin/newsletter', icon: Mail },
   { title: 'Shipping', href: '/admin/shipping', icon: Truck },

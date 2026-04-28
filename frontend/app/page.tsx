@@ -8,6 +8,7 @@ import { ProductCard } from '@/components/products/ProductCard';
 import { Truck, Package, RefreshCw, Phone, ChevronLeft, ChevronRight, ChevronRight as ArrowRight, Star, SlidersHorizontal, X } from 'lucide-react';
 import { OfferPopup } from '@/components/common/OfferPopup';
 import { DualMarquee } from '@/components/home/DualMarquee';
+import { BirthstoneSection } from '@/components/home/BirthstoneSection';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Product {
@@ -820,6 +821,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Birthstone / Special Section */}
+      <BirthstoneSection />
 
       {/* Model Gallery Section */}
       <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
