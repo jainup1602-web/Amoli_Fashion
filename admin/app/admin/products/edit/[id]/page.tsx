@@ -115,6 +115,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       if (!token) { alertError('Please login first'); setLoading(false); return; }
 
       const productData = {
+        id: params.id,
         name: formData.name,
         slug: formData.slug,
         sku: formData.sku,
@@ -129,7 +130,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         isFeatured: formData.isFeatured,
       };
 
-      const res = await fetch(`/api/products/${productSlug}`, {
+      const res = await fetch(`/api/products`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(productData),
@@ -158,7 +159,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       const token = await getAuthToken();
       if (!token) { alertError('Please login first'); return; }
 
-      const res = await fetch(`/api/admin/products/${productSlug}`, {
+      const res = await fetch(`/api/products?id=${params.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

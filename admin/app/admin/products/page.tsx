@@ -32,7 +32,7 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleDelete = async (slug: string) => {
+  const handleDelete = async (id: string) => {
     const ok = await confirmDelete('this product');
     if (!ok) return;
 
@@ -45,7 +45,7 @@ export default function AdminProductsPage() {
         return;
       }
 
-      const res = await fetch(`/api/admin/products/${slug}`, {
+      const res = await fetch(`/api/products?id=${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -183,7 +183,7 @@ export default function AdminProductsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleDelete(product.slug)}
+                          onClick={() => handleDelete(product.id)}
                           className="h-8 w-8 p-0 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-none border border-transparent hover:border-red-200"
                         >
                           <Trash2 className="h-4 w-4" />
