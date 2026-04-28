@@ -81,56 +81,80 @@ export function OfferPopup() {
   if (!isVisible || !popupData) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center" style={{ width: '100vw', height: '100vh', left: 0, top: 0 }}>
-      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-xs overflow-hidden">
-        {/* Close */}
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col md:flex-row min-h-[450px]">
+        {/* Close Button */}
         <button
           onClick={closePopup}
-          className="absolute top-2.5 right-2.5 z-10 text-white/80 hover:text-white transition-colors"
+          className="absolute top-3 right-3 z-20 text-gray-500 hover:text-gray-800 transition-colors bg-white/80 hover:bg-white rounded-full p-1.5 shadow-sm"
         >
           <X className="h-4 w-4" />
         </button>
 
-        {/* Header */}
-        <div
-          className="relative px-5 pt-6 pb-5 text-center text-white"
-          style={{ backgroundColor: '#B76E79' }}
-        >
-          {popupData.image && (
-            <img src={popupData.image} alt={popupData.title} className="absolute inset-0 w-full h-full object-cover opacity-20" />
+        {/* Left Side: Content */}
+        <div className="flex-1 flex flex-col justify-center text-center px-8 py-10 md:py-12 bg-white relative z-10">
+          <Star className="h-8 w-8 mx-auto mb-4" style={{ color: '#B76E79' }} />
+          
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold tracking-wide text-gray-900 mb-2">
+            {popupData.title}
+          </h2>
+          
+          {popupData.subtitle && (
+            <p className="text-xs tracking-[0.2em] uppercase mb-4" style={{ color: '#B76E79' }}>
+              {popupData.subtitle}
+            </p>
           )}
-          <div className="relative z-10">
-            <Star className="h-5 w-5 mx-auto mb-2 opacity-80" />
-            <h2 className="text-base font-serif font-semibold tracking-wide">{popupData.title}</h2>
-            {popupData.subtitle && (
-              <p className="text-[10px] mt-0.5 opacity-75 tracking-widest uppercase">{popupData.subtitle}</p>
-            )}
-          </div>
-        </div>
 
-        {/* Body */}
-        <div className="px-5 py-4 text-center">
           {popupData.description && (
-            <p className="text-gray-600 text-xs leading-relaxed mb-3">{popupData.description}</p>
+            <p className="text-gray-600 text-sm leading-relaxed mb-6 px-2">
+              {popupData.description}
+            </p>
           )}
 
           {popupData.offerText && (
-            <div className="border rounded px-3 py-2 mb-4" style={{ borderColor: '#B76E79', backgroundColor: '#fdf5f6' }}>
-              <p className="text-xs font-medium" style={{ color: '#B76E79' }}>{popupData.offerText}</p>
+            <div
+              className="border border-dashed rounded-lg px-4 py-3 mb-6 mx-auto w-full max-w-xs"
+              style={{ borderColor: '#B76E79', backgroundColor: '#fdf5f6' }}
+            >
+              <p className="text-sm font-medium" style={{ color: '#B76E79' }}>
+                {popupData.offerText}
+              </p>
             </div>
           )}
 
           <button
             onClick={handleButtonClick}
-            className="w-full text-white py-2.5 rounded text-xs font-semibold tracking-wider uppercase transition-opacity hover:opacity-90"
+            className="w-full max-w-xs mx-auto text-white py-3 px-6 rounded text-sm font-semibold tracking-wider uppercase transition-opacity hover:opacity-90 shadow-md"
             style={{ backgroundColor: '#B76E79' }}
           >
             {popupData.buttonText}
           </button>
 
-          <button onClick={closePopup} className="mt-2 w-full text-gray-400 hover:text-gray-600 text-[10px] transition-colors">
+          <button
+            onClick={closePopup}
+            className="mt-4 w-full text-gray-400 hover:text-gray-600 text-xs transition-colors underline-offset-4 hover:underline"
+          >
             No thanks
           </button>
+        </div>
+
+        {/* Right Side: Image */}
+        <div className="flex-1 relative hidden md:block bg-gray-100">
+          {popupData.image ? (
+            <img
+              src={popupData.image}
+              alt={popupData.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 w-full h-full bg-[#B76E79]">
+              <img
+                src="https://images.unsplash.com/photo-1599643478524-fb66f70d00a8?q=80&w=1000&auto=format&fit=crop"
+                alt="Jewelry Offer"
+                className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
