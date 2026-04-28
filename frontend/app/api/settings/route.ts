@@ -10,7 +10,11 @@ export async function GET() {
     // Convert array of settings to object
     const settings: any = {};
     settingsRecords.forEach(record => {
-      settings[record.key] = record.value;
+      try {
+        settings[record.key] = JSON.parse(record.value);
+      } catch (e) {
+        settings[record.key] = record.value;
+      }
     });
 
     // Create default settings if none exist
@@ -26,7 +30,7 @@ export async function GET() {
 
       for (const [key, value] of Object.entries(defaults)) {
         await prisma.settings.create({
-          data: { key, value },
+          data: { key, value: String(value) },
         });
         settings[key] = value;
       }
