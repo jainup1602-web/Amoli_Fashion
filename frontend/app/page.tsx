@@ -681,12 +681,13 @@ export default function HomePage() {
             </h2>
           </div>
 
-          {/* Toolbar: FILTERS button + dropdowns */}
-          <div className="flex items-center gap-2 mb-6 sm:mb-8">
-            {/* FILTERS button */}
+          {/* Toolbar: Filters & Dropdowns */}
+          <div className="flex items-center justify-between gap-4 mb-8">
+            
+            {/* Mobile FILTERS button */}
             <button
               onClick={() => setFilterSidebarOpen(true)}
-              className="flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase border border-gray-200 px-2.5 py-2 hover:border-[#B76E79] transition-colors flex-shrink-0"
+              className="lg:hidden flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase border border-gray-200 px-3 py-2 hover:border-[#B76E79] transition-colors flex-shrink-0"
               style={{ color: '#B76E79' }}
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
@@ -696,15 +697,39 @@ export default function HomePage() {
               )}
             </button>
 
-            <div className="flex-1" />
+            {/* Desktop Inline Filters */}
+            <div className="hidden lg:flex items-center gap-3 flex-1 flex-wrap">
+              {[{ id: 'all', name: 'All Collection' }, { id: 'best-sellers', name: 'Best Sellers' }, ...categories].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    if (cat.id === 'all') handleTabChange('all');
+                    else if (cat.id === 'best-sellers') handleTabChange('best-sellers');
+                    else handleTabChange(cat.id, cat.id);
+                  }}
+                  className="text-[10px] sm:text-xs tracking-[0.1em] uppercase font-elegant transition-all duration-300 border px-3 py-1.5 sm:py-2"
+                  style={{ 
+                    color: activeTab === cat.id ? '#B76E79' : '#4b5563',
+                    borderColor: activeTab === cat.id ? '#B76E79' : '#e5e7eb',
+                    backgroundColor: activeTab === cat.id ? 'rgba(183, 110, 121, 0.05)' : 'transparent',
+                    fontWeight: activeTab === cat.id ? 500 : 400
+                  }}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Spacer for Mobile */}
+            <div className="flex-1 lg:hidden" />
 
             {/* Dropdowns */}
-            <div className="flex-shrink-0 flex items-center gap-1.5">
+            <div className="flex-shrink-0 flex items-center gap-2">
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value)}
-                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[9px] px-1.5 py-1 sm:text-xs sm:px-2 sm:py-1.5"
-                style={{ borderColor: '#B76E79', color: '#B76E79', backgroundColor: 'transparent' }}
+                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[10px] px-2 py-1.5 sm:text-xs sm:px-3 sm:py-2 transition-colors hover:border-[#B76E79]"
+                style={{ borderColor: '#e5e7eb', color: '#B76E79', backgroundColor: 'transparent' }}
               >
                 <option value="featured">Featured</option>
                 <option value="newest">Newest</option>
@@ -715,8 +740,8 @@ export default function HomePage() {
               <select
                 value={perPage}
                 onChange={(e) => setPerPage(Number(e.target.value))}
-                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[9px] px-1.5 py-1 sm:text-xs sm:px-2 sm:py-1.5"
-                style={{ borderColor: '#B76E79', color: '#B76E79', backgroundColor: 'transparent' }}
+                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[10px] px-2 py-1.5 sm:text-xs sm:px-3 sm:py-2 transition-colors hover:border-[#B76E79]"
+                style={{ borderColor: '#e5e7eb', color: '#B76E79', backgroundColor: 'transparent' }}
               >
                 <option value={8}>8</option>
                 <option value={12}>12</option>
@@ -861,12 +886,11 @@ export default function HomePage() {
         <section className="py-16 relative" style={{ backgroundColor: '#F8F6F2' }}>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#B76E79', opacity: '0.3' }}></div>
           <div className="max-w-full">
-            {/* Section Header - Button Style */}
-            <div className="flex justify-end mb-12 px-4">
-              <div className="relative inline-flex items-center gap-3 px-8 py-3 border" style={{ borderColor: '#B76E79' }}>
-                <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: '#B76E79' }} />
-                <h2 className="font-fairplay tracking-[0.2em] uppercase text-lg" style={{ color: '#B76E79' }}>Featured Collection</h2>
-              </div>
+            {/* Elegant Section Header */}
+            <div className="text-center mb-12 px-4">
+              <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#B76E79] mb-4 font-elegant drop-shadow-sm">Exclusive Selections</p>
+              <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">Featured Collection</h2>
+              <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#B76E79' }} />
             </div>
 
             {/* Dynamic Grid - 2 Images per Row */}
@@ -913,10 +937,11 @@ export default function HomePage() {
       {/* Video Reviews Section */}
       <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
         <div className="w-full">
-          <div className="flex justify-center mb-8">
-            <div className="text-white px-8 py-3 rounded-none" style={{ backgroundColor: '#B76E79' }}>
-              <h2 className="text-xl font-fairplay text-white tracking-wide">Customer Reviews</h2>
-            </div>
+          {/* Elegant Section Header */}
+          <div className="text-center mb-12 px-4">
+            <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#B76E79] mb-4 font-elegant drop-shadow-sm">Client Diaries</p>
+            <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">Customer Reviews</h2>
+            <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#B76E79' }} />
           </div>
           <VideoReviewCarousel reviews={videoReviews} />
         </div>
