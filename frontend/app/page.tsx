@@ -9,6 +9,7 @@ import { Truck, Package, RefreshCw, Phone, ChevronLeft, ChevronRight, ChevronRig
 import { OfferPopup } from '@/components/common/OfferPopup';
 import { DualMarquee } from '@/components/home/DualMarquee';
 import { BirthstoneSection } from '@/components/home/BirthstoneSection';
+import { ServicesSection } from '@/components/home/ServicesSection';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Product {
@@ -146,7 +147,7 @@ function VideoReviewCarousel({ reviews }: { reviews: any[] }) {
   );
 }
 
-// Model Gallery Slider — 3D coverflow, center card upright, sides tilted inward
+// Model Gallery Slider — Premium 3D coverflow with 5 visible cards
 function ModelGallerySlider({ models }: { models: any[] }) {
   const [active, setActive] = useState(0);
   const total = models.length;
@@ -171,88 +172,105 @@ function ModelGallerySlider({ models }: { models: any[] }) {
     const diff = ((index - active) % total + total) % total;
     const d = diff > total / 2 ? diff - total : diff; // -2 -1 0 1 2
 
+    // Using percentages for translateX ensures perfect scaling across devices
     if (d === 0) return {
-      transform: 'translateX(0px) translateZ(0px) rotateY(0deg) scale(1)',
+      transform: 'translateX(0%) translateZ(80px) rotateY(0deg) scale(1.1)',
       zIndex: 10, opacity: 1,
+      boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.4)'
     };
     if (Math.abs(d) === 1) return {
-      transform: `translateX(${d * 280}px) translateZ(-80px) rotateY(${d * -30}deg) scale(0.82)`,
-      zIndex: 7, opacity: 1,
+      transform: `translateX(${d * 75}%) translateZ(-80px) rotateY(${d * -20}deg) scale(0.85)`,
+      zIndex: 7, opacity: 0.95,
+      boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.3)',
+      filter: 'brightness(0.8)'
     };
     if (Math.abs(d) === 2) return {
-      transform: `translateX(${d * 480}px) translateZ(-160px) rotateY(${d * -45}deg) scale(0.62)`,
-      zIndex: 4, opacity: 0.85,
+      transform: `translateX(${d * 135}%) translateZ(-200px) rotateY(${d * -35}deg) scale(0.65)`,
+      zIndex: 4, opacity: 0.8,
+      boxShadow: '0 10px 25px -15px rgba(0, 0, 0, 0.2)',
+      filter: 'brightness(0.5)'
     };
-    return { transform: `translateX(${d * 600}px) scale(0.3)`, zIndex: 0, opacity: 0 };
+    return { transform: `translateX(${d * 200}%) translateZ(-400px) scale(0.4)`, zIndex: 0, opacity: 0 };
   };
 
+  if (total === 0) return null;
+
   return (
-    <div className="w-full py-12" style={{ backgroundColor: '#F8F6F2' }}>
-      <p className="text-center text-xs tracking-[0.3em] uppercase text-gray-400 mb-10 font-elegant">For Every You</p>
+    <div className="w-full py-20 overflow-hidden relative" style={{ backgroundColor: '#F9F8F6' }}>
+      
+      {/* Decorative Background Skew Element */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[65%] bg-[#f1ede8] -skew-y-2 z-0 opacity-70" />
 
-      {/* Stage — overflow visible so ±2 cards show at edges */}
-      <div className="relative flex items-center justify-center" style={{ height: 'clamp(460px, 72vh, 700px)', perspective: '1400px', overflow: 'visible' }}>
+      <div className="relative z-10">
+        <div className="text-center mb-16">
+          <p className="text-xs sm:text-sm tracking-[0.4em] uppercase text-[#B76E79] font-elegant drop-shadow-sm mb-4">The Signature Edit</p>
+          <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">Curated Masterpieces</h2>
+        </div>
 
-        {/* Left arrow */}
-        <button onClick={prev}
-          className="absolute left-4 sm:left-8 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white border border-gray-200 shadow-md flex items-center justify-center transition-all"
-          style={{ color: '#B76E79' }}>
-          <ChevronLeft className="h-5 w-5" />
-        </button>
+        {/* Stage */}
+        <div className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto" style={{ height: 'clamp(400px, 65vh, 650px)', perspective: '1600px' }}>
+          
+          {/* Left Arrow */}
+          <button onClick={prev} className="absolute left-2 sm:left-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#B76E79] shadow-lg hover:scale-110">
+            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
 
-        {/* Cards */}
-        {models.map((model, index) => {
-          const diff = ((index - active) % total + total) % total;
-          const d = diff > total / 2 ? diff - total : diff;
-          if (Math.abs(d) > 2) return null;
-          return (
-            <div
-              key={model.id}
-              onClick={() => { if (d !== 0) { setActive(index); startAuto(); } }}
-              className="absolute"
-              style={{
-                width: 'clamp(200px, 26vw, 360px)',
-                height: 'clamp(340px, 60vh, 640px)',
-                transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                cursor: d !== 0 ? 'pointer' : 'default',
-                transformStyle: 'preserve-3d',
-                ...getStyle(index),
-              }}
-            >
-              <div className="w-full h-full relative overflow-hidden shadow-2xl" style={{ borderRadius: '2px' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={model.image}
-                  alt={model.modelName}
-                  className="w-full h-full object-cover object-top"
-                  draggable={false}
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent pt-12 pb-5 px-4">
-                  <p className="text-white text-xs tracking-[0.25em] uppercase font-elegant text-center">
-                    {model.category || model.modelName}
-                  </p>
+          {/* Cards */}
+          {models.map((model, index) => {
+            const diff = ((index - active) % total + total) % total;
+            const d = diff > total / 2 ? diff - total : diff;
+            if (Math.abs(d) > 2) return null; // Show 5 cards
+            return (
+              <div
+                key={model.id}
+                onClick={() => { if (d !== 0) { setActive(index); startAuto(); } }}
+                className="absolute top-0 bottom-0 flex items-center justify-center"
+                style={{
+                  width: 'clamp(200px, 28vw, 400px)',
+                  transition: 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  cursor: d !== 0 ? 'pointer' : 'default',
+                  transformStyle: 'preserve-3d',
+                  ...getStyle(index),
+                }}
+              >
+                <div className="w-full h-[85%] relative overflow-hidden group bg-white shadow-2xl transition-all duration-700" style={{ borderRadius: '0px' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={model.image}
+                    alt={model.modelName}
+                    className="w-full h-full object-cover object-center transition-transform duration-[1.5s] group-hover:scale-105"
+                    draggable={false}
+                  />
+                  {/* Bottom Gradient for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+                  
+                  {/* Unique Title Tag */}
+                  <div className="absolute bottom-8 left-0 right-0 px-4 text-center">
+                    <p className="text-white text-[10px] sm:text-[11px] md:text-xs tracking-[0.35em] uppercase font-elegant drop-shadow-lg transition-transform duration-500 group-hover:-translate-y-1">
+                      {model.category || model.modelName}
+                    </p>
+                    <div className="w-0 h-[1px] bg-white mx-auto mt-3 transition-all duration-700 group-hover:w-12 opacity-80" />
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        {/* Right arrow */}
-        <button onClick={next}
-          className="absolute right-4 sm:right-8 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white border border-gray-200 shadow-md flex items-center justify-center transition-all"
-          style={{ color: '#B76E79' }}>
-          <ChevronRight className="h-5 w-5" />
-        </button>
-      </div>
+          {/* Right Arrow */}
+          <button onClick={next} className="absolute right-2 sm:right-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#B76E79] shadow-lg hover:scale-110">
+            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
+        </div>
 
-      {/* Dots */}
-      <div className="flex justify-center mt-6 gap-2">
-        {models.map((_, i) => (
-          <button key={i} onClick={() => { setActive(i); startAuto(); }}
-            className="h-1.5 rounded-full transition-all duration-300"
-            style={{ width: active === i ? '28px' : '6px', backgroundColor: active === i ? '#B76E79' : '#d1d5db' }}
-          />
-        ))}
+        {/* Dots */}
+        <div className="flex justify-center mt-12 gap-3">
+          {models.map((_, i) => (
+            <button key={i} onClick={() => { setActive(i); startAuto(); }}
+              className="h-1.5 rounded-full transition-all duration-500 shadow-sm"
+              style={{ width: active === i ? '36px' : '8px', backgroundColor: active === i ? '#B76E79' : '#d1d5db' }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -603,6 +621,7 @@ export default function HomePage() {
         </div>
       </section>
 
+
       {/* Category Section */}
       <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -825,27 +844,17 @@ export default function HomePage() {
       {/* Birthstone / Special Section */}
       <BirthstoneSection />
 
-      {/* Model Gallery Section */}
-      <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
-        <div className="w-full">
-          {/* Section Header */}
-          <div className="flex justify-end px-4 sm:px-8 mb-8">
-            <div className="relative inline-flex items-center gap-3 px-8 py-3 border" style={{ borderColor: '#B76E79' }}>
-              <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: '#B76E79' }} />
-              <h2 className="font-fairplay tracking-[0.2em] uppercase text-lg" style={{ color: '#B76E79' }}>Our Models</h2>
-            </div>
-          </div>
+      {/* Services Section */}
+      <ServicesSection />
 
-          {/* Models Slider - Full Width */}
-          {modelGallery.length > 0 ? (
-            <ModelGallerySlider models={modelGallery} />
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-500">Loading models...</p>
-            </div>
-          )}
+      {/* Premium Model Gallery Section */}
+      {modelGallery.length > 0 ? (
+        <ModelGallerySlider models={modelGallery} />
+      ) : (
+        <div className="text-center py-20" style={{ backgroundColor: '#F9F8F6' }}>
+          <p className="text-gray-400 font-elegant tracking-[0.2em] uppercase">Loading Collections...</p>
         </div>
-      </section>
+      )}
 
       {/* Showcases Section - Dynamic from Admin Panel */}
       {showcases.length > 0 && (
