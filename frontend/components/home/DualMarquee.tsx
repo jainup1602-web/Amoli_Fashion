@@ -76,22 +76,27 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
         </div>
       )}
 
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes marqueeLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(calc(-100% / 3)); }
+        }
+        @keyframes marqueeRight {
+          0% { transform: translateX(calc(-100% / 3)); }
+          100% { transform: translateX(0); }
+        }
+      `}} />
+
       {/* Row 1 - Right to Left */}
-      <div className="relative mb-8 overflow-hidden">
-        <motion.div
-          className="flex gap-8 whitespace-nowrap"
-          animate={{
-            x: isPaused ? undefined : [0, -100 / 3 + '%'],
+      <div className="relative mb-8 overflow-hidden py-4 -my-4">
+        <div
+          className="flex gap-8 whitespace-nowrap items-center"
+          style={{ 
+            width: 'fit-content', 
+            willChange: 'transform',
+            animation: 'marqueeLeft 60s linear infinite', 
+            animationPlayState: isPaused ? 'paused' : 'running' 
           }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 60,
-              ease: 'linear',
-            },
-          }}
-          style={{ width: 'fit-content', willChange: 'transform' }}
         >
           {duplicatedRow1.map((item, index) => (
             <Link
@@ -118,28 +123,29 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               >
                 {item.text}
               </span>
-              <span className="text-2xl" style={{ color: '#B76E79' }}>✦</span>
+              <motion.span 
+                className="text-2xl inline-block" 
+                style={{ color: '#B76E79' }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              >
+                ✦
+              </motion.span>
             </Link>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Row 2 - Left to Right */}
-      <div className="relative overflow-hidden">
-        <motion.div
-          className="flex gap-8 whitespace-nowrap"
-          animate={{
-            x: isPaused ? undefined : [-100 / 3 + '%', 0],
+      <div className="relative overflow-hidden py-4 -my-4">
+        <div
+          className="flex gap-8 whitespace-nowrap items-center"
+          style={{ 
+            width: 'fit-content', 
+            willChange: 'transform',
+            animation: 'marqueeRight 60s linear infinite', 
+            animationPlayState: isPaused ? 'paused' : 'running' 
           }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 60,
-              ease: 'linear',
-            },
-          }}
-          style={{ width: 'fit-content', willChange: 'transform' }}
         >
           {duplicatedRow2.map((item, index) => (
             <Link
@@ -166,10 +172,17 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               >
                 {item.text}
               </span>
-              <span className="text-2xl" style={{ color: '#B76E79' }}>✦</span>
+              <motion.span 
+                className="text-2xl inline-block" 
+                style={{ color: '#B76E79' }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              >
+                ✦
+              </motion.span>
             </Link>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Cursor-following hover image */}
