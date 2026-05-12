@@ -96,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // User was manually logged out but Firebase still has session
             console.log('🚫 User was manually logged out, signing out from Firebase...');
             const { signOut } = await import('firebase/auth');
-            await signOut(auth);
+            if (auth) await signOut(auth);
             return;
           } else {
             // User logged out - clear Redux state, localStorage, and sessionStorage

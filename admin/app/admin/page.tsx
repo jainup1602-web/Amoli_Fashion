@@ -117,6 +117,7 @@ export default function AdminDashboard() {
   ];
 
   const getStatusColor = (status: string) => {
+    if (!status) return 'bg-gray-50 text-gray-700 border border-gray-200';
     switch (status.toLowerCase()) {
       case 'completed':
       case 'delivered':
@@ -196,13 +197,13 @@ export default function AdminDashboard() {
               recentOrders.map((order) => (
                 <div key={order.id} className="flex items-center justify-between py-4 border-b border-gray-100 last:border-0 group hover:bg-[#FDFBF7] px-2 -mx-2 transition-colors">
                   <div>
-                    <p className="font-medium text-[#1C1C1C] tracking-wide">{order.orderNumber || `#${order.id.slice(-8)}`}</p>
+                    <p className="font-medium text-[#1C1C1C] tracking-wide">{order.orderNumber || (order.id ? `#${order.id.slice(-8)}` : 'Unknown Order')}</p>
                     <p className="text-xs text-gray-500 mt-1 font-light">
                       {order.userId?.displayName || order.userId?.email || 'Unknown'}
                     </p>
                   </div>
                   <div className="text-right flex flex-col items-end">
-                    <p className="font-medium text-[#1C1C1C]">{formatPrice(order.total)}</p>
+                    <p className="font-medium text-[#1C1C1C]">{formatPrice(order.total || 0)}</p>
                     <span className={`text-[10px] px-2 py-0.5 uppercase tracking-widest mt-1 font-medium ${getStatusColor(order.status)}`}>
                       {order.status}
                     </span>

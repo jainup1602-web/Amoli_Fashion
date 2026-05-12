@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
           user: {
             select: { displayName: true, email: true, phoneNumber: true },
           },
-          items: true,
+          orderitem: true,
         },
       }),
       prisma.order.count({ where }),

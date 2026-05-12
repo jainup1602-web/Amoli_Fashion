@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const page = await prisma.cmsPage.findFirst({
+    const page = await prisma.cmspage.findFirst({
       where: {
         slug: params.slug,
         isActive: true,

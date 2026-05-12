@@ -23,7 +23,7 @@ export async function GET(
         user: {
           select: { displayName: true, email: true, phoneNumber: true },
         },
-        items: {
+        orderitem: {
           include: {
             product: {
               select: { name: true, images: true },

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Facebook, Instagram, Youtube, ChevronDown } from 'lucide-react';
+import { Mail, Phone, MapPin, ChevronDown } from 'lucide-react';
 import { useAppSelector } from '@/store/hooks';
 
 function AccordionSection({ title, children }: { title: string; children: React.ReactNode }) {
@@ -46,12 +46,18 @@ export function Footer() {
             {settings?.siteDescription || 'Premium jewellery crafted with care in Rajasthan.'}
           </p>
           <div className="flex justify-center gap-3">
-            <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Facebook className="h-4 w-4" /></a>
-            <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Instagram className="h-4 w-4" /></a>
+            <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+            </a>
+            <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
             <a href={settings?.socialLinks?.twitter || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-            <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Youtube className="h-4 w-4" /></a>
+            <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/></svg>
+            </a>
           </div>
         </div>
 
@@ -61,8 +67,8 @@ export function Footer() {
             <li><Link href="/account/orders" className="hover:text-[#B76E79] transition-colors">Track Your Order</Link></li>
             <li><Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms And Conditions</Link></li>
             <li><Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy Policy</Link></li>
-            <li><Link href="/faq" className="hover:text-[#B76E79] transition-colors">Return Policy</Link></li>
-            <li><Link href="/faq" className="hover:text-[#B76E79] transition-colors">Exchange / Return</Link></li>
+            <li><Link href="/shipping-policy" className="hover:text-[#B76E79] transition-colors">Shipping & Delivery</Link></li>
+            <li><Link href="/return-policy" className="hover:text-[#B76E79] transition-colors">Return & Exchange Policy</Link></li>
           </ul>
         </AccordionSection>
 
@@ -114,6 +120,7 @@ export function Footer() {
           </div>
           <p>&copy; 2026 Amoli Fashion Jewellery. All Rights Reserved.</p>
           <div className="flex justify-center gap-4 mt-2">
+            <Link href="/shipping-policy" className="hover:text-[#B76E79] transition-colors">Shipping</Link>
             <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
             <Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy</Link>
           </div>
@@ -132,12 +139,18 @@ export function Footer() {
               {settings?.siteDescription || 'Premium copper and stainless steel jewelry. Nickel-free, skin-friendly, and crafted with care in Rajasthan.'}
             </p>
             <div className="flex space-x-3">
-              <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Facebook className="h-4 w-4" /></a>
-              <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Instagram className="h-4 w-4" /></a>
+              <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+              </a>
+              <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
             <a href={settings?.socialLinks?.twitter || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Youtube className="h-4 w-4" /></a>
+              <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/></svg>
+              </a>
             </div>
           </div>
 
@@ -162,6 +175,8 @@ export function Footer() {
               <li><Link href="/account/orders" className="text-gray-600 hover:text-[#B76E79] transition-colors">Track Order</Link></li>
               <li><Link href="/terms" className="text-gray-600 hover:text-[#B76E79] transition-colors">Terms & Conditions</Link></li>
               <li><Link href="/privacy" className="text-gray-600 hover:text-[#B76E79] transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/shipping-policy" className="text-gray-600 hover:text-[#B76E79] transition-colors">Shipping & Delivery</Link></li>
+              <li><Link href="/return-policy" className="text-gray-600 hover:text-[#B76E79] transition-colors">Return & Exchange Policy</Link></li>
             </ul>
           </div>
 
@@ -193,6 +208,8 @@ export function Footer() {
               className="object-contain"
             />
             <div className="flex space-x-6">
+              <Link href="/return-policy" className="hover:text-[#B76E79] transition-colors">Returns</Link>
+              <Link href="/shipping-policy" className="hover:text-[#B76E79] transition-colors">Shipping</Link>
               <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
               <Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy</Link>
             </div>
