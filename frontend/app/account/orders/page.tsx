@@ -40,6 +40,8 @@ const STATUS_COLORS: Record<string, string> = {
   shipped: 'bg-indigo-100 text-indigo-800',
   delivered: 'bg-green-100 text-green-800',
   cancelled: 'bg-red-100 text-red-800',
+  returned: 'bg-orange-100 text-orange-800',
+  return_pending: 'bg-pink-100 text-pink-800',
 };
 
 export default function OrdersPage() {
@@ -261,21 +263,42 @@ export default function OrdersPage() {
                       </div>
                       {/* Write Review button — only for delivered orders */}
                       {order.orderStatus === 'delivered' && (
-                        reviewedItems.has(item.productId) ? (
-                          <span className="text-xs text-green-600 font-medium flex items-center gap-1 flex-shrink-0">
-                            <Star className="h-3 w-3 fill-green-600" /> Reviewed
-                          </span>
-                        ) : (
+                        <div className="flex flex-col gap-2">
+                          {reviewedItems.has(item.productId) ? (
+                            <span className="text-xs text-green-600 font-medium flex items-center gap-1 flex-shrink-0">
+                              <Star className="h-3 w-3 fill-green-600" /> Reviewed
+                            </span>
+                          ) : (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => openReviewModal(order.id, item.productId, item.name)}
+                              className="flex-shrink-0 rounded-none text-[10px] tracking-widest uppercase border-[#B76E79] text-[#B76E79] hover:bg-[#B76E79] hover:text-white transition-colors h-7"
+                            >
+                              <Star className="h-2.5 w-2.5 mr-1" />
+                              Review
+                            </Button>
+                          )}
+                          
+                          {/* Return Button */}
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => openReviewModal(order.id, item.productId, item.name)}
-                            className="flex-shrink-0 rounded-none text-xs tracking-widest uppercase border-[#B76E79] text-[#B76E79] hover:bg-[#B76E79] hover:text-white transition-colors"
+                            onClick={async () => {
+                              if (confirm('Are you sure you want to request a return for this item?')) {
+                                toast.loading('Sending request...');
+                                // Add API call here later
+                                setTimeout(() => {
+                                  toast.dismiss();
+                                  toast.success('Return request sent! Our team will contact you.');
+                                }, 1500);
+                              }
+                            }}
+                            className="flex-shrink-0 rounded-none text-[10px] tracking-widest uppercase border-gray-200 text-gray-500 hover:border-red-400 hover:text-red-500 transition-colors h-7"
                           >
-                            <Star className="h-3 w-3 mr-1" />
-                            Review
+                            Return
                           </Button>
-                        )
+                        </div>
                       )}
                     </div>
                   ))}

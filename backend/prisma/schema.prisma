@@ -166,6 +166,8 @@ model order {
   razorpayOrderId   String?
   razorpayPaymentId String?
   orderStatus       String      @default("pending")
+  shiprocketOrderId String?
+  shipmentId        String?
   trackingNumber    String?
   shippingProvider  String?
   notes             String?     @db.Text

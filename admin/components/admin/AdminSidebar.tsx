@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -14,39 +14,59 @@ import {
 } from 'lucide-react';
 import { AuthModal } from '@/components/auth/AuthModal';
 
-const menuItems = [
-  { title: 'Dashboard', href: '/admin', icon: Home },
+const menuGroups = [
   {
-    title: 'Products',
-    icon: Package,
-    submenu: [
-      { title: 'All Products', href: '/admin/products' },
-      { title: 'Add Product', href: '/admin/products/add' },
-    ],
+    title: 'Core Management',
+    items: [
+      { title: 'Dashboard', href: '/admin', icon: Home },
+      {
+        title: 'Products',
+        icon: Package,
+        submenu: [
+          { title: 'All Products', href: '/admin/products' },
+          { title: 'Add Product', href: '/admin/products/add' },
+        ],
+      },
+      { title: 'Orders', href: '/admin/orders', icon: ShoppingCart },
+      { title: 'Users', href: '/admin/users', icon: User },
+      { title: 'Categories', href: '/admin/categories', icon: Grid },
+    ]
   },
-  { title: 'Orders', href: '/admin/orders', icon: ShoppingCart },
-  { title: 'Users', href: '/admin/users', icon: User },
-  { title: 'Categories', href: '/admin/categories', icon: Grid },
-  { title: 'Coupons', href: '/admin/coupons', icon: CreditCard },
-  { title: 'Reviews', href: '/admin/reviews', icon: Star },
-  { title: 'Video Reviews', href: '/admin/video-reviews', icon: FileText },
-  { title: 'Model Gallery', href: '/admin/model-gallery', icon: User },
-  { title: 'Marquee', href: '/admin/marquee', icon: TrendingUp },
-  { title: 'Banners', href: '/admin/banners', icon: ImageIcon },
-  { title: 'Showcases', href: '/admin/showcases', icon: Grid },
-  { title: 'Popups', href: '/admin/popups', icon: Plus },
-  { title: 'Birthstone Section', href: '/admin/birthstone-section', icon: Star },
-  { title: 'CMS Pages', href: '/admin/cms-pages', icon: File },
-  { title: 'Newsletter', href: '/admin/newsletter', icon: Mail },
-  { title: 'Shipping', href: '/admin/shipping', icon: Truck },
-  { title: 'Settings', href: '/admin/settings', icon: Settings },
   {
-    title: 'Reports',
-    icon: TrendingUp,
-    submenu: [
-      { title: 'Top Selling', href: '/admin/reports/top-selling' },
-    ],
+    title: 'Marketing & Content',
+    items: [
+      { title: 'Banners', href: '/admin/banners', icon: ImageIcon },
+      { title: 'Popups', href: '/admin/popups', icon: Plus },
+      { title: 'Marquee', href: '/admin/marquee', icon: TrendingUp },
+      { title: 'Showcases', href: '/admin/showcases', icon: Grid },
+      { title: 'Coupons', href: '/admin/coupons', icon: CreditCard },
+      { title: 'Newsletter', href: '/admin/newsletter', icon: Mail },
+    ]
   },
+  {
+    title: 'Customer Social',
+    items: [
+      { title: 'Reviews', href: '/admin/reviews', icon: Star },
+      { title: 'Video Reviews', href: '/admin/video-reviews', icon: FileText },
+      { title: 'Model Gallery', href: '/admin/model-gallery', icon: User },
+      { title: 'Birthstone Section', href: '/admin/birthstone-section', icon: Star },
+    ]
+  },
+  {
+    title: 'System & Info',
+    items: [
+      { title: 'CMS Pages', href: '/admin/cms-pages', icon: File },
+      { title: 'Shipping', href: '/admin/shipping', icon: Truck },
+      { title: 'Settings', href: '/admin/settings', icon: Settings },
+      {
+        title: 'Reports',
+        icon: TrendingUp,
+        submenu: [
+          { title: 'Top Selling', href: '/admin/reports/top-selling' },
+        ],
+      },
+    ]
+  }
 ];
 
 const submenuVariants = {
@@ -104,47 +124,60 @@ function SidebarContent({
       )}
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4">
-        <ul className="space-y-1 px-3">
-          {menuItems.map((item, index) => (
-            <li key={index}>
-              {item.submenu ? (
-                <div>
-                  <button
-                    onClick={() => toggleSubmenu(item.title)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
-                      <span className="font-medium text-sm">{item.title}</span>
+      <nav className="flex-1 overflow-y-auto py-4 scrollbar-hide">
+        {menuGroups.map((group, groupIdx) => (
+          <div key={groupIdx} className="mb-6 last:mb-0">
+            <h3 className="px-7 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{group.title}</h3>
+            <ul className="space-y-0.5 px-3">
+              {group.items.map((item, index) => (
+                <li key={index}>
+                  {item.submenu ? (
+                    <div>
+                      <button
+                        onClick={() => toggleSubmenu(item.title)}
+                        className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg transition-all duration-200 ${
+                          item.submenu.some(s => pathname === s.href)
+                            ? 'text-[#B76E79] font-semibold'
+                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <item.icon className={`h-5 w-5 flex-shrink-0 ${item.submenu.some(s => pathname === s.href) ? 'text-[#B76E79]' : ''}`} />
+                          <span className="text-sm">{item.title}</span>
+                        </div>
+                        <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${openSubmenu === item.title ? 'rotate-180' : ''}`} />
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {openSubmenu === item.title && (
+                          <motion.ul variants={submenuVariants} initial="hidden" animate="visible" exit="exit" className="overflow-hidden ml-4 mt-0.5 border-l border-gray-100 pl-2 space-y-0.5">
+                            {item.submenu.map((sub, si) => (
+                              <li key={si}>
+                                <Link href={sub.href} onClick={onLinkClick}
+                                  className={`block px-4 py-2 text-sm rounded-lg transition-all duration-200 ${pathname === sub.href ? 'bg-[#B76E79]/5 text-[#B76E79] font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>
+                                  {sub.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </motion.ul>
+                        )}
+                      </AnimatePresence>
                     </div>
-                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${openSubmenu === item.title ? 'rotate-180' : ''}`} />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {openSubmenu === item.title && (
-                      <motion.ul variants={submenuVariants} initial="hidden" animate="visible" exit="exit" className="overflow-hidden mt-1 ml-4 space-y-1">
-                        {item.submenu.map((sub, si) => (
-                          <li key={si}>
-                            <Link href={sub.href} onClick={onLinkClick}
-                              className={`block pl-8 pr-4 py-2.5 text-sm rounded-lg transition-colors ${pathname === sub.href ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}>
-                              {sub.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <Link href={item.href!} onClick={onLinkClick}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${pathname === item.href ? 'bg-gray-100 text-gray-900 font-semibold shadow-sm' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'}`}>
-                  <item.icon className="h-5 w-5 flex-shrink-0" />
-                  <span className="font-medium text-sm">{item.title}</span>
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
+                  ) : (
+                    <Link href={item.href!} onClick={onLinkClick}
+                      className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+                        pathname === item.href 
+                          ? 'bg-[#B76E79]/10 text-[#B76E79] font-semibold shadow-sm' 
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      }`}>
+                      <item.icon className={`h-5 w-5 flex-shrink-0 ${pathname === item.href ? 'text-[#B76E79]' : ''}`} />
+                      <span className="text-sm">{item.title}</span>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </nav>
 
       {/* Footer */}
@@ -170,6 +203,12 @@ export function AdminSidebar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpen = () => setIsMobileOpen(true);
+    window.addEventListener('openAdminSidebar', handleOpen);
+    return () => window.removeEventListener('openAdminSidebar', handleOpen);
+  }, []);
 
   const toggleSubmenu = (title: string) => setOpenSubmenu(openSubmenu === title ? null : title);
 
@@ -201,14 +240,6 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile hamburger button */}
-      <button
-        onClick={() => setIsMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 bg-gray-800 hover:bg-gray-900 text-white rounded-lg shadow-xl transition-all"
-        aria-label="Open menu"
-      >
-        <Menu className="h-6 w-6" />
-      </button>
 
       {/* Desktop sidebar — always visible */}
       <aside className="hidden lg:flex w-64 bg-white text-gray-900 fixed left-0 z-40 flex-col shadow-xl border-r border-gray-200 top-0 h-screen">

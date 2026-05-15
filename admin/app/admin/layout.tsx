@@ -1,4 +1,5 @@
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
+import { Menu } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -6,7 +7,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex bg-[#FDFBF7]">
+    <div className="min-h-screen flex bg-gray-50/30">
       {/* Sidebar - fixed left, full height */}
       <AdminSidebar />
 
@@ -14,25 +15,32 @@ export default function AdminLayout({
       <main className="flex-1 lg:ml-64 flex flex-col min-h-screen">
         {/* Mobile top bar */}
         <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 sticky top-0 z-30">
-          {/* Spacer for hamburger button (fixed positioned) */}
-          <div className="w-10" />
-          <span className="text-sm font-semibold text-gray-800 tracking-wide">Admin Panel</span>
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('openAdminSidebar'))}
+            className="p-2 -ml-2 text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+          <span className="text-sm font-bold text-gray-900 tracking-tight uppercase">Atelier Management</span>
           <div className="w-10" />
         </div>
 
-        <div className="p-3 sm:p-4 md:p-8 lg:p-10 flex-1">
+        <div className="p-4 sm:p-6 md:p-8 lg:p-10 flex-1">
           {children}
         </div>
 
-        <footer className="bg-gray-50 border-t border-gray-200 py-6 px-4 md:px-8 lg:px-10 mt-auto">
+        <footer className="bg-white border-t border-gray-100 py-6 px-4 md:px-8 lg:px-10 mt-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-gray-600">
-              © {new Date().getFullYear()} Amoli Fashion Jewellery. All rights reserved.
+            <div className="flex items-center gap-4 text-xs font-medium text-gray-400 uppercase tracking-widest">
+              <span>© {new Date().getFullYear()} Amoli Atelier</span>
+              <span className="w-1 h-1 rounded-full bg-gray-300" />
+              <span>v2.4.0 Stable</span>
             </div>
-            <div className="flex gap-6 text-sm text-gray-600">
-              <a href="/privacy" className="hover:text-[#B76E79] transition">Privacy Policy</a>
-              <a href="/terms" className="hover:text-[#B76E79] transition">Terms of Service</a>
-              <a href="/contact" className="hover:text-[#B76E79] transition">Contact</a>
+            <div className="flex gap-8 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+              <a href="/admin" className="hover:text-[#B76E79] transition-colors">Dashboard</a>
+              <a href="/admin/settings" className="hover:text-[#B76E79] transition-colors">System Status</a>
+              <a href="/admin/reports" className="hover:text-[#B76E79] transition-colors">Analytics</a>
+              <a href="mailto:support@amoli.com" className="hover:text-[#B76E79] transition-colors">Technical Support</a>
             </div>
           </div>
         </footer>

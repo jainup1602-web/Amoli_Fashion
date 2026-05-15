@@ -76,7 +76,83 @@ router.post('/verify', verifyToken, async (req, res) => {
           })),
         },
       },
+      include: { orderitem: true } // Need this for Shiprocket order creation
     });
+
+    // Auto-push to Shiprocket
+    try {
+      const shiprocket = require('../lib/shiprocket');
+      const shiprocketResult = await shiprocket.createOrder({
+        ...order,
+        shippingAddress: orderData.shippingAddress // Use parsed object
+      });
+      
+      // Save Shiprocket order info
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          shiprocketOrderId: shiprocketResult.order_id?.toString(),
+          shipmentId: shiprocketResult.shipment_id?.toString()
+        }
+      });
+      console.log('✅ Order pushed to Shiprocket:', shiprocketResult.order_id);
+    } catch (shipError) {
+      console.error('❌ Shiprocket auto-push failed:', shipError.message);
+      // We don't fail the request here, as the order is already paid/saved
+    }
+
+    res.json({ success: true, order });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// POST create COD order
+router.post('/cod', verifyToken, async (req, res) => {
+  try {
+    const { orderData } = req.body;
+    const orderNumber = 'ORD-COD-' + Date.now();
+
+    const order = await prisma.order.create({
+      data: {
+        orderNumber, userId: req.user.id,
+        customerName: orderData.customerName, customerEmail: orderData.customerEmail,
+        customerPhone: orderData.customerPhone,
+        shippingAddress: JSON.stringify(orderData.shippingAddress),
+        subtotal: orderData.subtotal, discount: orderData.discount || 0,
+        shippingCharges: orderData.shippingCharges || 0, total: orderData.total,
+        couponCode: orderData.couponCode, paymentMethod: 'cod',
+        paymentStatus: 'pending', orderStatus: 'confirmed',
+        orderitem: {
+          create: orderData.items.map(i => ({
+            productId: i.productId, name: i.name, image: i.image,
+            price: i.price, quantity: i.quantity, subtotal: i.price * i.quantity,
+          })),
+        },
+      },
+      include: { orderitem: true }
+    });
+
+    // Auto-push to Shiprocket as COD
+    try {
+      const shiprocket = require('../lib/shiprocket');
+      const shiprocketResult = await shiprocket.createOrder({
+        ...order,
+        shippingAddress: orderData.shippingAddress
+      });
+      
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          shiprocketOrderId: shiprocketResult.order_id?.toString(),
+          shipmentId: shiprocketResult.shipment_id?.toString()
+        }
+      });
+      console.log('✅ COD Order pushed to Shiprocket:', shiprocketResult.order_id);
+    } catch (shipError) {
+      console.error('❌ Shiprocket COD auto-push failed:', shipError.message);
+    }
+
     res.json({ success: true, order });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

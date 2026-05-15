@@ -133,6 +133,24 @@ export async function POST(request: NextRequest) {
       }
 
       await prisma.cart.deleteMany({ where: { userId: authResult.user.id } });
+
+      // Auto-push COD order to Shiprocket
+      try {
+        const { createShiprocketOrder } = await import('@/lib/shiprocket');
+        const shiprocketResult = await createShiprocketOrder(order);
+        
+        await (prisma.order.update as any)({
+          where: { id: order.id },
+          data: {
+            shiprocketOrderId: shiprocketResult.order_id?.toString(),
+            shipmentId: shiprocketResult.shipment_id?.toString()
+          }
+        });
+        console.log('✅ COD Order pushed to Shiprocket:', shiprocketResult.order_id);
+      } catch (shipError: any) {
+        console.error('❌ Shiprocket COD push failed:', shipError.message);
+      }
+
       return NextResponse.json({ order, message: 'Order placed successfully' });
     }
 

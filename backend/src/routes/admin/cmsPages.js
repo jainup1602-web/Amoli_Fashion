@@ -12,9 +12,24 @@ router.get('/', verifyAdmin, async (req, res) => {
   }
 });
 
+const sanitizeHtml = require('sanitize-html');
+
+const sanitizeOptions = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'span', 'div']),
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    '*': ['style', 'class'],
+    'img': ['src', 'alt', 'width', 'height']
+  }
+};
+
 router.post('/', verifyAdmin, async (req, res) => {
   try {
-    const page = await prisma.cmspage.create({ data: req.body });
+    const data = { ...req.body };
+    if (data.content) {
+      data.content = sanitizeHtml(data.content, sanitizeOptions);
+    }
+    const page = await prisma.cmspage.create({ data });
     res.status(201).json({ success: true, page });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -23,7 +38,11 @@ router.post('/', verifyAdmin, async (req, res) => {
 
 router.put('/', verifyAdmin, async (req, res) => {
   try {
-    const { id, ...data } = req.body;
+    const { id, ...rawData } = req.body;
+    const data = { ...rawData };
+    if (data.content) {
+      data.content = sanitizeHtml(data.content, sanitizeOptions);
+    }
     const page = await prisma.cmspage.update({ where: { id }, data });
     res.json({ success: true, page });
   } catch (err) {

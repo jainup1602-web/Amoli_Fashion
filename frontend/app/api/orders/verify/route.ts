@@ -83,6 +83,25 @@ export async function POST(request: NextRequest) {
       include: { orderitem: true },
     });
 
+    // Auto-push Prepaid order to Shiprocket
+    if (updatedOrder) {
+      try {
+        const { createShiprocketOrder } = await import('@/lib/shiprocket');
+        const shiprocketResult = await createShiprocketOrder(updatedOrder);
+        
+        await (prisma.order.update as any)({
+          where: { id: order.id },
+          data: {
+            shiprocketOrderId: shiprocketResult.order_id?.toString(),
+            shipmentId: shiprocketResult.shipment_id?.toString()
+          }
+        });
+        console.log('✅ Prepaid Order pushed to Shiprocket:', shiprocketResult.order_id);
+      } catch (shipError: any) {
+        console.error('❌ Shiprocket Prepaid push failed:', shipError.message);
+      }
+    }
+
     return NextResponse.json({
       success: true,
       order: updatedOrder,

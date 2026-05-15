@@ -3,10 +3,13 @@ import axios from 'axios';
 const SHIPROCKET_API_URL = process.env.SHIPROCKET_API_URL || 'https://apiv2.shiprocket.in/v1/external';
 
 let cachedToken: string | null = null;
-let tokenExpiry: number = 0;
+let tokenExpiry: number | null = null;
 
-export async function getShiprocketToken(): Promise<string> {
-  if (cachedToken && Date.now() < tokenExpiry) {
+/**
+ * Authenticate with Shiprocket and get a token
+ */
+async function getToken() {
+  if (cachedToken && tokenExpiry && Date.now() < tokenExpiry) {
     return cachedToken;
   }
 
@@ -16,88 +19,91 @@ export async function getShiprocketToken(): Promise<string> {
       password: process.env.SHIPROCKET_PASSWORD,
     });
 
-    cachedToken = response.data.token;
-    tokenExpiry = Date.now() + 9 * 24 * 60 * 60 * 1000; // 9 days
-
-    if (!cachedToken) {
-      throw new Error('No token received from Shiprocket');
+    if (response.data && response.data.token) {
+      cachedToken = response.data.token;
+      tokenExpiry = Date.now() + (9 * 24 * 60 * 60 * 1000);
+      return cachedToken;
     }
-
-    return cachedToken;
-  } catch (error) {
-    console.error('Shiprocket authentication failed:', error);
-    throw new Error('Failed to authenticate with Shiprocket');
+    throw new Error('Failed to get Shiprocket token');
+  } catch (error: any) {
+    console.error('Shiprocket Auth Error:', error.response?.data || error.message);
+    throw error;
   }
 }
 
-export async function createShipment(orderData: any) {
-  const token = await getShiprocketToken();
-
+/**
+ * Create a custom order in Shiprocket
+ */
+export async function createShiprocketOrder(orderData: any) {
   try {
-    const response = await axios.post(
-      `${SHIPROCKET_API_URL}/orders/create/adhoc`,
-      orderData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const token = await getToken();
+    
+    // Parse address if it's a string
+    const address = typeof orderData.shippingAddress === 'string' 
+      ? JSON.parse(orderData.shippingAddress) 
+      : orderData.shippingAddress;
+
+    const shiprocketOrder = {
+      order_id: orderData.orderNumber,
+      order_date: new Date(orderData.createdAt).toISOString().split('T')[0],
+      pickup_location: "Primary",
+      billing_customer_name: orderData.customerName.split(' ')[0],
+      billing_last_name: orderData.customerName.split(' ').slice(1).join(' ') || "Jewellery",
+      billing_address: address.addressLine1,
+      billing_address_2: address.addressLine2 || "",
+      billing_city: address.city,
+      billing_pincode: address.pincode,
+      billing_state: address.state,
+      billing_country: "India",
+      billing_email: orderData.customerEmail || address.email,
+      billing_phone: orderData.customerPhone || address.phone,
+      shipping_is_billing: true,
+      order_items: orderData.orderitem.map((item: any) => ({
+        name: item.name,
+        sku: item.sku || `SKU-${item.productId.slice(-6)}`,
+        units: item.quantity,
+        selling_price: item.price,
+        discount: 0,
+        tax: 0,
+        hsn: 7117
+      })),
+      payment_method: orderData.paymentMethod.toLowerCase() === 'razorpay' ? 'Prepaid' : 'COD',
+      sub_total: orderData.subtotal,
+      length: 10,
+      width: 10,
+      height: 5,
+      weight: 0.5
+    };
+
+    const response = await axios.post(`${SHIPROCKET_API_URL}/orders/create/adhoc`, shiprocketOrder, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
     return response.data;
   } catch (error: any) {
-    console.error('Shiprocket shipment creation failed:', error.response?.data || error);
-    throw new Error('Failed to create shipment');
+    console.error('Shiprocket Create Order Error:', error.response?.data || error.message);
+    throw error;
   }
 }
 
-export async function trackShipment(shipmentId: string) {
-  const token = await getShiprocketToken();
-
+/**
+ * Check if a pincode is serviceable
+ */
+export async function checkPincodeServiceability(pickupPincode: string, deliveryPincode: string, weight: number = 0.5) {
   try {
-    const response = await axios.get(
-      `${SHIPROCKET_API_URL}/courier/track/shipment/${shipmentId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
+    const token = await getToken();
+    const response = await axios.get(`${SHIPROCKET_API_URL}/courier/serviceability/`, {
+      params: {
+        pickup_postcode: pickupPincode,
+        delivery_postcode: deliveryPincode,
+        weight,
+        cod: 1 // We check for COD by default to be safe
+      },
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
     return response.data;
-  } catch (error) {
-    console.error('Shiprocket tracking failed:', error);
-    throw new Error('Failed to track shipment');
-  }
-}
-
-export async function checkPincodeServiceability(
-  pickupPincode: string,
-  deliveryPincode: string,
-  weight: number
-) {
-  const token = await getShiprocketToken();
-
-  try {
-    const response = await axios.get(
-      `${SHIPROCKET_API_URL}/courier/serviceability`,
-      {
-        params: {
-          pickup_postcode: pickupPincode,
-          delivery_postcode: deliveryPincode,
-          weight: weight,
-          cod: 0,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error('Pincode serviceability check failed:', error);
-    throw new Error('Failed to check pincode serviceability');
+  } catch (error: any) {
+    console.error('Shiprocket Serviceability Error:', error.response?.data || error.message);
+    throw error;
   }
 }

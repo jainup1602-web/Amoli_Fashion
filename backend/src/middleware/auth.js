@@ -1,20 +1,6 @@
 const prisma = require('../lib/prisma');
 const jwt = require('jsonwebtoken');
 
-// Decode Firebase ID token without verifying signature (dev fallback)
-function decodeFirebaseToken(token) {
-  try {
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-    const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
-    // Firebase uses 'sub' as the UID (not 'uid')
-    if (!payload.uid && payload.sub) payload.uid = payload.sub;
-    return payload;
-  } catch {
-    return null;
-  }
-}
-
 async function verifyToken(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
@@ -29,52 +15,45 @@ async function verifyToken(req, res, next) {
       const admin = require('../lib/firebase-admin');
       if (admin.apps.length) {
         const decoded = await admin.auth().verifyIdToken(token);
-        const user = await prisma.user.findFirst({ where: { firebaseUid: decoded.uid } });
+        const user = await prisma.executeWithRetry(() => 
+          prisma.user.findFirst({ where: { firebaseUid: decoded.uid } })
+        );
         if (user) { req.user = user; return next(); }
+        
+        // If user not in DB but token is valid, we might allow creation in registration route
+        req.firebaseUser = decoded;
       }
-    } catch { /* fall through */ }
-
-    // 2. Try JWT
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
-      if (user) { req.user = user; return next(); }
-    } catch { /* fall through */ }
-
-    // 3. Decode Firebase token without verification (works when Admin SDK key is missing)
-    const payload = decodeFirebaseToken(token);
-    console.log('🔍 Decoded payload uid:', payload?.uid, 'phone:', payload?.phone_number);
-    if (payload?.uid) {
-      // Check token expiry
-      const now = Math.floor(Date.now() / 1000);
-      if (payload.exp && payload.exp < now) {
-        console.log('❌ Token expired');
-        return res.status(401).json({ success: false, message: 'Token expired' });
+    } catch (e) {
+      if (e.message.includes('Prisma')) {
+        console.error('Prisma error in Firebase auth flow:', e.message);
       }
-      const user = await prisma.user.findFirst({ where: { firebaseUid: payload.uid } });
-      console.log('👤 User found by firebaseUid:', user?.id, 'role:', user?.role);
-      if (user) { req.user = user; return next(); }
-      // User not in DB yet — create them
-      if (payload.phone_number || payload.email) {
-        const newUser = await prisma.user.create({
-          data: {
-            firebaseUid: payload.uid,
-            phoneNumber: payload.phone_number || null,
-            email: payload.email || null,
-            displayName: payload.name || null,
-            role: 'customer',
-          }
-        });
-        req.user = newUser;
-        return next();
-      }
+      // Token not a valid Firebase token, or Firebase Admin not configured
     }
 
-    console.log('❌ All auth methods failed');
-    return res.status(401).json({ success: false, message: 'Invalid token' });
+    // 2. Try JWT (Local Auth)
+    try {
+      const { executeWithRetry } = require('../lib/prisma');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await executeWithRetry(() => 
+        prisma.user.findUnique({ where: { id: decoded.userId } })
+      );
+      if (user) { req.user = user; return next(); }
+    } catch (e) {
+      if (e.message.includes('Prisma')) {
+        console.error('Prisma error in JWT auth flow:', e.message);
+      }
+      // Not a valid local JWT
+    }
+
+    // If we have a verified firebaseUser but no DB user, we might be in the registration flow
+    if (req.firebaseUser && req.path === '/register') {
+      return next();
+    }
+
+    return res.status(401).json({ success: false, message: 'Invalid or expired token' });
   } catch (err) {
-    console.error('Auth middleware error:', err.message);
-    return res.status(401).json({ success: false, message: 'Auth error' });
+    console.error('Auth middleware critical error:', err);
+    return res.status(401).json({ success: false, message: 'Authentication failed' });
   }
 }
 

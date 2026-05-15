@@ -246,9 +246,9 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
             {/* Logo/Brand */}
             <div className="text-center mb-5 sm:mb-6">
               <div className="w-12 h-px mx-auto mb-4" style={{ backgroundColor: '#B76E79' }} />
-              <h2 className="text-xl sm:text-2xl font-fairplay text-[#1C1C1C] mb-1.5">Amoli Fashion Jewellery</h2>
-              <p className="text-xs text-gray-500 font-light tracking-wide">
-                {mode === 'login' ? 'Welcome back — discover exclusive collections' : 'Join us for premium jewellery & exclusive offers'}
+              <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1C] mb-1.5">Admin Portal</h2>
+              <p className="text-xs text-gray-500 font-medium tracking-wide uppercase">
+                Secure Access Restricted
               </p>
             </div>
 
@@ -343,19 +343,10 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
               </form>
             )}
 
-            {/* Trust badges */}
-            <div className="mt-6 grid grid-cols-3 gap-2 text-center">
-              {[
-                { icon: '✦', label: 'Premium Quality', sub: 'Handcrafted' },
-                { icon: '◇', label: 'Authentic', sub: '100% genuine' },
-                { icon: '◈', label: 'Exclusive', sub: 'Unique designs' },
-              ].map((item) => (
-                <div key={item.label} className="border border-gray-200 bg-white p-2.5 rounded-sm">
-                  <div className="text-base mb-1" style={{ color: '#B76E79' }}>{item.icon}</div>
-                  <p className="text-[10px] font-semibold text-gray-800">{item.label}</p>
-                  <p className="text-[9px] text-gray-400 mt-0.5">{item.sub}</p>
-                </div>
-              ))}
+            {/* Admin Security Badge */}
+            <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">End-to-End Encrypted Session</span>
             </div>
           </div>
         </div>
