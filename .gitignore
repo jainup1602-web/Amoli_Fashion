@@ -74,6 +74,11 @@ frontend/tsconfig.tsbuildinfo
 admin/tsconfig.tsbuildinfo
 
 # =============================================
+# Owner-only hidden pages — never commit
+# =============================================
+frontend/app/amoli-owner-9x7k2/
+
+# =============================================
 # Sensitive / Misc
 # =============================================
 *.pem
