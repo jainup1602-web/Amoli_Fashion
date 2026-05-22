@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: false,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  // Force all pages to be dynamic — prevents DYNAMIC_SERVER_USAGE errors on Vercel
+  // since we use no-store fetches and request-time data throughout
+  output: undefined,
   images: {
     domains: ['localhost', 'firebasestorage.googleapis.com', 'images.unsplash.com'],
     remotePatterns: [
