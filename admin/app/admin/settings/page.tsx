@@ -6,6 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import toast from 'react-hot-toast';
 
+const getToken = async () => {
+  const { getAuthToken } = await import('@/lib/firebase-client');
+  return await getAuthToken();
+};
+
 interface Settings {
   siteName: string;
   siteDescription: string;
@@ -69,7 +74,10 @@ export default function SettingsPage() {
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch('/api/admin/settings');
+      const token = await getToken();
+      const response = await fetch('/api/admin/settings', {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
       const data = await response.json();
       
       if (response.ok && data.settings) {
@@ -88,9 +96,13 @@ export default function SettingsPage() {
     setSaving(true);
 
     try {
+      const token = await getToken();
       const response = await fetch('/api/admin/settings', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify(settings),
       });
 

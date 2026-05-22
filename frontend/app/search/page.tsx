@@ -86,7 +86,7 @@ export default function SearchPage() {
                 <select
                   value={sortBy}
                   onChange={handleSortChange}
-                  className="border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:border-[#B76E79] cursor-pointer"
+                  className="border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:border-[#1A1A1A] cursor-pointer"
                 >
                   <option value="createdAt">Newest</option>
                   <option value="originalPrice">Price Low-High</option>
@@ -163,7 +163,7 @@ export default function SearchPage() {
                           ? 'text-white'
                           : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
                       }`}
-                      style={currentPage === i + 1 ? { backgroundColor: '#B76E79' } : {}}
+                      style={currentPage === i + 1 ? { backgroundColor: '#1A1A1A' } : {}}
                     >
                       {i + 1}
                     </button>

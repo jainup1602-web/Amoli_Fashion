@@ -178,7 +178,7 @@ export default function OrdersPage() {
           <Package className="h-16 w-16 mx-auto text-gray-400 mb-4" />
           <h3 className="text-xl font-semibold mb-2">Please login to view orders</h3>
           <Button
-            style={{ backgroundColor: '#B76E79' }}
+            style={{ backgroundColor: '#1A1A1A' }}
             className="text-white rounded-none mt-3"
             onClick={() => window.dispatchEvent(new CustomEvent('openLoginModal'))}
           >
@@ -192,7 +192,7 @@ export default function OrdersPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: '#B76E79' }} />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: '#1A1A1A' }} />
       </div>
     );
   }
@@ -213,7 +213,7 @@ export default function OrdersPage() {
             <h3 className="text-lg font-semibold text-gray-700 mb-2">No orders yet</h3>
             <p className="text-gray-400 text-sm mb-6">Start shopping to see your orders here</p>
             <Link href="/products">
-              <Button style={{ backgroundColor: '#B76E79' }} className="text-white rounded-none tracking-widest uppercase text-xs">Start Shopping</Button>
+              <Button style={{ backgroundColor: '#1A1A1A' }} className="text-white rounded-none tracking-widest uppercase text-xs">Start Shopping</Button>
             </Link>
           </div>
         ) : (
@@ -235,7 +235,7 @@ export default function OrdersPage() {
                     <span className="font-semibold text-[#1C1C1C]">{formatPrice(order.total)}</span>
                     <button
                       onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
-                      className="text-gray-400 hover:text-[#B76E79] transition-colors"
+                      className="text-gray-400 hover:text-[#1A1A1A] transition-colors"
                     >
                       {expandedOrder === order.id ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                     </button>
@@ -273,7 +273,7 @@ export default function OrdersPage() {
                               size="sm"
                               variant="outline"
                               onClick={() => openReviewModal(order.id, item.productId, item.name)}
-                              className="flex-shrink-0 rounded-none text-[10px] tracking-widest uppercase border-[#B76E79] text-[#B76E79] hover:bg-[#B76E79] hover:text-white transition-colors h-7"
+                              className="flex-shrink-0 rounded-none text-[10px] tracking-widest uppercase border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors h-7"
                             >
                               <Star className="h-2.5 w-2.5 mr-1" />
                               Review
@@ -305,7 +305,7 @@ export default function OrdersPage() {
                   {order.orderitem.length > 1 && expandedOrder !== order.id && (
                     <button
                       onClick={() => setExpandedOrder(order.id)}
-                      className="w-full py-2.5 text-xs text-gray-400 hover:text-[#B76E79] transition-colors font-elegant tracking-widest uppercase"
+                      className="w-full py-2.5 text-xs text-gray-400 hover:text-[#1A1A1A] transition-colors font-elegant tracking-widest uppercase"
                     >
                       +{order.orderitem.length - 1} more item{order.orderitem.length > 2 ? 's' : ''} — View All
                     </button>
@@ -363,7 +363,7 @@ export default function OrdersPage() {
                 onChange={(e) => setReviewComment(e.target.value)}
                 rows={4}
                 placeholder="Share your experience with this product..."
-                className="w-full px-4 py-3 border border-gray-200 text-sm font-light focus:outline-none focus:border-[#B76E79] resize-none"
+                className="w-full px-4 py-3 border border-gray-200 text-sm font-light focus:outline-none focus:border-[#1A1A1A] resize-none"
               />
             </div>
 
@@ -379,7 +379,7 @@ export default function OrdersPage() {
                 onClick={handleSubmitReview}
                 disabled={submitting || !reviewComment.trim()}
                 className="flex-1 text-white rounded-none text-xs tracking-widest uppercase"
-                style={{ backgroundColor: '#B76E79' }}
+                style={{ backgroundColor: '#1A1A1A' }}
               >
                 {submitting ? 'Submitting...' : 'Submit Review'}
               </Button>

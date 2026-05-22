@@ -1,4 +1,4 @@
-  'use client';
+'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -12,10 +12,10 @@ function AccordionSection({ title, children }: { title: string; children: React.
     <div className="border-b border-gray-200">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-4 px-1 text-xs font-semibold tracking-[0.18em] uppercase text-gray-700"
+        className="w-full flex items-center justify-between py-4 px-1 text-sm font-medium tracking-[0.05em] text-[#1A1A1A]"
       >
-        <span className="flex-1 text-center">{title}</span>
-        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+        <span className="flex-1 text-left uppercase">{title}</span>
+        <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
       <div
         className="overflow-hidden transition-all duration-300 ease-in-out"
@@ -30,190 +30,169 @@ function AccordionSection({ title, children }: { title: string; children: React.
 export function Footer() {
   const { settings } = useAppSelector((state) => state.settings);
 
-  const socialIconCls = "w-10 h-10 flex items-center justify-center rounded-full border border-gray-400 text-gray-600 hover:border-[#B76E79] hover:text-[#B76E79] transition-all duration-200";
+  const socialIconCls = "w-8 h-8 flex items-center justify-center rounded-md text-gray-600 hover:text-[#1A1A1A] transition-all duration-200";
 
   return (
-    <footer className="border-t border-gray-200 bg-gray-50">
+    <footer className="border-t border-gray-200 relative z-10 pb-16 md:pb-0" style={{ backgroundColor: '#FDFCF0' }}>
 
       {/* ── MOBILE ACCORDION (< md) ── */}
-      <div className="md:hidden px-4 pt-6 pb-2" style={{ backgroundColor: '#F8F6F2' }}>
-        {/* Logo + social */}
-        <div className="text-center mb-6">
-          <Link href="/" className="inline-block mb-3">
-            <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={140} height={50} className="object-contain mx-auto" priority />
-          </Link>
-          <p className="text-xs text-gray-500 mb-4 leading-relaxed">
-            {settings?.siteDescription || 'Premium jewellery crafted with care in Rajasthan.'}
-          </p>
-          <div className="flex justify-center gap-3">
-            <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
-            </a>
-            <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            </a>
-            <a href={settings?.socialLinks?.twitter || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <div className="md:hidden flex flex-col">
+        <div className="px-6 pt-10 pb-6">
+          {/* Logo + text */}
+          <div className="mb-8">
+            <Link href="/" className="inline-block mb-4">
+              <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={160} height={55} className="object-contain" priority />
+            </Link>
+            <p className="text-sm text-gray-600 leading-relaxed max-w-[90%]">
+              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of luxury jewellery with a curated collection inspired by the finest traditions.'}
+            </p>
+            <div className="flex gap-2 mt-4">
+              <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
               </a>
-            <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/></svg>
-            </a>
+              <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+              </a>
+              <a href={settings?.socialLinks?.twitter || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+              </a>
+              <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Accordion sections */}
+          <div className="mb-4">
+            <AccordionSection title="Categories">
+              <ul className="space-y-3 text-sm text-gray-600 text-left">
+                <li><Link href="/products?category=rings" className="hover:text-[#1A1A1A] transition-colors">Rings</Link></li>
+                <li><Link href="/products?category=earrings" className="hover:text-[#1A1A1A] transition-colors">Earrings</Link></li>
+                <li><Link href="/products?category=necklaces" className="hover:text-[#1A1A1A] transition-colors">Necklaces</Link></li>
+                <li><Link href="/products?category=bangles" className="hover:text-[#1A1A1A] transition-colors">Bangles</Link></li>
+              </ul>
+            </AccordionSection>
+
+            <AccordionSection title="Care">
+              <ul className="space-y-3 text-sm text-gray-600 text-left">
+                <li><Link href="/faq" className="hover:text-[#1A1A1A] transition-colors">FAQs</Link></li>
+                <li><Link href="/jewellery-care" className="hover:text-[#1A1A1A] transition-colors">Jewellery Care</Link></li>
+                <li><Link href="/size-guide" className="hover:text-[#1A1A1A] transition-colors">Size Guide</Link></li>
+              </ul>
+            </AccordionSection>
+
+            <AccordionSection title="About">
+              <ul className="space-y-3 text-sm text-gray-600 text-left">
+                <li><Link href="/about" className="hover:text-[#1A1A1A] transition-colors">Our Story</Link></li>
+                <li><Link href="/contact" className="hover:text-[#1A1A1A] transition-colors">Contact Us</Link></li>
+                <li><Link href="/terms" className="hover:text-[#1A1A1A] transition-colors">Terms And Conditions</Link></li>
+                <li><Link href="/privacy" className="hover:text-[#1A1A1A] transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/shipping-policy" className="hover:text-[#1A1A1A] transition-colors">Shipping & Delivery</Link></li>
+                <li><Link href="/return-policy" className="hover:text-[#1A1A1A] transition-colors">Return & Exchange Policy</Link></li>
+              </ul>
+            </AccordionSection>
+
+            <AccordionSection title="Newsletter Signup">
+              <div className="pt-2">
+                <p className="text-sm text-gray-600 mb-3">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+                <div className="flex w-full">
+                  <input type="email" placeholder="Enter your email" className="w-full bg-transparent border-b border-gray-400 py-2 text-sm focus:outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A]" />
+                  <button className="border-b border-gray-400 py-2 px-3 text-sm font-medium hover:text-[#D4AF37] transition-colors">SUBSCRIBE</button>
+                </div>
+              </div>
+            </AccordionSection>
           </div>
         </div>
 
-        {/* Accordion sections */}
-        <AccordionSection title="Care">
-          <ul className="space-y-3 text-sm text-gray-700 text-center">
-            <li><Link href="/account/orders" className="hover:text-[#B76E79] transition-colors">Track Your Order</Link></li>
-            <li><Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms And Conditions</Link></li>
-            <li><Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy Policy</Link></li>
-            <li><Link href="/shipping-policy" className="hover:text-[#B76E79] transition-colors">Shipping & Delivery</Link></li>
-            <li><Link href="/return-policy" className="hover:text-[#B76E79] transition-colors">Return & Exchange Policy</Link></li>
-          </ul>
-        </AccordionSection>
-
-        <AccordionSection title="Shop">
-          <ul className="space-y-3 text-sm text-gray-700 text-center">
-            <li><Link href="/products" className="hover:text-[#B76E79] transition-colors">All Products</Link></li>
-            <li><Link href="/products?filter=new-arrivals" className="hover:text-[#B76E79] transition-colors">New Arrivals</Link></li>
-            <li><Link href="/products?sortBy=salesCount" className="hover:text-[#B76E79] transition-colors">Best Sellers</Link></li>
-            <li><Link href="/products?featured=true" className="hover:text-[#B76E79] transition-colors">Featured</Link></li>
-          </ul>
-        </AccordionSection>
-
-        <AccordionSection title="Contact Us">
-          <ul className="space-y-3 text-sm text-gray-700 text-center">
-            {settings?.address && (
-              <li>{settings.address}</li>
-            )}
-            {settings?.contactPhone && (
-              <li><a href={`tel:${settings.contactPhone}`} className="hover:text-[#B76E79] transition-colors">{settings.contactPhone}</a></li>
-            )}
-            {settings?.contactEmail && (
-              <li><a href={`mailto:${settings.contactEmail}`} className="hover:text-[#B76E79] transition-colors">{settings.contactEmail}</a></li>
-            )}
-            <li><Link href="/contact" className="hover:text-[#B76E79] transition-colors">Send us a message</Link></li>
-          </ul>
-        </AccordionSection>
-
-        <AccordionSection title="Popular Categories">
-          <ul className="space-y-3 text-sm text-gray-700 text-center">
-            <li><Link href="/products?category=rings" className="hover:text-[#B76E79] transition-colors">Rings</Link></li>
-            <li><Link href="/products?category=earrings" className="hover:text-[#B76E79] transition-colors">Earrings</Link></li>
-            <li><Link href="/products?category=necklaces" className="hover:text-[#B76E79] transition-colors">Necklaces</Link></li>
-            <li><Link href="/products?category=bangles" className="hover:text-[#B76E79] transition-colors">Bangles</Link></li>
-            <li><Link href="/products?category=bracelets" className="hover:text-[#B76E79] transition-colors">Bracelets</Link></li>
-          </ul>
-        </AccordionSection>
-
         {/* Bottom bar */}
-        <div className="py-5 text-center text-xs text-gray-400">
-          {/* Secure Payment */}
-          <div className="flex justify-center mb-4">
-            <Image
-              src="/thumbnails/secure_payment.png"
-              alt="Secure Payment"
-              width={320}
-              height={40}
-              className="object-contain"
-            />
-          </div>
-          <p>&copy; 2026 Amoli Fashion Jewellery. All Rights Reserved.</p>
-          <div className="flex justify-center gap-4 mt-2">
-            <Link href="/shipping-policy" className="hover:text-[#B76E79] transition-colors">Shipping</Link>
-            <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
-            <Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy</Link>
-          </div>
+        <div className="bg-[#1A1A1A] py-5 px-4 text-center">
+          <p className="text-white text-sm font-medium">
+            All right reserved © Amoli Fashion Jewellery Powered by CuriousApes
+          </p>
         </div>
       </div>
 
       {/* ── DESKTOP GRID (md+) ── */}
-      <div className="hidden md:block container-custom py-12">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="hidden md:block container-custom pt-16 pb-0">
+        <div className="grid grid-cols-5 gap-8 mb-16">
           {/* Brand */}
-          <div>
-            <Link href="/" className="inline-block mb-4">
+          <div className="col-span-1 md:col-span-1">
+            <Link href="/" className="inline-block mb-6">
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={180} height={65} className="object-contain" priority />
             </Link>
-            <p className="text-sm text-gray-600 mb-4">
-              {settings?.siteDescription || 'Premium copper and stainless steel jewelry. Nickel-free, skin-friendly, and crafted with care in Rajasthan.'}
+            <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of luxury jewellery with a curated collection inspired by the finest traditions.'}
             </p>
-            <div className="flex space-x-3">
-              <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
-              </a>
+            <div className="flex gap-2">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
               </a>
-            <a href={settings?.socialLinks?.twitter || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+              </a>
+              <a href={settings?.socialLinks?.twitter || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
               </a>
               <a href={settings?.socialLinks?.youtube || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/></svg>
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
               </a>
             </div>
           </div>
 
-          {/* Shop */}
+          {/* Categories */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm tracking-wide uppercase">Shop</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/products" className="text-gray-600 hover:text-[#B76E79] transition-colors">All Products</Link></li>
-              <li><Link href="/products?filter=new-arrivals" className="text-gray-600 hover:text-[#B76E79] transition-colors">New Arrivals</Link></li>
-              <li><Link href="/products?sortBy=salesCount" className="text-gray-600 hover:text-[#B76E79] transition-colors">Best Sellers</Link></li>
-              <li><Link href="/products?featured=true" className="text-gray-600 hover:text-[#B76E79] transition-colors">Featured</Link></li>
+            <h4 className="font-semibold mb-6 text-sm tracking-widest uppercase text-[#1A1A1A]">Categories</h4>
+            <ul className="space-y-4 text-sm">
+              <li><Link href="/products?category=rings" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Rings</Link></li>
+              <li><Link href="/products?category=earrings" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Earrings</Link></li>
+              <li><Link href="/products?category=necklaces" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Necklaces</Link></li>
+              <li><Link href="/products?category=bangles" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Bangles</Link></li>
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Care */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm tracking-wide uppercase">Support</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="text-gray-600 hover:text-[#B76E79] transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="text-gray-600 hover:text-[#B76E79] transition-colors">Contact Us</Link></li>
-              <li><Link href="/faq" className="text-gray-600 hover:text-[#B76E79] transition-colors">FAQ</Link></li>
-              <li><Link href="/account/orders" className="text-gray-600 hover:text-[#B76E79] transition-colors">Track Order</Link></li>
-              <li><Link href="/terms" className="text-gray-600 hover:text-[#B76E79] transition-colors">Terms & Conditions</Link></li>
-              <li><Link href="/privacy" className="text-gray-600 hover:text-[#B76E79] transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/shipping-policy" className="text-gray-600 hover:text-[#B76E79] transition-colors">Shipping & Delivery</Link></li>
-              <li><Link href="/return-policy" className="text-gray-600 hover:text-[#B76E79] transition-colors">Return & Exchange Policy</Link></li>
+            <h4 className="font-semibold mb-6 text-sm tracking-widest uppercase text-[#1A1A1A]">Care</h4>
+            <ul className="space-y-4 text-sm">
+              <li><Link href="/faq" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">FAQs</Link></li>
+              <li><Link href="/jewellery-care" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Jewellery Care</Link></li>
+              <li><Link href="/size-guide" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Size Guide</Link></li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* About */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm tracking-wide uppercase">Contact</h4>
-            <ul className="space-y-3 text-sm">
-              {settings?.address && (
-                <li className="flex items-start"><MapPin className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-500" /><span className="text-gray-600">{settings.address}</span></li>
-              )}
-              {settings?.contactPhone && (
-                <li className="flex items-center"><Phone className="h-4 w-4 mr-2 flex-shrink-0 text-gray-500" /><span className="text-gray-600">{settings.contactPhone}</span></li>
-              )}
-              {settings?.contactEmail && (
-                <li className="flex items-center"><Mail className="h-4 w-4 mr-2 flex-shrink-0 text-gray-500" /><span className="text-gray-600">{settings.contactEmail}</span></li>
-              )}
+            <h4 className="font-semibold mb-6 text-sm tracking-widest uppercase text-[#1A1A1A]">About</h4>
+            <ul className="space-y-4 text-sm">
+              <li><Link href="/about" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Our Story</Link></li>
+              <li><Link href="/contact" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Contact Us</Link></li>
+              <li><Link href="/shipping-policy" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Shipping & Delivery</Link></li>
+              <li><Link href="/return-policy" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Return Policy</Link></li>
+              <li><Link href="/terms" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Terms & Conditions</Link></li>
+              <li><Link href="/privacy" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
-        </div>
 
-        <div className="border-t border-gray-200 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>&copy; 2026 Amoli Fashion Jewellery. All Rights Reserved.</p>
-          <div className="flex items-center gap-6">
-            <Image
-              src="/thumbnails/secure_payment.png"
-              alt="Secure Payment"
-              width={280}
-              height={36}
-              className="object-contain"
-            />
-            <div className="flex space-x-6">
-              <Link href="/return-policy" className="hover:text-[#B76E79] transition-colors">Returns</Link>
-              <Link href="/shipping-policy" className="hover:text-[#B76E79] transition-colors">Shipping</Link>
-              <Link href="/terms" className="hover:text-[#B76E79] transition-colors">Terms</Link>
-              <Link href="/privacy" className="hover:text-[#B76E79] transition-colors">Privacy</Link>
+          {/* Newsletter */}
+          <div className="col-span-1 md:col-span-1">
+            <h4 className="font-semibold mb-6 text-sm tracking-widest uppercase text-[#1A1A1A]">Newsletter Signup</h4>
+            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+            </p>
+            <div className="flex w-full mt-4">
+              <input type="email" placeholder="Enter your email" className="w-full bg-transparent border-b border-gray-400 py-2 text-sm focus:outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A]" />
+              <button className="border-b border-gray-400 py-2 px-3 text-sm font-medium hover:text-[#D4AF37] transition-colors">SUBSCRIBE</button>
             </div>
           </div>
+        </div>
+      </div>
+      
+      {/* Desktop Bottom Bar */}
+      <div className="hidden md:block bg-[#1A1A1A] py-5">
+        <div className="container-custom flex justify-center text-sm">
+          <p className="text-white font-medium">
+            All right reserved © Amoli Fashion Jewellery Powered by CuriousApes
+          </p>
         </div>
       </div>
 

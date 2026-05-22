@@ -43,7 +43,7 @@ function CheckBox({ checked }: { checked: boolean }) {
   return (
     <span
       className="w-4 h-4 flex-shrink-0 border flex items-center justify-center transition-all duration-150"
-      style={checked ? { backgroundColor: '#B76E79', borderColor: '#B76E79' } : { borderColor: '#d1d5db' }}
+      style={checked ? { backgroundColor: '#1A1A1A', borderColor: '#1A1A1A' } : { borderColor: '#d1d5db' }}
     >
       {checked && (
         <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 10">
@@ -58,9 +58,9 @@ function RadioDot({ checked }: { checked: boolean }) {
   return (
     <span
       className="w-4 h-4 flex-shrink-0 rounded-full border flex items-center justify-center transition-all duration-150"
-      style={checked ? { borderColor: '#B76E79' } : { borderColor: '#d1d5db' }}
+      style={checked ? { borderColor: '#1A1A1A' } : { borderColor: '#d1d5db' }}
     >
-      {checked && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#B76E79' }} />}
+      {checked && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />}
     </span>
   );
 }
@@ -107,6 +107,7 @@ export default function ProductsPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [subcategories, setSubcategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [heroData, setHeroData] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -145,6 +146,19 @@ export default function ProductsPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategories, selectedSubcategories, selectedPriceRange, selectedMaterials, selectedGenders, selectedOccasions, inStockOnly, sortBy, perPage]);
+
+  const fetchHero = async () => {
+    try {
+      const res = await fetch('/api/sections/products_hero');
+      const data = await res.json();
+      if (data.success) setHeroData(data.section);
+    } catch {}
+  };
+
+  useEffect(() => {
+    fetchHero();
+    fetchCategories();
+  }, []);
 
   useEffect(() => { fetchProducts(); }, [currentPage, sortBy, perPage, selectedCategories, selectedSubcategories, selectedPriceRange, selectedMaterials, selectedGenders, selectedOccasions, inStockOnly]);
 
@@ -213,10 +227,10 @@ export default function ProductsPage() {
       {/* Sidebar Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4" style={{ color: '#B76E79' }} />
+          <SlidersHorizontal className="h-4 w-4" style={{ color: '#1A1A1A' }} />
           <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-900">Filters</span>
           {activeFilterCount > 0 && (
-            <span className="text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold" style={{ backgroundColor: '#B76E79' }}>
+            <span className="text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold" style={{ backgroundColor: '#1A1A1A' }}>
               {activeFilterCount}
             </span>
           )}
@@ -237,7 +251,7 @@ export default function ProductsPage() {
                 onChange={() => toggleCheckbox(cat.id, selectedCategories, setSelectedCategories)} />
               <CheckBox checked={selectedCategories.includes(cat.id)} />
               <span className={`text-sm transition-colors ${selectedCategories.includes(cat.id) ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-                style={selectedCategories.includes(cat.id) ? { color: '#B76E79' } : {}}>
+                style={selectedCategories.includes(cat.id) ? { color: '#1A1A1A' } : {}}>
                 {cat.name}
               </span>
             </label>
@@ -254,7 +268,7 @@ export default function ProductsPage() {
                   onChange={() => toggleCheckbox(sub.id, selectedSubcategories, setSelectedSubcategories)} />
                 <CheckBox checked={selectedSubcategories.includes(sub.id)} />
                 <span className={`text-sm transition-colors ${selectedSubcategories.includes(sub.id) ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-                  style={selectedSubcategories.includes(sub.id) ? { color: '#B76E79' } : {}}>
+                  style={selectedSubcategories.includes(sub.id) ? { color: '#1A1A1A' } : {}}>
                   {sub.name}
                 </span>
               </label>
@@ -271,7 +285,7 @@ export default function ProductsPage() {
                 onChange={() => setSelectedPriceRange(selectedPriceRange === idx ? null : idx)} />
               <RadioDot checked={selectedPriceRange === idx} />
               <span className={`text-sm transition-colors ${selectedPriceRange === idx ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-                style={selectedPriceRange === idx ? { color: '#B76E79' } : {}}>
+                style={selectedPriceRange === idx ? { color: '#1A1A1A' } : {}}>
                 {range.label}
               </span>
             </label>
@@ -287,7 +301,7 @@ export default function ProductsPage() {
                 onChange={() => toggleCheckbox(m, selectedMaterials, setSelectedMaterials)} />
               <CheckBox checked={selectedMaterials.includes(m)} />
               <span className={`text-sm transition-colors ${selectedMaterials.includes(m) ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-                style={selectedMaterials.includes(m) ? { color: '#B76E79' } : {}}>{m}</span>
+                style={selectedMaterials.includes(m) ? { color: '#1A1A1A' } : {}}>{m}</span>
             </label>
           ))}
         </div>
@@ -301,7 +315,7 @@ export default function ProductsPage() {
                 onChange={() => toggleCheckbox(g, selectedGenders, setSelectedGenders)} />
               <CheckBox checked={selectedGenders.includes(g)} />
               <span className={`text-sm transition-colors ${selectedGenders.includes(g) ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-                style={selectedGenders.includes(g) ? { color: '#B76E79' } : {}}>{g}</span>
+                style={selectedGenders.includes(g) ? { color: '#1A1A1A' } : {}}>{g}</span>
             </label>
           ))}
         </div>
@@ -315,7 +329,7 @@ export default function ProductsPage() {
                 onChange={() => toggleCheckbox(o, selectedOccasions, setSelectedOccasions)} />
               <CheckBox checked={selectedOccasions.includes(o)} />
               <span className={`text-sm transition-colors ${selectedOccasions.includes(o) ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-                style={selectedOccasions.includes(o) ? { color: '#B76E79' } : {}}>{o}</span>
+                style={selectedOccasions.includes(o) ? { color: '#1A1A1A' } : {}}>{o}</span>
             </label>
           ))}
         </div>
@@ -326,7 +340,7 @@ export default function ProductsPage() {
           <input type="checkbox" className="hidden" checked={inStockOnly} onChange={(e) => setInStockOnly(e.target.checked)} />
           <CheckBox checked={inStockOnly} />
           <span className={`text-sm transition-colors ${inStockOnly ? 'font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}
-            style={inStockOnly ? { color: '#B76E79' } : {}}>In Stock Only</span>
+            style={inStockOnly ? { color: '#1A1A1A' } : {}}>In Stock Only</span>
         </label>
       </FilterSection>
     </div>
@@ -335,12 +349,31 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-[#F9F7F4]">
       {/* Hero Banner */}
-      <div className="relative text-white" style={{ backgroundColor: '#B76E79' }}>
-        <div className="max-w-full px-4 sm:px-8 py-8 sm:py-12 text-center">
-          <p className="text-[10px] tracking-[0.35em] uppercase text-white/50 mb-2">Discover</p>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif text-white mb-2">Exquisite Collections</h1>
+      <div 
+        className="relative text-white overflow-hidden" 
+        style={{ 
+          backgroundColor: heroData?.backgroundColor || '#1A1A1A',
+          minHeight: '160px'
+        }}
+      >
+        {heroData?.image && (
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={heroData.image} 
+              alt={heroData.title || ''} 
+              className="w-full h-full object-cover opacity-60"
+            />
+          </div>
+        )}
+        <div className="relative z-10 max-w-full px-4 sm:px-8 py-8 sm:py-12 text-center">
+          <p className="text-[10px] tracking-[0.35em] uppercase text-white/50 mb-2">
+            {heroData?.subtitle || 'Discover'}
+          </p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif text-white mb-2">
+            {heroData?.title || 'Exquisite Collections'}
+          </h1>
           <p className="text-white/55 text-xs sm:text-sm font-light max-w-md mx-auto">
-            Timeless elegance, meticulously handcrafted for every occasion.
+            {heroData?.description || 'Timeless elegance, meticulously handcrafted for every occasion.'}
           </p>
         </div>
       </div>
@@ -361,13 +394,13 @@ export default function ProductsPage() {
             {/* Mobile filter trigger */}
             <button
               onClick={() => setMobileSidebarOpen(true)}
-              className="lg:hidden flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase border border-gray-200 px-2.5 py-2 hover:border-[#B76E79] transition-colors flex-shrink-0"
-              style={{ color: '#B76E79' }}
+              className="lg:hidden flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase border border-gray-200 px-2.5 py-2 hover:border-[#1A1A1A] transition-colors flex-shrink-0"
+              style={{ color: '#1A1A1A' }}
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
               Filters
               {activeFilterCount > 0 && (
-                <span className="text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full" style={{ backgroundColor: '#B76E79' }}>
+                <span className="text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full" style={{ backgroundColor: '#1A1A1A' }}>
                   {activeFilterCount}
                 </span>
               )}
@@ -387,7 +420,7 @@ export default function ProductsPage() {
                     onClick={() => setViewMode(mode)}
                     title={`${cols} columns`}
                     className="px-2.5 py-2 transition-colors"
-                    style={viewMode === mode ? { backgroundColor: '#B76E79', color: '#fff' } : { color: '#9ca3af' }}
+                    style={viewMode === mode ? { backgroundColor: '#1A1A1A', color: '#fff' } : { color: '#9ca3af' }}
                   >
                     <GridIcon cols={cols} />
                   </button>
@@ -398,7 +431,7 @@ export default function ProductsPage() {
               <select
                 value={perPage}
                 onChange={(e) => setPerPage(Number(e.target.value))}
-                className="border border-gray-200 bg-white text-[11px] tracking-widest uppercase text-gray-700 px-2 py-1.5 focus:outline-none focus:border-[#B76E79] cursor-pointer"
+                className="border border-gray-200 bg-white text-[11px] tracking-widest uppercase text-gray-700 px-2 py-1.5 focus:outline-none focus:border-[#1A1A1A] cursor-pointer"
               >
                 <option value={12}>12</option>
                 <option value={24}>24</option>
@@ -410,7 +443,7 @@ export default function ProductsPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-200 bg-white text-[11px] tracking-widest uppercase text-gray-700 px-2 py-1.5 focus:outline-none focus:border-[#B76E79] cursor-pointer"
+                className="border border-gray-200 bg-white text-[11px] tracking-widest uppercase text-gray-700 px-2 py-1.5 focus:outline-none focus:border-[#1A1A1A] cursor-pointer"
               >
                 <option value="newest">Latest</option>
                 <option value="price-asc">Price Low-High</option>
@@ -426,7 +459,7 @@ export default function ProductsPage() {
                 const cat = categories.find(c => c.id === id);
                 return cat ? (
                   <span key={id} className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                    style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                    style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                     {cat.name}
                     <button onClick={() => toggleCheckbox(id, selectedCategories, setSelectedCategories)}><X className="h-2.5 w-2.5" /></button>
                   </span>
@@ -436,7 +469,7 @@ export default function ProductsPage() {
                 const sub = subcategories.find(s => s.id === id);
                 return sub ? (
                   <span key={id} className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                    style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                    style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                     {sub.name}
                     <button onClick={() => toggleCheckbox(id, selectedSubcategories, setSelectedSubcategories)}><X className="h-2.5 w-2.5" /></button>
                   </span>
@@ -444,32 +477,32 @@ export default function ProductsPage() {
               })}
               {selectedPriceRange !== null && (
                 <span className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                   {PRICE_RANGES[selectedPriceRange].label}
                   <button onClick={() => setSelectedPriceRange(null)}><X className="h-2.5 w-2.5" /></button>
                 </span>
               )}
               {selectedMaterials.map(m => (
                 <span key={m} className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                   {m}<button onClick={() => toggleCheckbox(m, selectedMaterials, setSelectedMaterials)}><X className="h-2.5 w-2.5" /></button>
                 </span>
               ))}
               {selectedGenders.map(g => (
                 <span key={g} className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                   {g}<button onClick={() => toggleCheckbox(g, selectedGenders, setSelectedGenders)}><X className="h-2.5 w-2.5" /></button>
                 </span>
               ))}
               {selectedOccasions.map(o => (
                 <span key={o} className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                   {o}<button onClick={() => toggleCheckbox(o, selectedOccasions, setSelectedOccasions)}><X className="h-2.5 w-2.5" /></button>
                 </span>
               ))}
               {inStockOnly && (
                 <span className="flex items-center gap-1 text-[10px] px-2.5 py-1 border font-semibold tracking-widest uppercase"
-                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
+                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
                   In Stock<button onClick={() => setInStockOnly(false)}><X className="h-2.5 w-2.5" /></button>
                 </span>
               )}
@@ -494,7 +527,7 @@ export default function ProductsPage() {
                 <h3 className="text-lg font-serif text-gray-800 mb-1">No products found</h3>
                 <p className="text-gray-400 text-sm">Try adjusting your filters</p>
                 {activeFilterCount > 0 && (
-                  <button onClick={clearAll} className="mt-5 text-[11px] font-semibold tracking-widest uppercase text-white px-6 py-2.5" style={{ backgroundColor: '#B76E79' }}>
+                  <button onClick={clearAll} className="mt-5 text-[11px] font-semibold tracking-widest uppercase text-white px-6 py-2.5" style={{ backgroundColor: '#1A1A1A' }}>
                     Clear Filters
                   </button>
                 )}
@@ -527,7 +560,7 @@ export default function ProductsPage() {
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100" style={{ backgroundColor: '#B76E79' }}>
+              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100" style={{ backgroundColor: '#1A1A1A' }}>
                 <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-white">Filters</span>
                 <button onClick={() => setMobileSidebarOpen(false)} className="text-white/70 hover:text-white">
                   <X className="h-5 w-5" />

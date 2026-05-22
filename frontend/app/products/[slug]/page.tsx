@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Breadcrumb } from '@/components/common/Breadcrumb';
 import { Rating } from '@/components/common/Rating';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Heart, Truck, RefreshCw, Minus, Plus, Star, Check, CheckCircle, Share2 } from 'lucide-react';
+import { ShoppingCart, Heart, Truck, RefreshCw, Minus, Plus, Star, Check, CheckCircle, Share2, ArrowRight } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import { RecentlyViewedSection } from '@/components/common/RecentlyViewed';
@@ -112,7 +112,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       const res = await fetch(`/api/reviews?productId=${productId}`, { headers });
       const data = await res.json();
       setReviews(data.reviews || []);
-    } catch {}
+    } catch { }
   };
 
   const fetchRelated = async (categoryId: string, excludeId: string) => {
@@ -133,7 +133,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       }
 
       setRelatedProducts(products);
-    } catch {}
+    } catch { }
   };
 
   const handleAddToCart = () => {
@@ -154,7 +154,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
     // Sync with server if logged in
     if (isAuthenticated && token && token.length > 10) {
-      dispatch(addToCartAsync({ productId: product.id, quantity, token })).catch(() => {});
+      dispatch(addToCartAsync({ productId: product.id, quantity, token })).catch(() => { });
     }
   };
 
@@ -182,8 +182,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
     // Sync with server if logged in
     if (isAuthenticated && token && token.length > 10) {
-      if (isInWishlist) dispatch(removeFromWishlistAsync({ productId: product.id, token })).catch(() => {});
-      else dispatch(addToWishlistAsync({ productId: product.id, token })).catch(() => {});
+      if (isInWishlist) dispatch(removeFromWishlistAsync({ productId: product.id, token })).catch(() => { });
+      else dispatch(addToWishlistAsync({ productId: product.id, token })).catch(() => { });
     }
   };
 
@@ -196,7 +196,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         await navigator.clipboard.writeText(window.location.href);
         toast.success('Link copied!');
       }
-    } catch {}
+    } catch { }
   };
 
 
@@ -204,7 +204,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#B76E79' }} />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#1A1A1A' }} />
       </div>
     );
   }
@@ -214,7 +214,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center text-center">
         <div>
           <h2 className="text-2xl font-fairplay text-[#1C1C1C]">Product not found</h2>
-          <Link href="/products" className="mt-4 inline-block text-sm underline" style={{ color: '#B76E79' }}>Back to Collections</Link>
+          <Link href="/products" className="mt-4 inline-block text-sm underline" style={{ color: '#1A1A1A' }}>Back to Collections</Link>
         </div>
       </div>
     );
@@ -268,7 +268,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 unoptimized={product.images[selectedImage]?.startsWith('data:')}
               />
               {discount > 0 && (
-                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase" style={{ backgroundColor: '#B76E79' }}>
+                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase" style={{ backgroundColor: '#1A1A1A' }}>
                   -{discount}%
                 </div>
               )}
@@ -279,7 +279,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`relative aspect-square border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#B76E79]' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                    className={`relative aspect-square border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#1A1A1A]' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
                     <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="80px" className="object-cover" unoptimized={img.startsWith('data:')} />
                   </button>
@@ -293,7 +293,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Title + rating */}
             <div>
               {product.category && (
-                <Link href={`/products?category=${product.category.slug}`} className="text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#B76E79] transition-colors">
+                <Link href={`/products?category=${product.category.slug}`} className="text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#1A1A1A] transition-colors">
                   {product.category.name}
                   {product.subcategory && ` / ${product.subcategory.name}`}
                 </Link>
@@ -312,7 +312,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               {product.specialPrice && (
                 <>
                   <span className="text-lg text-gray-400 line-through font-light">{formatPrice(product.originalPrice)}</span>
-                  <span className="text-white text-xs px-2 py-1 font-elegant tracking-widest uppercase" style={{ backgroundColor: '#B76E79' }}>Save {discount}%</span>
+                  <span className="text-white text-xs px-2 py-1 font-elegant tracking-widest uppercase" style={{ backgroundColor: '#1A1A1A' }}>Save {discount}%</span>
                 </>
               )}
             </div>
@@ -327,7 +327,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               <div className="flex flex-wrap gap-2">
                 {product.tags.map((tag, i) => (
                   <Link key={i} href={`/search?q=${encodeURIComponent(tag)}`}
-                    className="text-[10px] font-elegant tracking-widest uppercase px-3 py-1 border border-gold/20 text-gray-500 hover:border-[#B76E79] hover:text-[#B76E79] transition-colors">
+                    className="text-[10px] font-elegant tracking-widest uppercase px-3 py-1 border border-gold/20 text-gray-500 hover:border-[#1A1A1A] hover:text-[#1A1A1A] transition-colors">
                     {tag}
                   </Link>
                 ))}
@@ -337,7 +337,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Stock */}
             <div>
               {product.stock > 0 ? (
-                <p className="text-xs font-elegant tracking-widest uppercase flex items-center gap-2" style={{ color: '#B76E79' }}>
+                <p className="text-xs font-elegant tracking-widest uppercase flex items-center gap-2" style={{ color: '#1A1A1A' }}>
                   <CheckCircle className="h-4 w-4" />
                   In Stock
                   {product.stock <= 10 && <span className="text-orange-500 normal-case tracking-normal font-light">— Only {product.stock} left</span>}
@@ -353,12 +353,12 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <label className="block text-xs font-elegant tracking-widest uppercase text-gray-500 mb-2">Quantity</label>
                 <div className="flex items-center w-32 border border-gold/30">
                   <button onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1}
-                    className="px-3 py-2 text-gray-600 hover:bg-[#B76E79] hover:text-white transition-colors disabled:opacity-40">
+                    className="px-3 py-2 text-gray-600 hover:bg-[#1A1A1A] hover:text-white transition-colors disabled:opacity-40">
                     <Minus className="h-4 w-4" />
                   </button>
                   <span className="flex-1 text-center text-sm font-medium">{quantity}</span>
                   <button onClick={() => setQuantity(q => Math.min(product.stock, q + 1))} disabled={quantity >= product.stock}
-                    className="px-3 py-2 text-gray-600 hover:bg-[#B76E79] hover:text-white transition-colors disabled:opacity-40">
+                    className="px-3 py-2 text-gray-600 hover:bg-[#1A1A1A] hover:text-white transition-colors disabled:opacity-40">
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
@@ -386,16 +386,39 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   router.push('/checkout?mode=buynow');
                 }}
                 disabled={product.stock === 0}
-                className="w-full h-11 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs font-medium"
+                className="w-full h-12 text-white rounded-none border-none uppercase text-xs font-medium relative overflow-hidden flex items-center justify-between px-4 group transition-all"
                 style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#1C1C1C' }}
               >
-                {product.stock === 0 ? 'Out of Stock' : 'Buy Now'}
+                {product.stock === 0 ? (
+                  <span className="w-full text-center tracking-[0.15em]">Out of Stock</span>
+                ) : (
+                  <>
+                    <span className="tracking-[0.15em]">Buy Now</span>
+                    <div className="flex items-center">
+                      <div className="flex -space-x-2 mr-3 group-hover:scale-105 transition-transform">
+                        {/* GPay */}
+                        <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center z-30 shadow-sm overflow-hidden p-[2px] border border-gray-200">
+                          <Image src="/image/google-pay-icon.png" alt="GPay" width={20} height={20} className="object-contain w-full h-full mix-blend-multiply" />
+                        </div>
+                        {/* PhonePe */}
+                        <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center z-20 shadow-sm overflow-hidden p-[2px] border border-gray-200">
+                          <Image src="/image/phonepe-icon.png" alt="PhonePe" width={20} height={20} className="object-contain w-full h-full mix-blend-multiply" />
+                        </div>
+                        {/* Paytm */}
+                        <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center z-10 shadow-sm overflow-hidden p-[2px] border border-gray-200">
+                          <Image src="/image/paytm-icon.png" alt="Paytm" width={20} height={20} className="object-contain w-full h-full mix-blend-multiply" />
+                        </div>
+                      </div>
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </>
+                )}
               </Button>
               <Button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
                 className="w-full h-11 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs font-medium transition-colors"
-                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#B76E79' }}
+                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#1A1A1A' }}
               >
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 {product.stock === 0 ? 'Out of Stock' : 'Add to Bag'}
@@ -404,7 +427,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <Button
                   variant="outline"
                   onClick={handleWishlist}
-                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#B76E79] hover:text-white hover:border-[#B76E79] transition-colors tracking-[0.1em] uppercase text-xs h-9"
+                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#1A1A1A] hover:text-white hover:border-[#1A1A1A] transition-colors tracking-[0.1em] uppercase text-xs h-9"
                 >
                   <Heart className={`mr-1.5 h-3.5 w-3.5 ${isInWishlist ? 'fill-red-500 text-red-500' : ''}`} />
                   {isInWishlist ? 'Saved' : 'Wishlist'}
@@ -412,7 +435,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <Button
                   variant="outline"
                   onClick={handleShare}
-                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#B76E79] hover:text-white hover:border-[#B76E79] transition-colors tracking-[0.1em] uppercase text-xs h-9"
+                  className="rounded-none border-gray-300 text-[#1C1C1C] hover:bg-[#1A1A1A] hover:text-white hover:border-[#1A1A1A] transition-colors tracking-[0.1em] uppercase text-xs h-9"
                 >
                   <Share2 className="mr-1.5 h-3.5 w-3.5" />
                   Share
@@ -423,15 +446,15 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Trust badges */}
             <div className="border-t border-gold/15 pt-4 space-y-2.5 text-sm text-gray-500 font-light">
               <div className="flex items-center gap-3">
-                <Truck className="h-4 w-4 flex-shrink-0" style={{ color: '#B76E79' }} />
+                <Truck className="h-4 w-4 flex-shrink-0" style={{ color: '#1A1A1A' }} />
                 <span>Free delivery on orders above {formatPrice(freeShipping)}</span>
               </div>
               <div className="flex items-center gap-3">
-                <RefreshCw className="h-4 w-4 flex-shrink-0" style={{ color: '#B76E79' }} />
+                <RefreshCw className="h-4 w-4 flex-shrink-0" style={{ color: '#1A1A1A' }} />
                 <span>{returnDays}-day easy returns</span>
               </div>
               <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 flex-shrink-0" style={{ color: '#B76E79' }} />
+                <Check className="h-4 w-4 flex-shrink-0" style={{ color: '#1A1A1A' }} />
                 <span>100% authentic & certified</span>
               </div>
             </div>
@@ -451,7 +474,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 animate={{ rotate: openSections.description ? 45 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <Plus className="h-5 w-5" style={{ color: '#B76E79' }} />
+                <Plus className="h-5 w-5" style={{ color: '#1A1A1A' }} />
               </motion.div>
             </button>
             <AnimatePresence>
@@ -482,7 +505,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 animate={{ rotate: openSections.details ? 45 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <Plus className="h-5 w-5" style={{ color: '#B76E79' }} />
+                <Plus className="h-5 w-5" style={{ color: '#1A1A1A' }} />
               </motion.div>
             </button>
             <AnimatePresence>
@@ -528,7 +551,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 animate={{ rotate: openSections.reviews ? 45 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <Plus className="h-5 w-5" style={{ color: '#B76E79' }} />
+                <Plus className="h-5 w-5" style={{ color: '#1A1A1A' }} />
               </motion.div>
             </button>
             <AnimatePresence>
@@ -558,7 +581,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                                 <span className="w-3">{star}</span>
                                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                                 <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                  <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: '#B76E79' }} />
+                                  <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: '#1A1A1A' }} />
                                 </div>
                                 <span className="w-4 text-right">{count}</span>
                               </div>
@@ -602,7 +625,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                         <p className="text-sm text-gray-600 font-light mb-1">Purchased this product?</p>
                         <p className="text-xs text-gray-400 font-light mb-4">You can write a review from <span className="font-medium">My Orders</span> once your order is delivered.</p>
                         <Link href="/account/orders">
-                          <Button className="text-white rounded-none border-none tracking-widest uppercase text-xs px-6" style={{ backgroundColor: '#B76E79' }}>
+                          <Button className="text-white rounded-none border-none tracking-widest uppercase text-xs px-6" style={{ backgroundColor: '#1A1A1A' }}>
                             Go to My Orders
                           </Button>
                         </Link>
@@ -622,10 +645,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         {relatedProducts.length > 0 && (
           <div className="mt-12">
             <div className="flex items-center justify-between mb-6">
-              <div className="inline-block text-white px-4 py-1.5 sm:px-6 sm:py-2" style={{ backgroundColor: '#B76E79' }}>
+              <div className="inline-block text-white px-4 py-1.5 sm:px-6 sm:py-2" style={{ backgroundColor: '#1A1A1A' }}>
                 <h2 className="text-sm sm:text-lg font-fairplay text-white tracking-wide">You May Also Like</h2>
               </div>
-              <Link href={`/products?category=${product.category?.slug}`} className="text-[10px] sm:text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#B76E79] transition-colors whitespace-nowrap">
+              <Link href={`/products?category=${product.category?.slug}`} className="text-[10px] sm:text-xs font-elegant tracking-widest uppercase text-gray-400 hover:text-[#1A1A1A] transition-colors whitespace-nowrap">
                 View All →
               </Link>
             </div>

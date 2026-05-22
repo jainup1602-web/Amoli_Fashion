@@ -18,20 +18,20 @@ export default function CartPage() {
   // Prevent hydration mismatch — render nothing until client is ready
   if (!mounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F8F6F2' }}>
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: '#B76E79' }} />
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFCF0' }}>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: '#1A1A1A' }} />
       </div>
     );
   }
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-20 px-4" style={{ backgroundColor: '#F8F6F2' }}>
-        <div className="text-center p-10 sm:p-16 border border-gold/20 shadow-sm max-w-lg w-full" style={{ backgroundColor: '#F8F6F2' }}>
-          <ShoppingCart className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-5 sm:mb-6" strokeWidth={1} style={{ color: '#B76E79' }} />
-          <h2 className="text-2xl sm:text-3xl font-fairplay text-[#1C1C1C] mb-3 sm:mb-4">Your Shopping Bag is Empty</h2>
+      <div className="min-h-screen flex items-center justify-center py-20 px-4" style={{ backgroundColor: '#FDFCF0' }}>
+        <div className="text-center p-10 sm:p-16 border border-gold/20 shadow-sm max-w-lg w-full" style={{ backgroundColor: '#FDFCF0' }}>
+          <ShoppingCart className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-5 sm:mb-6" strokeWidth={1} style={{ color: '#1A1A1A' }} />
+          <h2 className="text-2xl sm:text-3xl font-playfair text-[#1C1C1C] mb-3 sm:mb-4">Your Shopping Bag is Empty</h2>
           <p className="text-gray-500 font-light tracking-wide mb-6 sm:mb-8 text-sm">Discover our latest collections to find something special.</p>
-          <Button asChild className="text-white rounded-none border-none tracking-[0.15em] uppercase text-xs px-8 py-3 transition-luxury" style={{ backgroundColor: '#B76E79' }}>
+          <Button asChild className="text-white rounded-none border-none tracking-[0.15em] uppercase text-xs px-8 py-3 transition-luxury" style={{ backgroundColor: '#1A1A1A' }}>
             <Link href="/products">Explore Collections</Link>
           </Button>
         </div>
@@ -40,11 +40,11 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen py-8 sm:py-16" style={{ backgroundColor: '#F8F6F2' }}>
+    <div className="min-h-screen py-8 sm:py-16" style={{ backgroundColor: '#FDFCF0' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-6 sm:mb-12">
           <span className="text-gold tracking-[0.2em] text-xs sm:text-sm uppercase mb-2 sm:mb-4 block font-elegant">Your Selection</span>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-fairplay text-[#1C1C1C]">Shopping Bag</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-playfair text-[#1C1C1C]">Shopping Bag</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">

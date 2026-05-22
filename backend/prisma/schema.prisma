@@ -406,3 +406,21 @@ model wishlist {
   @@index([productId])
   @@index([userId])
 }
+
+model section {
+  id              String   @id @default(uuid())
+  location        String   @unique
+  title           String?
+  subtitle        String?
+  description     String?  @db.Text
+  image           String?  @db.LongText
+  buttonText      String?
+  buttonLink      String?
+  backgroundColor String?  @default("#1A1A1A")
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([location])
+  @@index([isActive])
+}

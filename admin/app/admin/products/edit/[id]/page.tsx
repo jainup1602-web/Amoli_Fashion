@@ -39,7 +39,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     try {
       const res = await fetch('/api/categories');
       const data = await res.json();
-      if (data.success) setCategories(data.categories);
+      if (data.success) setCategories(data.categories || []);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -82,7 +82,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     try {
       const res = await fetch(`/api/categories/${categoryId}`);
       const data = await res.json();
-      if (data.success) setSubcategories(data.subcategories);
+      if (data.success) setSubcategories(data.subcategories || []);
     } catch (error) {
       console.error('Error fetching subcategories:', error);
     }
@@ -213,14 +213,14 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
               <label className="block text-sm font-medium mb-1">Category *</label>
               <select value={formData.category} onChange={(e) => handleCategoryChange(e.target.value)} className="w-full px-3 py-2 border rounded-md" required>
                 <option value="">Select Category</option>
-                {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                {(categories || []).map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Subcategory</label>
               <select value={formData.subcategory} onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })} className="w-full px-3 py-2 border rounded-md" disabled={!formData.category}>
                 <option value="">Select Subcategory</option>
-                {subcategories.map((sub) => <option key={sub.id} value={sub.id}>{sub.name}</option>)}
+                {(subcategories || []).map((sub) => <option key={sub.id} value={sub.id}>{sub.name}</option>)}
               </select>
             </div>
           </div>

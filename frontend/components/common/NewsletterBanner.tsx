@@ -33,12 +33,12 @@ export function NewsletterBanner() {
   };
 
   return (
-    <div className="py-10 px-4" style={{ backgroundColor: '#B76E79' }}>
+    <div className="py-10 px-4" style={{ backgroundColor: '#1A1A1A' }}>
       <div className="max-w-2xl mx-auto text-center">
         <div className="flex justify-center mb-3">
           <Gift className="h-8 w-8 text-white/80" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-fairplay text-white mb-1">Get 10% Off Your First Order</h2>
+        <h2 className="text-xl sm:text-2xl font-playfair text-white mb-1">Get 10% Off Your First Order</h2>
         <p className="text-white/70 text-sm mb-6 font-elegant tracking-wide">
           Subscribe to our newsletter for exclusive offers, new arrivals & style inspiration
         </p>

@@ -28,20 +28,6 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Database connection health check middleware
-app.use(async (req, res, next) => {
-  try {
-    const { ensureConnection } = require('./lib/prisma');
-    await ensureConnection();
-    next();
-  } catch (error) {
-    console.error('❌ Database connection middleware error:', error.message);
-    // We continue so health check or static routes might still work, 
-    // but individual routes will fail with better logs.
-    next();
-  }
-});
-
 // Routes
 app.use('/api/auth',        require('./routes/auth'));
 app.use('/api/settings',    require('./routes/settings'));
@@ -63,6 +49,7 @@ app.use('/api/model-gallery', require('./routes/modelGallery'));
 app.use('/api/video-reviews', require('./routes/videoReviews'));
 app.use('/api/marquee',      require('./routes/marquee'));
 app.use('/api/popup',       require('./routes/popup'));
+app.use('/api/sections',    require('./routes/sections'));
 app.use('/api/make-admin',  require('./routes/makeAdmin'));
 
 // Admin routes
@@ -83,6 +70,7 @@ app.use('/api/admin/model-gallery', require('./routes/admin/modelGallery'));
 app.use('/api/admin/video-reviews', require('./routes/admin/videoReviews'));
 app.use('/api/admin/marquee',      require('./routes/admin/marquee'));
 app.use('/api/admin/popups',       require('./routes/admin/popups'));
+app.use('/api/admin/sections',     require('./routes/admin/sections'));
 app.use('/api/admin/reports',      require('./routes/admin/reports'));
 
 // Webhooks

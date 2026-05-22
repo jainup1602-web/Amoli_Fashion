@@ -348,13 +348,13 @@ export function Header() {
 
   return (
     <header 
-      className="header-always-visible sticky top-0 w-full shadow-md z-50" 
+      className="header-always-visible sticky top-0 w-full shadow-sm z-50" 
       style={{ 
-        backgroundColor: '#F8F6F2'
+        backgroundColor: '#FDFCF0'
       }}
     >
       {/* Top Announcement Slider */}
-      <div className="text-white relative overflow-hidden" style={{ backgroundColor: '#B76E79' }}>
+      <div className="text-white relative overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
         <div className="relative h-10 flex items-center justify-center px-4">
 
           {/* Slides - Center */}
@@ -386,8 +386,8 @@ export function Header() {
               {/* Hamburger Menu */}
               <button
                 onClick={() => setCategoryMenuOpen(true)}
-                className="p-2 transition"
-                style={{ color: '#B76E79' }}
+                className="p-2 transition hover:opacity-70"
+                style={{ color: '#1A1A1A' }}
                 title="Categories"
               >
                 <Menu className="h-6 w-6" />
@@ -412,14 +412,14 @@ export function Header() {
               <Link 
                 href="/account/wishlist" 
                 className="relative p-2 transition group"
-                style={{ color: '#B76E79' }}
+                style={{ color: '#1A1A1A' }}
                 title="Wishlist"
               >
                 <Heart className="h-6 w-6 group-hover:fill-current" />
                 {wishlistCount > 0 && (
                   <span 
                     className={`absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold leading-none text-white rounded-full z-10 ${wishlistBounce ? 'animate-bounce-count' : ''}`}
-                    style={{ backgroundColor: '#B76E79' }}
+                    style={{ backgroundColor: '#1A1A1A' }}
                   >
                     {wishlistCount}
                   </span>
@@ -437,8 +437,8 @@ export function Header() {
                       setAuthModalOpen(true);
                     }
                   }}
-                  className="p-2 transition"
-                  style={{ color: '#B76E79' }}
+                  className="p-2 transition hover:opacity-70"
+                  style={{ color: '#1A1A1A' }}
                   title={isAuthenticated ? 'Profile Menu' : 'Login'}
                 >
                   <ProfileIcon className="h-6 w-6" />
@@ -457,7 +457,7 @@ export function Header() {
                     {/* User Info */}
                     <div className="px-4 py-3 border-b border-gray-100">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#B76E79' }}>
+                        <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1A1A1A' }}>
                           {user?.photoURL
                             ? <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full object-cover" />
                             : <span className="text-white text-sm font-medium">{user?.displayName?.charAt(0)?.toUpperCase() || 'U'}</span>
@@ -498,8 +498,8 @@ export function Header() {
                         Settings
                       </Link>
                       {user?.role === 'admin' && (
-                        <a href="http://localhost:3001/admin" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style={{ color: '#B76E79' }} onClick={() => setProfileMenuOpen(false)}>
-                          <Settings className="h-4 w-4 mr-3" style={{ color: '#B76E79' }} />
+                        <a href="http://localhost:3001/admin" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style={{ color: '#1A1A1A' }} onClick={() => setProfileMenuOpen(false)}>
+                          <Settings className="h-4 w-4 mr-3" style={{ color: '#1A1A1A' }} />
                           Admin Panel
                         </a>
                       )}
@@ -519,14 +519,14 @@ export function Header() {
               <Link 
                 href="/cart" 
                 className="relative p-2 transition group"
-                style={{ color: '#B76E79' }}
+                style={{ color: '#1A1A1A' }}
                 title="Shopping Cart"
               >
                 <ShoppingCart className="h-6 w-6" />
                 {cartItemsCount > 0 && (
                   <span 
                     className={`absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold leading-none text-white rounded-full z-10 ${cartBounce ? 'animate-bounce-count' : ''}`}
-                    style={{ backgroundColor: '#B76E79' }}
+                    style={{ backgroundColor: '#1A1A1A' }}
                   >
                     {cartItemsCount}
                   </span>
@@ -538,13 +538,13 @@ export function Header() {
       </div>
 
       {/* Search Bar Section - Below Logo */}
-      <div className="border-b border-gray-200" style={{ backgroundColor: '#F8F6F2' }}>
+      <div className="border-b border-gray-200" style={{ backgroundColor: '#FDFCF0' }}> 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-2 sm:gap-3 py-2">
             {/* Search Bar with Dropdown */}
             <div ref={searchRef} className="relative w-full max-w-xs sm:max-w-md lg:max-w-lg">
             <form 
-              className="flex items-center w-full bg-white rounded-lg shadow-sm border border-gray-200 focus-within:border-[#B76E79] focus-within:shadow-[0_0_0_2px_rgba(183,110,121,0.15)] transition-all duration-200"
+              className="flex items-center w-full bg-white rounded-lg shadow-sm border border-gray-200 focus-within:border-[#1A1A1A] focus-within:shadow-[0_0_0_2px_rgba(183,110,121,0.15)] transition-all duration-200"
               onSubmit={(e) => {
                 e.preventDefault();
                 setSuggestionsOpen(false);
@@ -562,7 +562,7 @@ export function Header() {
                   className="flex items-center px-3 py-2 text-gray-600 font-medium hover:text-gray-800 hover:bg-gray-50 transition-colors min-w-[130px] text-sm rounded-l-lg"
                 >
                   <span className="truncate">{selectedCategory ? selectedCategory.name : 'All Categories'}</span>
-                  <ChevronDown className={`ml-2 h-3 w-3 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} style={{ color: '#B76E79' }} />
+                  <ChevronDown className={`ml-2 h-3 w-3 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} style={{ color: '#1A1A1A' }} />
                 </button>
 
                 {/* Dropdown Menu - Sidebar Style */}
@@ -585,8 +585,8 @@ export function Header() {
                           <button
                             type="button"
                             onClick={() => { setSelectedCategory(null); setCategoryDropdownOpen(false); router.push('/products'); }}
-                            className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors border-b border-gray-100 ${!selectedCategory ? 'text-white' : 'text-gray-800 hover:bg-[#F8F6F2]'}`}
-                            style={!selectedCategory ? { backgroundColor: '#B76E79' } : {}}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors border-b border-gray-100 ${!selectedCategory ? 'text-white' : 'text-gray-800 hover:bg-[#FDFCF0]'}`}
+                            style={!selectedCategory ? { backgroundColor: '#1A1A1A' } : {}}
                           >
                             All Categories
                           </button>
@@ -600,11 +600,11 @@ export function Header() {
                                   key={cat.id}
                                   type="button"
                                   onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); router.push(`/products?category=${cat.slug}`); }}
-                                  className={`w-full flex items-center justify-between px-4 py-2 text-sm transition-colors group ${selectedCategory?.slug === cat.slug ? 'text-white font-medium' : 'text-gray-700 hover:bg-[#F8F6F2]'}`}
-                                  style={selectedCategory?.slug === cat.slug ? { backgroundColor: '#B76E79' } : {}}
+                                  className={`w-full flex items-center justify-between px-4 py-2 text-sm transition-colors group ${selectedCategory?.slug === cat.slug ? 'text-white font-medium' : 'text-gray-700 hover:bg-[#FDFCF0]'}`}
+                                  style={selectedCategory?.slug === cat.slug ? { backgroundColor: '#1A1A1A' } : {}}
                                 >
                                   <span>{cat.name}</span>
-                                  <ChevronRight className={`h-3 w-3 flex-shrink-0 ${selectedCategory?.slug === cat.slug ? 'text-white' : 'text-gray-300 group-hover:text-[#B76E79]'}`} />
+                                  <ChevronRight className={`h-3 w-3 flex-shrink-0 ${selectedCategory?.slug === cat.slug ? 'text-white' : 'text-gray-300 group-hover:text-[#1A1A1A]'}`} />
                                 </button>
                               ))}
                             </div>
@@ -615,10 +615,10 @@ export function Header() {
                             <button
                               type="button"
                               onClick={() => toggleDropdown('search-ethnic')}
-                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#FDFCF0] transition-colors"
                             >
                               <span className="text-[10px] uppercase tracking-widest text-gray-500">Ethnic Collection</span>
-                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-ethnic'] ? 'rotate-90' : ''}`} />
+                              <ChevronRight className={`h-3 w-3 text-[#1A1A1A] transition-transform duration-200 ${openDropdowns['search-ethnic'] ? 'rotate-90' : ''}`} />
                             </button>
                             <AnimatePresence>
                               {openDropdowns['search-ethnic'] && (
@@ -627,7 +627,7 @@ export function Header() {
                                   animate={{ height: 'auto', opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
                                   transition={{ duration: 0.25 }}
-                                  className="overflow-hidden bg-[#F8F6F2]"
+                                  className="overflow-hidden bg-[#FDFCF0]"
                                 >
                                   {[
                                     { label: 'Necklaces', slug: 'necklaces', collection: 'ethnic' },
@@ -644,7 +644,7 @@ export function Header() {
                                         setCategoryDropdownOpen(false);
                                         router.push(`/products?category=${item.slug}`);
                                       }}
-                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#1A1A1A] transition-colors"
                                     >
                                       {item.label}
                                     </button>
@@ -659,10 +659,10 @@ export function Header() {
                             <button
                               type="button"
                               onClick={() => toggleDropdown('search-western')}
-                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#FDFCF0] transition-colors"
                             >
                               <span className="text-[10px] uppercase tracking-widest text-gray-500">Western Collection</span>
-                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-western'] ? 'rotate-90' : ''}`} />
+                              <ChevronRight className={`h-3 w-3 text-[#1A1A1A] transition-transform duration-200 ${openDropdowns['search-western'] ? 'rotate-90' : ''}`} />
                             </button>
                             <AnimatePresence>
                               {openDropdowns['search-western'] && (
@@ -671,7 +671,7 @@ export function Header() {
                                   animate={{ height: 'auto', opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
                                   transition={{ duration: 0.25 }}
-                                  className="overflow-hidden bg-[#F8F6F2]"
+                                  className="overflow-hidden bg-[#FDFCF0]"
                                 >
                                   {[
                                     { label: 'Jewellery Sets', slug: 'jewellery-sets' },
@@ -687,7 +687,7 @@ export function Header() {
                                         setCategoryDropdownOpen(false);
                                         router.push(`/products?category=${item.slug}`);
                                       }}
-                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#1A1A1A] transition-colors"
                                     >
                                       {item.label}
                                     </button>
@@ -702,10 +702,10 @@ export function Header() {
                             <button
                               type="button"
                               onClick={() => toggleDropdown('search-minimalist')}
-                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#FDFCF0] transition-colors"
                             >
                               <span className="text-[10px] uppercase tracking-widest text-gray-500">Minimalist</span>
-                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-minimalist'] ? 'rotate-90' : ''}`} />
+                              <ChevronRight className={`h-3 w-3 text-[#1A1A1A] transition-transform duration-200 ${openDropdowns['search-minimalist'] ? 'rotate-90' : ''}`} />
                             </button>
                             <AnimatePresence>
                               {openDropdowns['search-minimalist'] && (
@@ -714,7 +714,7 @@ export function Header() {
                                   animate={{ height: 'auto', opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
                                   transition={{ duration: 0.25 }}
-                                  className="overflow-hidden bg-[#F8F6F2]"
+                                  className="overflow-hidden bg-[#FDFCF0]"
                                 >
                                   {[
                                     { label: 'Jewellery Sets', slug: 'jewellery-sets' },
@@ -730,7 +730,7 @@ export function Header() {
                                         setCategoryDropdownOpen(false);
                                         router.push(`/products?category=${item.slug}`);
                                       }}
-                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#1A1A1A] transition-colors"
                                     >
                                       {item.label}
                                     </button>
@@ -746,15 +746,15 @@ export function Header() {
                             <button
                               type="button"
                               onClick={() => { setSelectedCategory({ name: 'New Arrivals', slug: 'new-arrivals' }); setCategoryDropdownOpen(false); router.push('/products?sortBy=createdAt'); }}
-                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors group"
+                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-[#FDFCF0] transition-colors group"
                             >
                               <span>New Arrivals</span>
-                              <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: '#B76E79' }}>New</span>
+                              <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: '#1A1A1A' }}>New</span>
                             </button>
                             <button
                               type="button"
                               onClick={() => { setSelectedCategory({ name: 'Best Sellers', slug: 'best-sellers' }); setCategoryDropdownOpen(false); router.push('/products?sortBy=salesCount'); }}
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors"
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#FDFCF0] transition-colors"
                             >
                               Best Sellers
                             </button>
@@ -787,7 +787,7 @@ export function Header() {
               <button
                 type="submit"
                 className="px-4 py-2 transition-colors flex items-center justify-center rounded-r-lg"
-                style={{ color: '#B76E79' }}
+                style={{ color: '#1A1A1A' }}
               >
                 <Search className="h-4 w-4" />
               </button>
@@ -824,7 +824,7 @@ export function Header() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-800 truncate">{product.name}</p>
-                          <p className="text-xs font-semibold" style={{ color: '#B76E79' }}>₹{price?.toLocaleString('en-IN')}</p>
+                          <p className="text-xs font-semibold" style={{ color: '#1A1A1A' }}>₹{price?.toLocaleString('en-IN')}</p>
                         </div>
                       </Link>
                     );
@@ -839,7 +839,7 @@ export function Header() {
                       router.push(`/search?${params.toString()}`);
                     }}
                     className="w-full px-4 py-2.5 text-sm font-medium text-center transition-colors"
-                    style={{ color: '#B76E79', backgroundColor: '#f0f7f4' }}
+                    style={{ color: '#1A1A1A', backgroundColor: '#f0f7f4' }}
                   >
                     View all results for "{searchQuery}"
                   </button>
@@ -858,7 +858,7 @@ export function Header() {
               >
                 <span style={{ fontSize: '20px', lineHeight: 1 }}>📍</span>
                 {pincode && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
                 )}
               </button>
 
@@ -873,7 +873,7 @@ export function Header() {
                     transition={{ duration: 0.18 }}
                   >
                     <div className="flex items-center gap-1.5 mb-2.5">
-                      <MapPin className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#B76E79' }} />
+                      <MapPin className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#1A1A1A' }} />
                       <p className="text-sm font-semibold text-gray-800">Delivery Pincode</p>
                     </div>
 
@@ -887,13 +887,13 @@ export function Header() {
                         onChange={(e) => { setPincodeInput(e.target.value.replace(/\D/g, '')); setPincodeError(''); }}
                         onKeyDown={(e) => { if (e.key === 'Enter') applyPincode(); }}
                         autoFocus
-                        className="flex-1 min-w-0 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-800 outline-none focus:border-[#B76E79] transition-colors"
+                        className="flex-1 min-w-0 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-800 outline-none focus:border-[#1A1A1A] transition-colors"
                       />
                       <button
                         onClick={applyPincode}
                         disabled={pincodeLoading || pincodeInput.length !== 6}
                         className="px-3 py-1.5 text-white text-xs rounded-lg font-medium disabled:opacity-50 transition-opacity flex-shrink-0"
-                        style={{ backgroundColor: '#B76E79' }}
+                        style={{ backgroundColor: '#1A1A1A' }}
                       >
                         {pincodeLoading ? '...' : 'Apply'}
                       </button>
@@ -950,14 +950,14 @@ export function Header() {
             {/* Sidebar */}
             <motion.div 
               className="fixed top-0 left-0 h-screen w-80 shadow-xl z-50 flex flex-col" 
-              style={{ backgroundColor: '#F8F6F2' }}
+              style={{ backgroundColor: '#FDFCF0' }}
               variants={sidebarVariants}
               initial="closed"
               animate="open"
               exit="closed"
             >
             {/* Sidebar Header */}
-            <div className="flex items-center justify-between p-3 border-b border-gray-200" style={{ backgroundColor: '#F8F6F2' }}>
+            <div className="flex items-center justify-between p-3 border-b border-gray-200" style={{ backgroundColor: '#FDFCF0' }}>
               <div className="flex items-center">
                 <Image
                   src="/image/Amoli_2.png"
@@ -971,14 +971,14 @@ export function Header() {
               <button
                 onClick={() => setCategoryMenuOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-all duration-200"
-                style={{ color: '#B76E79' }}
+                style={{ color: '#1A1A1A' }}
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             {/* Categories List */}
-            <div className="flex-1 overflow-y-auto" style={{ backgroundColor: '#F8F6F2' }}>
+            <div className="flex-1 overflow-y-auto" style={{ backgroundColor: '#FDFCF0' }}>
               <div className="p-3 space-y-0.5">
                 {/* All Products */}
                 <Link
@@ -1004,8 +1004,8 @@ export function Header() {
                         className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight group"
                         onClick={() => setCategoryMenuOpen(false)}
                       >
-                        <span className="group-hover:text-[#B76E79] transition-colors">{cat.name}</span>
-                        <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
+                        <span className="group-hover:text-[#1A1A1A] transition-colors">{cat.name}</span>
+                        <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#1A1A1A] transition-colors" />
                       </Link>
                     )) : (
                       // Fallback hardcoded categories
@@ -1016,8 +1016,8 @@ export function Header() {
                           className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight group"
                           onClick={() => setCategoryMenuOpen(false)}
                         >
-                          <span className="group-hover:text-[#B76E79] transition-colors">{name}</span>
-                          <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
+                          <span className="group-hover:text-[#1A1A1A] transition-colors">{name}</span>
+                          <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#1A1A1A] transition-colors" />
                         </Link>
                       ))
                     )}
@@ -1030,10 +1030,10 @@ export function Header() {
                     onClick={() => toggleDropdown('ethnic')}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white rounded-lg transition-all duration-200 group"
                   >
-                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#B76E79] transition-colors">Ethnic Collection</h3>
+                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#1A1A1A] transition-colors">Ethnic Collection</h3>
                     <ChevronRight
                       className={`h-4 w-4 transform transition-transform duration-300 ${openDropdowns['ethnic'] ? 'rotate-90' : ''}`}
-                      style={{ color: '#B76E79' }}
+                      style={{ color: '#1A1A1A' }}
                     />
                   </button>
                   
@@ -1095,10 +1095,10 @@ export function Header() {
                     onClick={() => toggleDropdown('western')}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white rounded-lg transition-all duration-200 group"
                   >
-                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#B76E79] transition-colors">Western Collection</h3>
+                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#1A1A1A] transition-colors">Western Collection</h3>
                     <ChevronRight
                       className={`h-4 w-4 transform transition-transform duration-300 ${openDropdowns['western'] ? 'rotate-90' : ''}`}
-                      style={{ color: '#B76E79' }}
+                      style={{ color: '#1A1A1A' }}
                     />
                   </button>
                   
@@ -1153,10 +1153,10 @@ export function Header() {
                     onClick={() => toggleDropdown('minimalist')}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white rounded-lg transition-all duration-200 group"
                   >
-                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#B76E79] transition-colors">Minimalist</h3>
+                    <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider group-hover:text-[#1A1A1A] transition-colors">Minimalist</h3>
                     <ChevronRight
                       className={`h-4 w-4 transform transition-transform duration-300 ${openDropdowns['minimalist'] ? 'rotate-90' : ''}`}
-                      style={{ color: '#B76E79' }}
+                      style={{ color: '#1A1A1A' }}
                     />
                   </button>
                   
@@ -1218,7 +1218,7 @@ export function Header() {
                       onClick={() => setCategoryMenuOpen(false)}
                     >
                       <span>New Arrivals</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: '#B76E79', color: 'white' }}>New</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: '#1A1A1A', color: 'white' }}>New</span>
                     </Link>
                     <Link
                       href="/products?filter=best-seller"

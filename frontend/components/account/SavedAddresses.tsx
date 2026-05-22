@@ -86,18 +86,18 @@ export function SavedAddresses({ onSelect, selectable = false }: SavedAddressesP
       {addresses.map(addr => (
         <div
           key={addr.id}
-          className={`border p-4 cursor-pointer transition-colors ${selectable && selected === addr.id ? 'border-[#B76E79] bg-[#F9F5F2]' : 'border-gray-200 hover:border-gray-300'}`}
+          className={`border p-4 cursor-pointer transition-colors ${selectable && selected === addr.id ? 'border-[#1A1A1A] bg-[#F9F5F2]' : 'border-gray-200 hover:border-gray-300'}`}
           onClick={() => selectable && handleSelect(addr)}
         >
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-2">
               {selectable && (
-                <div className={`w-4 h-4 rounded-full border-2 mt-0.5 flex items-center justify-center ${selected === addr.id ? 'border-[#B76E79]' : 'border-gray-300'}`}>
-                  {selected === addr.id && <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#B76E79' }} />}
+                <div className={`w-4 h-4 rounded-full border-2 mt-0.5 flex items-center justify-center ${selected === addr.id ? 'border-[#1A1A1A]' : 'border-gray-300'}`}>
+                  {selected === addr.id && <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />}
                 </div>
               )}
               <div>
-                <span className="text-xs font-semibold tracking-widest uppercase px-2 py-0.5 mr-2" style={{ backgroundColor: '#F9F5F2', color: '#B76E79' }}>{addr.label}</span>
+                <span className="text-xs font-semibold tracking-widest uppercase px-2 py-0.5 mr-2" style={{ backgroundColor: '#F9F5F2', color: '#1A1A1A' }}>{addr.label}</span>
                 <span className="text-sm font-medium text-gray-800">{addr.fullName}</span>
                 <p className="text-xs text-gray-500 mt-1">{addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}</p>
                 <p className="text-xs text-gray-500">{addr.city}, {addr.state} - {addr.pincode}</p>
@@ -117,7 +117,7 @@ export function SavedAddresses({ onSelect, selectable = false }: SavedAddressesP
       {!adding ? (
         <button
           onClick={() => setAdding(true)}
-          className="w-full border border-dashed border-gray-300 p-3 text-xs font-elegant tracking-widest uppercase text-gray-400 hover:border-[#B76E79] hover:text-[#B76E79] transition-colors flex items-center justify-center gap-2"
+          className="w-full border border-dashed border-gray-300 p-3 text-xs font-elegant tracking-widest uppercase text-gray-400 hover:border-[#1A1A1A] hover:text-[#1A1A1A] transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="h-3.5 w-3.5" /> Add New Address
         </button>
@@ -127,7 +127,7 @@ export function SavedAddresses({ onSelect, selectable = false }: SavedAddressesP
             {['Home', 'Work', 'Other'].map(l => (
               <button key={l} onClick={() => setForm(f => ({ ...f, label: l }))}
                 className="px-3 py-1 text-xs border transition-colors"
-                style={{ borderColor: form.label === l ? '#B76E79' : '#e5e7eb', color: form.label === l ? '#fff' : '#6b7280', backgroundColor: form.label === l ? '#B76E79' : 'transparent' }}>
+                style={{ borderColor: form.label === l ? '#1A1A1A' : '#e5e7eb', color: form.label === l ? '#fff' : '#6b7280', backgroundColor: form.label === l ? '#1A1A1A' : 'transparent' }}>
                 {l}
               </button>
             ))}
@@ -140,17 +140,17 @@ export function SavedAddresses({ onSelect, selectable = false }: SavedAddressesP
           ].map(f => (
             <input key={f.name} placeholder={f.placeholder} value={(form as any)[f.name]}
               onChange={e => setForm(p => ({ ...p, [f.name]: e.target.value }))}
-              className="w-full border border-gray-200 focus:border-[#B76E79] px-3 h-10 text-sm outline-none" />
+              className="w-full border border-gray-200 focus:border-[#1A1A1A] px-3 h-10 text-sm outline-none" />
           ))}
           <div className="grid grid-cols-3 gap-2">
             {[{ name: 'city', placeholder: 'City *' }, { name: 'state', placeholder: 'State' }, { name: 'pincode', placeholder: 'Pincode *' }].map(f => (
               <input key={f.name} placeholder={f.placeholder} value={(form as any)[f.name]}
                 onChange={e => setForm(p => ({ ...p, [f.name]: e.target.value }))}
-                className="border border-gray-200 focus:border-[#B76E79] px-3 h-10 text-sm outline-none" />
+                className="border border-gray-200 focus:border-[#1A1A1A] px-3 h-10 text-sm outline-none" />
             ))}
           </div>
           <div className="flex gap-2">
-            <button onClick={handleAdd} className="flex-1 h-9 text-white text-xs tracking-widest uppercase" style={{ backgroundColor: '#B76E79' }}>Save</button>
+            <button onClick={handleAdd} className="flex-1 h-9 text-white text-xs tracking-widest uppercase" style={{ backgroundColor: '#1A1A1A' }}>Save</button>
             <button onClick={() => setAdding(false)} className="flex-1 h-9 border border-gray-200 text-xs text-gray-500 tracking-widest uppercase">Cancel</button>
           </div>
         </div>

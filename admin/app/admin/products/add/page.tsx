@@ -38,7 +38,7 @@ export default function AddProductPage() {
       const res = await fetch('/api/categories');
       const data = await res.json();
       if (data.success) {
-        setCategories(data.categories);
+        setCategories(data.categories || []);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -53,7 +53,7 @@ export default function AddProductPage() {
       console.log('Subcategories response:', data);
       
       if (data.success) {
-        setSubcategories(data.subcategories);
+        setSubcategories(data.subcategories || []);
         console.log('Subcategories set:', data.subcategories);
       } else {
         console.error('Failed to fetch subcategories:', data.message);
@@ -244,7 +244,7 @@ export default function AddProductPage() {
                 required
               >
                 <option value="">Select Category</option>
-                {categories.map((cat) => (
+                {(categories || []).map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
                   </option>
@@ -266,7 +266,7 @@ export default function AddProductPage() {
                     ? 'No Subcategories Available' 
                     : 'Select Subcategory'}
                 </option>
-                {subcategories.map((sub) => (
+                {(subcategories || []).map((sub) => (
                   <option key={sub.id} value={sub.id}>
                     {sub.name}
                   </option>

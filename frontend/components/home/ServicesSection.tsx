@@ -19,7 +19,7 @@ export const ServicesSection = () => {
                 <path d="M5 9c0 1.5 3 2.5 7 2.5s7-1 7-2.5" strokeDasharray="1 3" />
               </svg>
             </div>
-            <h3 className="text-[1.35rem] font-fairplay text-[#1A1A1A] tracking-wide mb-3">Gift Collection</h3>
+            <h3 className="text-[1.35rem] font-playfair text-[#1A1A1A] tracking-wide mb-3">Gift Collection</h3>
             <p className="text-[#595959] text-[0.7rem] leading-[1.6] font-elegant tracking-widest uppercase opacity-80">
               Nibh Nunc Nullam Dignissim Orci Nunc Duis<br />
               Purus Leo Vulputate Vivamus Orci Ornare
@@ -44,7 +44,7 @@ export const ServicesSection = () => {
                 <path d="M18 1.5l1 1-1 1M21 4.5l1 1-1 1M4 4l-1-1 1-1" strokeWidth="1"/>
               </svg>
             </div>
-            <h3 className="text-[1.35rem] font-fairplay text-[#1A1A1A] tracking-wide mb-3">Diamond Jewelry</h3>
+            <h3 className="text-[1.35rem] font-playfair text-[#1A1A1A] tracking-wide mb-3">Diamond Jewelry</h3>
             <p className="text-[#595959] text-[0.7rem] leading-[1.6] font-elegant tracking-widest uppercase opacity-80">
               Fames Auctor Pellentesque Urna<br />
               Fermentum Vehicula Sociosqu Ante Arcu
@@ -67,7 +67,7 @@ export const ServicesSection = () => {
                 <path d="M8 9v1.5h-1.5 M8 15v-1.5h-1.5 M16 9v1.5h1.5 M16 15v-1.5h1.5" strokeWidth="1"/>
               </svg>
             </div>
-            <h3 className="text-[1.35rem] font-fairplay text-[#1A1A1A] tracking-wide mb-3">Wedding Rings</h3>
+            <h3 className="text-[1.35rem] font-playfair text-[#1A1A1A] tracking-wide mb-3">Wedding Rings</h3>
             <p className="text-[#595959] text-[0.7rem] leading-[1.6] font-elegant tracking-widest uppercase opacity-80">
               Massa Conubia Tellus Et Netus Tincidunt<br />
               Nascetur Primis MollisLacus Odio

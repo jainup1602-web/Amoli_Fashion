@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ReduxProvider } from "@/store/providers/ReduxProvider";
 import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 import { AlertProvider } from "@/components/providers/AlertProvider";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Amoli Fashion Jewellery - Premium Jewelry Online",
@@ -28,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} overflow-x-hidden`} suppressHydrationWarning>
+      <body className="font-sans overflow-x-hidden" suppressHydrationWarning>
         <ReduxProvider>
           <AlertProvider>
             <LayoutWrapper>{children}</LayoutWrapper>

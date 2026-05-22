@@ -37,7 +37,7 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, style, ...props }, ref) => {
-    const defaultStyle = variant === 'default' ? { backgroundColor: '#B76E79', ...style } : style;
+    const defaultStyle = variant === 'default' ? { backgroundColor: '#1A1A1A', ...style } : style;
     
     if (asChild) {
       return (

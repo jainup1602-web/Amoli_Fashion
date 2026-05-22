@@ -57,19 +57,19 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
     <div 
       ref={containerRef}
       className="relative w-full overflow-hidden py-16 select-none"
-      style={{ backgroundColor: '#F8F6F2' }}
+      style={{ backgroundColor: '#FDFCF0' }}
       onMouseMove={handleMouseMove}
     >
       {/* Header */}
       {(title || subtitle) && (
         <div className="text-center mb-12 px-4">
           {subtitle && (
-            <p className="text-xs tracking-[0.3em] uppercase mb-2 font-elegant" style={{ color: '#B76E79' }}>
+            <p className="text-xs tracking-[0.3em] uppercase mb-2 font-elegant" style={{ color: '#1A1A1A' }}>
               {subtitle}
             </p>
           )}
           {title && (
-            <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">
+            <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">
               {title}
             </h2>
           )}
@@ -90,7 +90,7 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
       {/* Row 1 - Right to Left */}
       <div className="relative mb-8 overflow-hidden py-4 -my-4">
         <div
-          className="flex gap-8 whitespace-nowrap items-center"
+          className="flex gap-4 md:gap-8 whitespace-nowrap items-center"
           style={{ 
             width: 'fit-content', 
             willChange: 'transform',
@@ -102,7 +102,7 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
             <Link
               key={`${item.id}-${index}`}
               href={getItemLink(item)}
-              className="inline-flex items-center gap-4 group cursor-pointer"
+              className="inline-flex items-center gap-2 md:gap-4 group cursor-pointer"
               onMouseEnter={() => {
                 setHoveredItem(item.id);
                 setIsPaused(true);
@@ -113,10 +113,10 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               }}
             >
               <span 
-                className="text-2xl md:text-3xl lg:text-4xl font-fairplay transition-all duration-300 group-hover:scale-105 px-6 py-3 rounded-full border-2"
+                className="text-base sm:text-lg md:text-2xl lg:text-3xl font-playfair transition-all duration-300 group-hover:scale-105 px-4 py-2 md:px-6 md:py-3 rounded-full border-2"
                 style={{ 
-                  color: hoveredItem === item.id ? '#B76E79' : '#1C1C1C',
-                  borderColor: hoveredItem === item.id ? '#B76E79' : '#D4AF37',
+                  color: hoveredItem === item.id ? '#1A1A1A' : '#1C1C1C',
+                  borderColor: hoveredItem === item.id ? '#1A1A1A' : '#1A1A1A',
                   backgroundColor: hoveredItem === item.id ? 'rgba(183, 110, 121, 0.05)' : 'rgba(212, 175, 55, 0.03)',
                   textShadow: hoveredItem === item.id ? '0 0 20px rgba(183, 110, 121, 0.3)' : 'none',
                 }}
@@ -124,8 +124,8 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
                 {item.text}
               </span>
               <motion.span 
-                className="text-2xl inline-block" 
-                style={{ color: '#B76E79' }}
+                className="text-xl md:text-2xl inline-block" 
+                style={{ color: '#1A1A1A' }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
               >
@@ -139,7 +139,7 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
       {/* Row 2 - Left to Right */}
       <div className="relative overflow-hidden py-4 -my-4">
         <div
-          className="flex gap-8 whitespace-nowrap items-center"
+          className="flex gap-4 md:gap-8 whitespace-nowrap items-center"
           style={{ 
             width: 'fit-content', 
             willChange: 'transform',
@@ -151,7 +151,7 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
             <Link
               key={`${item.id}-${index}`}
               href={getItemLink(item)}
-              className="inline-flex items-center gap-4 group cursor-pointer"
+              className="inline-flex items-center gap-2 md:gap-4 group cursor-pointer"
               onMouseEnter={() => {
                 setHoveredItem(item.id);
                 setIsPaused(true);
@@ -162,10 +162,10 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               }}
             >
               <span 
-                className="text-2xl md:text-3xl lg:text-4xl font-fairplay transition-all duration-300 group-hover:scale-105 px-6 py-3 rounded-full border-2"
+                className="text-base sm:text-lg md:text-2xl lg:text-3xl font-playfair transition-all duration-300 group-hover:scale-105 px-4 py-2 md:px-6 md:py-3 rounded-full border-2"
                 style={{ 
-                  color: hoveredItem === item.id ? '#B76E79' : '#1C1C1C',
-                  borderColor: hoveredItem === item.id ? '#B76E79' : '#D4AF37',
+                  color: hoveredItem === item.id ? '#1A1A1A' : '#1C1C1C',
+                  borderColor: hoveredItem === item.id ? '#1A1A1A' : '#1A1A1A',
                   backgroundColor: hoveredItem === item.id ? 'rgba(183, 110, 121, 0.05)' : 'rgba(212, 175, 55, 0.03)',
                   textShadow: hoveredItem === item.id ? '0 0 20px rgba(183, 110, 121, 0.3)' : 'none',
                 }}
@@ -173,8 +173,8 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
                 {item.text}
               </span>
               <motion.span 
-                className="text-2xl inline-block" 
-                style={{ color: '#B76E79' }}
+                className="text-xl md:text-2xl inline-block" 
+                style={{ color: '#1A1A1A' }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
               >
@@ -204,7 +204,7 @@ export function DualMarquee({ items, title, subtitle }: DualMarqueeProps) {
               width: '200px',
               height: '200px',
               borderRadius: '8px',
-              border: '2px solid #B76E79',
+              border: '2px solid #1A1A1A',
             }}
           >
             <Image

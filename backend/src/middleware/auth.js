@@ -15,33 +15,23 @@ async function verifyToken(req, res, next) {
       const admin = require('../lib/firebase-admin');
       if (admin.apps.length) {
         const decoded = await admin.auth().verifyIdToken(token);
-        const user = await prisma.executeWithRetry(() => 
-          prisma.user.findFirst({ where: { firebaseUid: decoded.uid } })
-        );
+        const user = await prisma.user.findFirst({ where: { firebaseUid: decoded.uid } });
         if (user) { req.user = user; return next(); }
         
         // If user not in DB but token is valid, we might allow creation in registration route
+        // For now, we only attach the UID to req for registration if needed
         req.firebaseUser = decoded;
       }
     } catch (e) {
-      if (e.message.includes('Prisma')) {
-        console.error('Prisma error in Firebase auth flow:', e.message);
-      }
       // Token not a valid Firebase token, or Firebase Admin not configured
     }
 
     // 2. Try JWT (Local Auth)
     try {
-      const { executeWithRetry } = require('../lib/prisma');
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await executeWithRetry(() => 
-        prisma.user.findUnique({ where: { id: decoded.userId } })
-      );
+      const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
       if (user) { req.user = user; return next(); }
     } catch (e) {
-      if (e.message.includes('Prisma')) {
-        console.error('Prisma error in JWT auth flow:', e.message);
-      }
       // Not a valid local JWT
     }
 
@@ -52,7 +42,7 @@ async function verifyToken(req, res, next) {
 
     return res.status(401).json({ success: false, message: 'Invalid or expired token' });
   } catch (err) {
-    console.error('Auth middleware critical error:', err);
+    console.error('Auth middleware error:', err.message);
     return res.status(401).json({ success: false, message: 'Authentication failed' });
   }
 }

@@ -5,17 +5,17 @@ import Image from 'next/image';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F8F6F2' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FDFCF0' }}>
 
       {/* Hero */}
-      <section className="relative py-20 sm:py-28 text-center overflow-hidden" style={{ backgroundColor: '#B76E79' }}>
+      <section className="relative py-20 sm:py-28 text-center overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-64 h-64 rounded-full blur-3xl bg-white" />
           <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl bg-white" />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto px-4">
           <p className="text-xs tracking-[0.4em] uppercase text-white/70 mb-4">Our Story</p>
-          <h1 className="text-3xl sm:text-5xl font-fairplay text-white leading-tight mb-6">
+          <h1 className="text-3xl sm:text-5xl font-playfair text-white leading-tight mb-6">
             Amoli – Because Some Things<br className="hidden sm:block" /> are Truly Priceless.
           </h1>
           <p className="text-white/80 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed">
@@ -28,12 +28,12 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-3">The Mission</p>
-          <div className="w-12 h-px mx-auto" style={{ backgroundColor: '#B76E79' }} />
+          <div className="w-12 h-px mx-auto" style={{ backgroundColor: '#1A1A1A' }} />
         </div>
         <p className="text-gray-700 text-base sm:text-lg font-light leading-relaxed text-center max-w-2xl mx-auto mb-6">
           At Amoli, we believe that high-end fashion shouldn't come with a "one-time wear" expiration date. Our journey began with a simple question:
         </p>
-        <blockquote className="text-center text-xl sm:text-2xl font-fairplay italic mb-8" style={{ color: '#B76E79' }}>
+        <blockquote className="text-center text-xl sm:text-2xl font-playfair italic mb-8" style={{ color: '#1A1A1A' }}>
           "Why should premium, handcrafted jewelry be out of reach for the everyday woman?"
         </blockquote>
         <p className="text-gray-600 text-sm sm:text-base font-light leading-relaxed text-center max-w-2xl mx-auto">
@@ -46,10 +46,10 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-2">The Amoli Promise</p>
-            <h2 className="text-2xl sm:text-3xl font-fairplay text-gray-900">
+            <h2 className="text-2xl sm:text-3xl font-playfair text-gray-900">
               "Amoli" means priceless — and that is exactly how we want you to feel.
             </h2>
-            <div className="w-12 h-px mx-auto mt-4" style={{ backgroundColor: '#B76E79' }} />
+            <div className="w-12 h-px mx-auto mt-4" style={{ backgroundColor: '#1A1A1A' }} />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -70,9 +70,9 @@ export default function AboutPage() {
                 desc: 'From our anti-tarnish Western wear to our heavy bridal ethnics, we focus on superior plating that stands the test of time. Quality you can feel from the very first wear.',
               },
             ].map((item) => (
-              <div key={item.title} className="text-center p-6 border border-gray-100 rounded-sm hover:border-[#B76E79]/30 transition-colors">
-                <div className="text-2xl mb-4" style={{ color: '#B76E79' }}>{item.icon}</div>
-                <h3 className="font-fairplay text-lg text-gray-900 mb-3">{item.title}</h3>
+              <div key={item.title} className="text-center p-6 border border-gray-100 rounded-sm hover:border-[#1A1A1A]/30 transition-colors">
+                <div className="text-2xl mb-4" style={{ color: '#1A1A1A' }}>{item.icon}</div>
+                <h3 className="font-playfair text-lg text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-sm text-gray-600 font-light leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -84,7 +84,7 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-2">Our Standards</p>
-          <div className="w-12 h-px mx-auto" style={{ backgroundColor: '#B76E79' }} />
+          <div className="w-12 h-px mx-auto" style={{ backgroundColor: '#1A1A1A' }} />
         </div>
         <div className="grid grid-cols-2 gap-4">
           {[
@@ -106,7 +106,7 @@ export default function AboutPage() {
       </section>
 
       {/* Vision */}
-      <section className="py-16 sm:py-20 text-center" style={{ backgroundColor: '#B76E79' }}>
+      <section className="py-16 sm:py-20 text-center" style={{ backgroundColor: '#1A1A1A' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <p className="text-xs tracking-[0.3em] uppercase text-white/70 mb-4">Our Vision</p>
           <p className="text-white text-base sm:text-xl font-light leading-relaxed mb-8">
@@ -114,7 +114,7 @@ export default function AboutPage() {
           </p>
           <Link href="/products"
             className="inline-block px-8 py-3 bg-white text-sm font-medium tracking-widest uppercase transition-opacity hover:opacity-90"
-            style={{ color: '#B76E79' }}>
+            style={{ color: '#1A1A1A' }}>
             Shop the Collection
           </Link>
         </div>

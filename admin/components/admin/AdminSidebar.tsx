@@ -10,7 +10,7 @@ import { logout } from '@/store/slices/authSlice';
 import {
   Home, Package, ShoppingCart, User, Grid, Star, Mail, Truck, Settings,
   Menu, X, CreditCard, Image as ImageIcon, File, ChevronDown, FileText,
-  Plus, LogOut, ExternalLink, TrendingUp
+  Plus, LogOut, ExternalLink, TrendingUp, Layout
 } from 'lucide-react';
 import { AuthModal } from '@/components/auth/AuthModal';
 
@@ -36,6 +36,7 @@ const menuGroups = [
     title: 'Marketing & Content',
     items: [
       { title: 'Banners', href: '/admin/banners', icon: ImageIcon },
+      { title: 'Sections', href: '/admin/sections', icon: Layout },
       { title: 'Popups', href: '/admin/popups', icon: Plus },
       { title: 'Marquee', href: '/admin/marquee', icon: TrendingUp },
       { title: 'Showcases', href: '/admin/showcases', icon: Grid },
@@ -96,12 +97,11 @@ function SidebarContent({
 }) {
   return (
     <>
-      {/* Logo */}
-      <div className="p-5 border-b border-gray-200 flex-shrink-0 flex items-center justify-between">
+      <div className="p-4 lg:p-5 border-b border-gray-200 flex-shrink-0 flex items-center justify-between">
         <Link href="/admin" onClick={onLinkClick} className="flex items-center gap-3">
-          <Image src="/image/Amoli_1.png" alt="Amoli Admin" width={120} height={40} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority />
+          <Image src="/image/Amoli_1.png" alt="Amoli Admin" width={110} height={35} className="object-contain" priority />
         </Link>
-        <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded text-white" style={{ backgroundColor: '#B76E79' }}>Admin</span>
+        <span className="hidden lg:inline-block text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded text-white" style={{ backgroundColor: '#B76E79' }}>Admin</span>
       </div>
 
       {/* User info */}
@@ -135,11 +135,10 @@ function SidebarContent({
                     <div>
                       <button
                         onClick={() => toggleSubmenu(item.title)}
-                        className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg transition-all duration-200 ${
-                          item.submenu.some(s => pathname === s.href)
-                            ? 'text-[#B76E79] font-semibold'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                        }`}
+                        className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg transition-all duration-200 ${item.submenu.some(s => pathname === s.href)
+                          ? 'text-[#B76E79] font-semibold'
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                          }`}
                       >
                         <div className="flex items-center space-x-3">
                           <item.icon className={`h-5 w-5 flex-shrink-0 ${item.submenu.some(s => pathname === s.href) ? 'text-[#B76E79]' : ''}`} />
@@ -164,11 +163,10 @@ function SidebarContent({
                     </div>
                   ) : (
                     <Link href={item.href!} onClick={onLinkClick}
-                      className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
-                        pathname === item.href 
-                          ? 'bg-[#B76E79]/10 text-[#B76E79] font-semibold shadow-sm' 
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                      }`}>
+                      className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${pathname === item.href
+                        ? 'bg-[#B76E79]/10 text-[#B76E79] font-semibold shadow-sm'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        }`}>
                       <item.icon className={`h-5 w-5 flex-shrink-0 ${pathname === item.href ? 'text-[#B76E79]' : ''}`} />
                       <span className="text-sm">{item.title}</span>
                     </Link>
@@ -243,7 +241,7 @@ export function AdminSidebar() {
 
       {/* Desktop sidebar — always visible */}
       <aside className="hidden lg:flex w-64 bg-white text-gray-900 fixed left-0 z-40 flex-col shadow-xl border-r border-gray-200 top-0 h-screen">
-        <SidebarContent {...sharedProps} onLinkClick={() => {}} />
+        <SidebarContent {...sharedProps} onLinkClick={() => { }} />
       </aside>
 
       {/* Mobile overlay */}
@@ -273,7 +271,7 @@ export function AdminSidebar() {
             {/* Close button inside mobile sidebar */}
             <button
               onClick={() => setIsMobileOpen(false)}
-              className="absolute top-4 right-4 z-10 p-1.5 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+              className="absolute top-4 right-3 z-10 p-1.5 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
               aria-label="Close menu"
             >
               <X className="h-5 w-5" />

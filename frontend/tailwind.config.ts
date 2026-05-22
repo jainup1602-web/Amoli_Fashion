@@ -10,37 +10,42 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: "#e5e5e5",
-        input: "#e5e5e5",
-        ring: "#1a1a1a",
-        background: "#FAF9F6",
+        border: "#E5E1D5",
+        input: "#E5E1D5",
+        ring: "#1A1A1A",
+        background: "#FDFCF0",
         foreground: "#1a1a1a",
+        gold: {
+          DEFAULT: "#D4AF37",
+          light: "#E8D48B",
+          dark: "#B8960C",
+        },
         primary: {
-          DEFAULT: "#1a1a1a",
-          foreground: "#FAF9F6",
+          DEFAULT: "#1A1A1A",
+          foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#f5f5f5",
+          DEFAULT: "#FDFCF0",
           foreground: "#1a1a1a",
         },
         destructive: {
           DEFAULT: "#dc2626",
-          foreground: "#FAF9F6",
+          foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "#f5f5f5",
+          DEFAULT: "#F5F1E8",
           foreground: "#737373",
         },
         accent: {
-          DEFAULT: "#1a1a1a",
-          foreground: "#FAF9F6",
+          DEFAULT: "#1A1A1A",
+          foreground: "#FFFFFF",
         },
         popover: {
-          DEFAULT: "#FAF9F6",
+          DEFAULT: "#FDFCF0",
           foreground: "#1a1a1a",
         },
         card: {
-          DEFAULT: "#FAF9F6",
+          DEFAULT: "#FDFCF0",
           foreground: "#1a1a1a",
         },
       },
@@ -50,11 +55,11 @@ const config: Config = {
         sm: "0.25rem",
       },
       fontFamily: {
-        sans: ["Fairplay", "Inter", "sans-serif"],
-        serif: ["Fairplay", "Playfair Display", "serif"],
-        elegant: ["Fairplay", "Cormorant Garamond", "serif"],
-        lora: ["Fairplay", "Lora", "serif"],
-        fairplay: ["Fairplay", "serif"],
+        sans: ["Inter", "sans-serif"],
+        serif: ["Playfair Display", "serif"],
+        elegant: ["Cormorant Garamond", "serif"],
+        playfair: ["Playfair Display", "serif"],
+        lora: ["Lora", "serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",

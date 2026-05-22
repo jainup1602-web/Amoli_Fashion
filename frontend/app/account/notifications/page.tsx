@@ -108,7 +108,7 @@ export default function NotificationsPage() {
                     </div>
                     <div className="flex-shrink-0 flex items-center gap-1">
                       {!notification.isRead && (
-                        <button onClick={() => handleMarkAsRead(notification._id)} className="p-1.5 text-gray-400 hover:text-[#B76E79] transition-colors" title="Mark as read">
+                        <button onClick={() => handleMarkAsRead(notification._id)} className="p-1.5 text-gray-400 hover:text-[#1A1A1A] transition-colors" title="Mark as read">
                           <Check className="h-3.5 w-3.5" />
                         </button>
                       )}

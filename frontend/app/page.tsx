@@ -103,7 +103,7 @@ function VideoCard({ review }: { review: any }) {
         {/* Rose gold dot accent */}
         <div className="flex items-center gap-1 mt-2">
           {[1,2,3,4,5].map(s => (
-            <div key={s} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+            <div key={s} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
           ))}
         </div>
       </div>
@@ -203,15 +203,15 @@ function ModelGallerySlider({ models }: { models: any[] }) {
 
       <div className="relative z-10">
         <div className="text-center mb-16">
-          <p className="text-xs sm:text-sm tracking-[0.4em] uppercase text-[#B76E79] font-elegant drop-shadow-sm mb-4">The Signature Edit</p>
-          <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">Curated Masterpieces</h2>
+          <p className="text-xs sm:text-sm tracking-[0.4em] uppercase text-[#1A1A1A] font-elegant drop-shadow-sm mb-4">The Signature Edit</p>
+          <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Curated Masterpieces</h2>
         </div>
 
         {/* Stage */}
         <div className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto" style={{ height: 'clamp(400px, 65vh, 650px)', perspective: '1600px' }}>
           
           {/* Left Arrow */}
-          <button onClick={prev} className="absolute left-2 sm:left-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#B76E79] shadow-lg hover:scale-110">
+          <button onClick={prev} className="absolute left-2 sm:left-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#1A1A1A] shadow-lg hover:scale-110">
             <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
           </button>
 
@@ -257,7 +257,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
           })}
 
           {/* Right Arrow */}
-          <button onClick={next} className="absolute right-2 sm:right-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#B76E79] shadow-lg hover:scale-110">
+          <button onClick={next} className="absolute right-2 sm:right-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#1A1A1A] shadow-lg hover:scale-110">
             <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
           </button>
         </div>
@@ -267,7 +267,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
           {models.map((_, i) => (
             <button key={i} onClick={() => { setActive(i); startAuto(); }}
               className="h-1.5 rounded-full transition-all duration-500 shadow-sm"
-              style={{ width: active === i ? '36px' : '8px', backgroundColor: active === i ? '#B76E79' : '#d1d5db' }}
+              style={{ width: active === i ? '36px' : '8px', backgroundColor: active === i ? '#1A1A1A' : '#d1d5db' }}
             />
           ))}
         </div>
@@ -455,7 +455,7 @@ export default function HomePage() {
     return (
       <div
         className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-        style={{ backgroundColor: '#F8F6F2' }}
+        style={{ backgroundColor: '#FDFCF0' }}
       >
         <style>{`
           @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
@@ -470,24 +470,24 @@ export default function HomePage() {
         `}</style>
         <div className="mb-8 l-name">
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="22" stroke="#B76E79" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
-            <circle cx="24" cy="24" r="14" stroke="#B76E79" strokeWidth="1" opacity="0.6" />
-            <circle cx="24" cy="24" r="4" fill="#B76E79" />
+            <circle cx="24" cy="24" r="22" stroke="#1A1A1A" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
+            <circle cx="24" cy="24" r="14" stroke="#1A1A1A" strokeWidth="1" opacity="0.6" />
+            <circle cx="24" cy="24" r="4" fill="#1A1A1A" />
           </svg>
         </div>
-        <h1 className="l-name font-fairplay text-[#1C1C1C] tracking-[0.25em] uppercase mb-1" style={{ fontSize: 'clamp(22px, 5vw, 32px)' }}>
+        <h1 className="l-name font-playfair text-[#1C1C1C] tracking-[0.25em] uppercase mb-1" style={{ fontSize: 'clamp(22px, 5vw, 32px)' }}>
           Amoli
         </h1>
         <p className="l-sub font-elegant text-gray-400 tracking-[0.4em] uppercase mb-10" style={{ fontSize: '9px' }}>
           Fashion Jewellery
         </p>
         <div className="l-bar relative w-32 h-px overflow-hidden" style={{ backgroundColor: '#e8ddd9' }}>
-          <div className="absolute inset-y-0 left-0 w-1/3" style={{ backgroundColor: '#B76E79', animation: 'shimmer 1.6s ease-in-out infinite' }} />
+          <div className="absolute inset-y-0 left-0 w-1/3" style={{ backgroundColor: '#1A1A1A', animation: 'shimmer 1.6s ease-in-out infinite' }} />
         </div>
         <div className="flex gap-1.5 mt-6">
-          <span className="d1 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
-          <span className="d2 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
-          <span className="d3 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+          <span className="d1 w-1 h-1 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
+          <span className="d2 w-1 h-1 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
+          <span className="d3 w-1 h-1 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
         </div>
       </div>
     );
@@ -496,7 +496,7 @@ export default function HomePage() {
   // Step 2: Skeleton — while data loads
   if (pageLoading) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#F8F6F2' }}>
+      <div className="min-h-screen" style={{ backgroundColor: '#FDFCF0' }}>
         <style>{`
           @keyframes shimmer-pulse {
             0% { background-position: -200% 0; }
@@ -533,7 +533,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen font-sans overflow-x-hidden" style={{ backgroundColor: '#F8F6F2', color: '#1A1A1A' }}>
+    <div className="min-h-screen font-sans overflow-x-hidden" style={{ backgroundColor: '#FDFCF0', color: '#1A1A1A' }}>
       {/* Offer Popup */}
       <OfferPopup />
       
@@ -569,7 +569,7 @@ export default function HomePage() {
                       {banner.subtitle && (
                         <p className="text-sm md:text-lg font-elegant tracking-[0.3em] text-white uppercase">{banner.subtitle}</p>
                       )}
-                      <h1 className="text-5xl lg:text-7xl font-fairplay leading-tight text-white drop-shadow-md">
+                      <h1 className="text-5xl lg:text-7xl font-playfair leading-tight text-white drop-shadow-md">
                         {banner.title}
                       </h1>
                       {banner.description && (
@@ -578,7 +578,7 @@ export default function HomePage() {
                     </div>
                     {banner.link && (
                       <Link href={banner.link} className="inline-block mt-8">
-                        <Button size="lg" className="text-white border-none rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury" style={{ backgroundColor: '#B76E79' }}>
+                        <Button size="lg" className="text-white border-none rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury" style={{ backgroundColor: '#1A1A1A' }}>
                           Discover More
                         </Button>
                       </Link>
@@ -594,14 +594,14 @@ export default function HomePage() {
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all z-10 hover:scale-110"
-          style={{ color: '#B76E79' }}
+          style={{ color: '#1A1A1A' }}
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <button
           onClick={nextSlide}
           className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all z-10 hover:scale-110"
-          style={{ color: '#B76E79' }}
+          style={{ color: '#1A1A1A' }}
         >
           <ChevronRight className="h-6 w-6" />
         </button>
@@ -615,7 +615,7 @@ export default function HomePage() {
               className={`h-2 rounded-full transition-all ${
                 (currentSlide % banners.length) === index ? 'w-8' : 'w-2 bg-gray-50/50'
               }`}
-              style={(currentSlide % banners.length) === index ? { backgroundColor: '#B76E79' } : {}}
+              style={(currentSlide % banners.length) === index ? { backgroundColor: '#1A1A1A' } : {}}
             />
           ))}
         </div>
@@ -623,12 +623,12 @@ export default function HomePage() {
 
 
       {/* Category Section */}
-      <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
+      <section className="py-12" style={{ backgroundColor: '#FDFCF0' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Title */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-fairplay text-[#1C1C1C] tracking-widest uppercase">Shop by Essence</h2>
-            <div className="w-16 h-px mx-auto mt-3" style={{ backgroundColor: '#B76E79' }} />
+            <h2 className="text-2xl md:text-3xl font-playfair text-[#1C1C1C] tracking-widest uppercase">Shop by Essence</h2>
+            <div className="w-16 h-px mx-auto mt-3" style={{ backgroundColor: '#1A1A1A' }} />
           </div>
 
           {/* Categories Grid */}
@@ -639,7 +639,7 @@ export default function HomePage() {
                 href={`/products?category=${category.slug}`}
                 className="group block"
               >
-                <div className="relative w-full aspect-[3/4] overflow-hidden" style={{ backgroundColor: '#F8F6F2' }}>
+                <div className="relative w-full aspect-[3/4] overflow-hidden" style={{ backgroundColor: '#FDFCF0' }}>
                   <Image
                     src={category.image || '/placeholder.svg'}
                     alt={category.name}
@@ -671,12 +671,12 @@ export default function HomePage() {
       )}
 
       {/* Top Styles Section */}
-      <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
+      <section className="py-12" style={{ backgroundColor: '#FDFCF0' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section Title */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-fairplay text-[#1C1C1C] tracking-wide uppercase">
+            <h2 className="text-2xl md:text-3xl font-playfair text-[#1C1C1C] tracking-wide uppercase">
               Top Styles
             </h2>
           </div>
@@ -687,13 +687,13 @@ export default function HomePage() {
             {/* Mobile FILTERS button */}
             <button
               onClick={() => setFilterSidebarOpen(true)}
-              className="lg:hidden flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase border border-gray-200 px-3 py-2 hover:border-[#B76E79] transition-colors flex-shrink-0"
-              style={{ color: '#B76E79' }}
+              className="lg:hidden flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase border border-gray-200 px-3 py-2 hover:border-[#1A1A1A] transition-colors flex-shrink-0"
+              style={{ color: '#1A1A1A' }}
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
               Filters
               {activeTab !== 'all' && (
-                <span className="text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full" style={{ backgroundColor: '#B76E79' }}>1</span>
+                <span className="text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full" style={{ backgroundColor: '#1A1A1A' }}>1</span>
               )}
             </button>
 
@@ -709,8 +709,8 @@ export default function HomePage() {
                   }}
                   className="text-[10px] sm:text-xs tracking-[0.1em] uppercase font-elegant transition-all duration-300 border px-3 py-1.5 sm:py-2"
                   style={{ 
-                    color: activeTab === cat.id ? '#B76E79' : '#4b5563',
-                    borderColor: activeTab === cat.id ? '#B76E79' : '#e5e7eb',
+                    color: activeTab === cat.id ? '#1A1A1A' : '#4b5563',
+                    borderColor: activeTab === cat.id ? '#1A1A1A' : '#e5e7eb',
                     backgroundColor: activeTab === cat.id ? 'rgba(183, 110, 121, 0.05)' : 'transparent',
                     fontWeight: activeTab === cat.id ? 500 : 400
                   }}
@@ -728,8 +728,8 @@ export default function HomePage() {
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value)}
-                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[10px] px-2 py-1.5 sm:text-xs sm:px-3 sm:py-2 transition-colors hover:border-[#B76E79]"
-                style={{ borderColor: '#e5e7eb', color: '#B76E79', backgroundColor: 'transparent' }}
+                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[10px] px-2 py-1.5 sm:text-xs sm:px-3 sm:py-2 transition-colors hover:border-[#1A1A1A]"
+                style={{ borderColor: '#e5e7eb', color: '#1A1A1A', backgroundColor: 'transparent' }}
               >
                 <option value="featured">Featured</option>
                 <option value="newest">Newest</option>
@@ -740,8 +740,8 @@ export default function HomePage() {
               <select
                 value={perPage}
                 onChange={(e) => setPerPage(Number(e.target.value))}
-                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[10px] px-2 py-1.5 sm:text-xs sm:px-3 sm:py-2 transition-colors hover:border-[#B76E79]"
-                style={{ borderColor: '#e5e7eb', color: '#B76E79', backgroundColor: 'transparent' }}
+                className="flex-shrink-0 font-elegant tracking-[0.08em] uppercase border outline-none cursor-pointer text-[10px] px-2 py-1.5 sm:text-xs sm:px-3 sm:py-2 transition-colors hover:border-[#1A1A1A]"
+                style={{ borderColor: '#e5e7eb', color: '#1A1A1A', backgroundColor: 'transparent' }}
               >
                 <option value={8}>8</option>
                 <option value={12}>12</option>
@@ -766,7 +766,7 @@ export default function HomePage() {
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 >
                   {/* Header */}
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100" style={{ backgroundColor: '#B76E79' }}>
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100" style={{ backgroundColor: '#1A1A1A' }}>
                     <div className="flex items-center gap-2">
                       <SlidersHorizontal className="h-4 w-4 text-white" />
                       <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-white">Filters</span>
@@ -784,7 +784,7 @@ export default function HomePage() {
                         <label key={cat.id} className="flex items-center gap-2.5 cursor-pointer group">
                           <span
                             className="w-4 h-4 flex-shrink-0 border flex items-center justify-center transition-all"
-                            style={activeTab === cat.id ? { backgroundColor: '#B76E79', borderColor: '#B76E79' } : { borderColor: '#d1d5db' }}
+                            style={activeTab === cat.id ? { backgroundColor: '#1A1A1A', borderColor: '#1A1A1A' } : { borderColor: '#d1d5db' }}
                           >
                             {activeTab === cat.id && (
                               <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 10">
@@ -794,7 +794,7 @@ export default function HomePage() {
                           </span>
                           <span
                             className="text-sm transition-colors"
-                            style={activeTab === cat.id ? { color: '#B76E79', fontWeight: 500 } : { color: '#4b5563' }}
+                            style={activeTab === cat.id ? { color: '#1A1A1A', fontWeight: 500 } : { color: '#4b5563' }}
                             onClick={() => {
                               if (cat.id === 'all') handleTabChange('all');
                               else if (cat.id === 'best-sellers') handleTabChange('best-sellers');
@@ -856,8 +856,8 @@ export default function HomePage() {
               `/products?category=${categories.find(c => c.id === activeTab)?.slug || ''}`
             }>
               <button className="group relative inline-flex items-center gap-3 px-8 py-3 overflow-hidden border transition-all duration-300"
-                style={{ borderColor: '#B76E79', color: '#B76E79' }}>
-                <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#B76E79' }} />
+                style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
+                <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#1A1A1A' }} />
                 <span className="relative font-elegant tracking-[0.25em] uppercase text-[11px] group-hover:text-white transition-colors duration-300">View All</span>
                 <ArrowRight className="relative h-3.5 w-3.5 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
               </button>
@@ -883,14 +883,14 @@ export default function HomePage() {
 
       {/* Showcases Section - Dynamic from Admin Panel */}
       {showcases.length > 0 && (
-        <section className="py-16 relative" style={{ backgroundColor: '#F8F6F2' }}>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#B76E79', opacity: '0.3' }}></div>
+        <section className="py-16 relative" style={{ backgroundColor: '#FDFCF0' }}>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#1A1A1A', opacity: '0.3' }}></div>
           <div className="max-w-full">
             {/* Elegant Section Header */}
             <div className="text-center mb-12 px-4">
-              <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#B76E79] mb-4 font-elegant drop-shadow-sm">Exclusive Selections</p>
-              <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">Featured Collection</h2>
-              <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#B76E79' }} />
+              <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#1A1A1A] mb-4 font-elegant drop-shadow-sm">Exclusive Selections</p>
+              <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Featured Collection</h2>
+              <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#1A1A1A' }} />
             </div>
 
             {/* Dynamic Grid - 2 Images per Row */}
@@ -923,8 +923,8 @@ export default function HomePage() {
             <div className="flex justify-end mt-12 px-4">
               <Link href="/products">
                 <button className="group relative inline-flex items-center gap-3 px-8 py-3 overflow-hidden border transition-all duration-300"
-                  style={{ borderColor: '#B76E79', color: '#B76E79' }}>
-                  <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#B76E79' }} />
+                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
+                  <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#1A1A1A' }} />
                   <span className="relative font-elegant tracking-[0.25em] uppercase text-[11px] group-hover:text-white transition-colors duration-300">View All Collection</span>
                   <ArrowRight className="relative h-3.5 w-3.5 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
                 </button>
@@ -935,13 +935,13 @@ export default function HomePage() {
       )}
 
       {/* Video Reviews Section */}
-      <section className="py-12" style={{ backgroundColor: '#F8F6F2' }}>
+      <section className="py-12" style={{ backgroundColor: '#FDFCF0' }}>
         <div className="w-full">
           {/* Elegant Section Header */}
           <div className="text-center mb-12 px-4">
-            <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#B76E79] mb-4 font-elegant drop-shadow-sm">Client Diaries</p>
-            <h2 className="text-3xl md:text-4xl font-fairplay text-[#1C1C1C] tracking-wide">Customer Reviews</h2>
-            <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#B76E79' }} />
+            <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#1A1A1A] mb-4 font-elegant drop-shadow-sm">Client Diaries</p>
+            <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Customer Reviews</h2>
+            <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#1A1A1A' }} />
           </div>
           <VideoReviewCarousel reviews={videoReviews} />
         </div>
@@ -959,15 +959,15 @@ export default function HomePage() {
       </div>
 
       {/* CTA Section */}
-      <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#B76E79' }}>
+      <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
         {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent"></div>
-        <div className="absolute -top-24 -left-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#B76E79' }}></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#B76E79' }}></div>
+        <div className="absolute -top-24 -left-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#1A1A1A' }}></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#1A1A1A' }}></div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <span className="text-sm tracking-[0.3em] uppercase font-elegant text-white/80 block mb-3">Experience Elegance</span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl md:text-5xl font-fairplay text-white mb-4 sm:mb-6 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl md:text-5xl font-playfair text-white mb-4 sm:mb-6 leading-tight">
             Embrace Your True Brilliance
           </h2>
           <p className="text-sm sm:text-base text-white/85 mb-6 sm:mb-10 max-w-2xl mx-auto font-light">
@@ -975,13 +975,13 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link href="/products">
-              <Button size="lg" className="w-full sm:w-auto rounded-none tracking-[0.2em] uppercase text-xs sm:text-sm px-6 sm:px-10 py-5 sm:py-7 transition-luxury border border-white text-white hover:bg-white hover:text-[#B76E79]" style={{ backgroundColor: 'transparent' }}>
+              <Button size="lg" className="w-full sm:w-auto rounded-none tracking-[0.2em] uppercase text-xs sm:text-sm px-6 sm:px-10 py-5 sm:py-7 transition-luxury border border-white text-white hover:bg-white hover:text-[#1A1A1A]" style={{ backgroundColor: 'transparent' }}>
                 Browse Products
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </Link>
             <Link href="/register">
-              <Button size="lg" className="w-full sm:w-auto rounded-none tracking-[0.2em] uppercase text-xs sm:text-sm px-6 sm:px-10 py-5 sm:py-7 transition-luxury text-[#B76E79] hover:text-[#B76E79]" style={{ backgroundColor: 'white' }}>
+              <Button size="lg" className="w-full sm:w-auto rounded-none tracking-[0.2em] uppercase text-xs sm:text-sm px-6 sm:px-10 py-5 sm:py-7 transition-luxury text-[#1A1A1A] hover:text-[#1A1A1A]" style={{ backgroundColor: 'white' }}>
                 Join Now
               </Button>
             </Link>

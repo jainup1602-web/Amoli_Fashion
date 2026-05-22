@@ -328,7 +328,7 @@ export default function CheckoutPage() {
         name: settings?.siteName || 'Amoli Fashion Jewellery', description: 'Order Payment',
         order_id: data.razorpayOrderId,
         prefill: { name: formData.fullName, email: formData.email, contact: phone },
-        theme: { color: '#B76E79' },
+        theme: { color: '#1A1A1A' },
         handler: async (response: any) => {
           try {
             const vRes = await fetch('/api/orders/verify', {
@@ -354,7 +354,7 @@ export default function CheckoutPage() {
 
   if (!mounted) return (
     <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center">
-      <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: '#B76E79' }} />
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: '#1A1A1A' }} />
     </div>
   );
 
@@ -362,8 +362,8 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-[#F9F5F2] flex items-center justify-center py-20 px-4">
       <div className="text-center p-16 border border-gray-200 max-w-lg w-full bg-white">
         <ShoppingCart className="h-14 w-14 mx-auto mb-6 text-gray-300" strokeWidth={1} />
-        <h2 className="text-2xl font-fairplay text-[#1C1C1C] mb-3">Your bag is empty</h2>
-        <Button asChild className="mt-6 text-white rounded-none border-none tracking-widest uppercase text-xs px-10 h-12" style={{ backgroundColor: '#B76E79' }}>
+        <h2 className="text-2xl font-playfair text-[#1C1C1C] mb-3">Your bag is empty</h2>
+        <Button asChild className="mt-6 text-white rounded-none border-none tracking-widest uppercase text-xs px-10 h-12" style={{ backgroundColor: '#1A1A1A' }}>
           <Link href="/products">Explore Collections</Link>
         </Button>
       </div>
@@ -371,7 +371,7 @@ export default function CheckoutPage() {
   );
 
   const inputCls = (field: string) =>
-    `rounded-none border focus-visible:ring-0 focus-visible:ring-offset-0 px-4 h-12 font-light text-sm bg-white w-full outline-none transition-colors ${errors[field] ? 'border-red-400' : 'border-gray-200 focus:border-[#B76E79]'}`;
+    `rounded-none border focus-visible:ring-0 focus-visible:ring-offset-0 px-4 h-12 font-light text-sm bg-white w-full outline-none transition-colors ${errors[field] ? 'border-red-400' : 'border-gray-200 focus:border-[#1A1A1A]'}`;
 
   // Step indicator
   const steps = [
@@ -394,28 +394,30 @@ export default function CheckoutPage() {
 
         {/* Header */}
         <div className="flex items-center justify-between mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-fairplay text-[#1C1C1C]">Checkout</h1>
+          <h1 className="text-2xl sm:text-3xl font-playfair text-[#1C1C1C]">Checkout</h1>
           <div className="flex items-center gap-1.5 text-xs text-gray-400 font-elegant tracking-widest uppercase">
-            <Shield className="h-3.5 w-3.5" style={{ color: '#B76E79' }} />
+            <Shield className="h-3.5 w-3.5" style={{ color: '#1A1A1A' }} />
             <span className="hidden sm:inline">Secure Checkout</span>
           </div>
         </div>
 
         {/* Step Indicator */}
-        <div className="flex items-center justify-center mb-6 sm:mb-10">
-          {steps.map((s, i) => (
-            <div key={s.id} className="flex items-center">
-              <div className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full text-xs font-elegant tracking-widest uppercase transition-all ${i <= stepIndex ? 'text-white' : 'text-gray-400 bg-gray-100'}`}
-                style={i <= stepIndex ? { backgroundColor: '#B76E79' } : {}}>
-                {s.icon}
-                <span>{s.label}</span>
+        <div className="flex items-center justify-center mb-6 sm:mb-10 w-full">
+          <div className="flex items-center w-full sm:w-auto justify-center">
+            {steps.map((s, i) => (
+              <div key={s.id} className="flex items-center">
+                <div className={`flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-xs font-elegant tracking-wider sm:tracking-widest uppercase transition-all whitespace-nowrap ${i <= stepIndex ? 'text-white' : 'text-gray-400 bg-gray-100'}`}
+                  style={i <= stepIndex ? { backgroundColor: '#1A1A1A' } : {}}>
+                  {s.icon}
+                  <span>{s.label}</span>
+                </div>
+                {i < steps.length - 1 && (
+                  <div className={`w-2 sm:w-12 h-px mx-0.5 sm:mx-1 transition-colors ${i < stepIndex ? '' : 'bg-gray-200'}`}
+                    style={i < stepIndex ? { backgroundColor: '#1A1A1A' } : {}} />
+                )}
               </div>
-              {i < steps.length - 1 && (
-                <div className={`w-6 sm:w-12 h-px mx-1 transition-colors ${i < stepIndex ? '' : 'bg-gray-200'}`}
-                  style={i < stepIndex ? { backgroundColor: '#B76E79' } : {}} />
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
@@ -426,11 +428,11 @@ export default function CheckoutPage() {
             {step === 'phone' && (
               <div className="bg-white border border-gray-100 p-4 sm:p-8">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium" style={{ backgroundColor: '#B76E79' }}>1</div>
-                  <h2 className="text-lg font-fairplay text-[#1C1C1C]">Enter Mobile Number</h2>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium" style={{ backgroundColor: '#1A1A1A' }}>1</div>
+                  <h2 className="text-lg font-playfair text-[#1C1C1C]">Enter Mobile Number</h2>
                 </div>
                 <p className="text-sm text-gray-500 font-light mb-6">We'll send an OTP to verify your number</p>
-                <div className="flex items-center border border-gray-200 focus-within:border-[#B76E79] transition-colors bg-white h-14">
+                <div className="flex items-center border border-gray-200 focus-within:border-[#1A1A1A] transition-colors bg-white h-14">
                   <span className="px-4 text-sm font-medium text-gray-600 border-r border-gray-200 h-full flex items-center bg-gray-50">+91</span>
                   <input
                     type="tel"
@@ -444,7 +446,7 @@ export default function CheckoutPage() {
                   />
                   {otpSending && (
                     <div className="px-4">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2" style={{ borderColor: '#B76E79' }} />
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2" style={{ borderColor: '#1A1A1A' }} />
                     </div>
                   )}
                 </div>
@@ -452,8 +454,8 @@ export default function CheckoutPage() {
                   <p className="text-xs text-gray-400 mt-3 font-light">Sending OTP to +91 {phone}...</p>
                 )}
                 <div className="mt-8 flex items-center gap-6 text-xs text-gray-400">
-                  <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" style={{ color: '#B76E79' }} /> PCI DSS Certified</div>
-                  <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" style={{ color: '#B76E79' }} /> 100% Secure</div>
+                  <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" style={{ color: '#1A1A1A' }} /> PCI DSS Certified</div>
+                  <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" style={{ color: '#1A1A1A' }} /> 100% Secure</div>
                 </div>
               </div>
             )}
@@ -462,11 +464,11 @@ export default function CheckoutPage() {
             {step === 'otp' && (
               <div className="bg-white border border-gray-100 p-4 sm:p-8">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium" style={{ backgroundColor: '#B76E79' }}>2</div>
-                  <h2 className="text-lg font-fairplay text-[#1C1C1C]">Verify OTP</h2>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium" style={{ backgroundColor: '#1A1A1A' }}>2</div>
+                  <h2 className="text-lg font-playfair text-[#1C1C1C]">Verify OTP</h2>
                 </div>
                 <p className="text-sm text-gray-500 font-light mb-2">OTP sent to <span className="font-medium text-gray-700">+91 {phone}</span></p>
-                <button onClick={() => { setStep('phone'); setOtp(['','','','','','']); }} className="text-xs mb-8 transition-colors" style={{ color: '#B76E79' }}>
+                <button onClick={() => { setStep('phone'); setOtp(['','','','','','']); }} className="text-xs mb-8 transition-colors" style={{ color: '#1A1A1A' }}>
                   Change number
                 </button>
 
@@ -483,7 +485,7 @@ export default function CheckoutPage() {
                       onChange={(e) => handleOtpChange(i, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(i, e)}
                       className={`w-12 h-14 text-center text-xl font-medium border-b-2 bg-transparent outline-none transition-colors ${digit ? '' : 'border-gray-200'}`}
-                      style={digit ? { borderColor: '#B76E79', color: '#B76E79' } : {}}
+                      style={digit ? { borderColor: '#1A1A1A', color: '#1A1A1A' } : {}}
                       autoFocus={i === 0}
                     />
                   ))}
@@ -491,16 +493,16 @@ export default function CheckoutPage() {
 
                 {otpVerifying && (
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2" style={{ borderColor: '#B76E79' }} />
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2" style={{ borderColor: '#1A1A1A' }} />
                     Verifying...
                   </div>
                 )}
 
                 <div className="text-center text-sm text-gray-500">
                   {resendTimer > 0 ? (
-                    <span>Resend OTP in <span className="font-medium" style={{ color: '#B76E79' }}>{resendTimer}s</span></span>
+                    <span>Resend OTP in <span className="font-medium" style={{ color: '#1A1A1A' }}>{resendTimer}s</span></span>
                   ) : (
-                    <button onClick={() => sendOtp(phone)} className="font-medium transition-colors" style={{ color: '#B76E79' }}>
+                    <button onClick={() => sendOtp(phone)} className="font-medium transition-colors" style={{ color: '#1A1A1A' }}>
                       Resend OTP
                     </button>
                   )}
@@ -523,8 +525,8 @@ export default function CheckoutPage() {
                 {/* Shipping Details */}
                 <div className="bg-white border border-gray-100 p-4 sm:p-8">
                   <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium" style={{ backgroundColor: '#B76E79' }}>3</div>
-                    <h2 className="text-lg font-fairplay text-[#1C1C1C]">Delivery Details</h2>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium" style={{ backgroundColor: '#1A1A1A' }}>3</div>
+                    <h2 className="text-lg font-playfair text-[#1C1C1C]">Delivery Details</h2>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
@@ -560,7 +562,7 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <select name="country" value={formData.country} onChange={handleInputChange}
-                        className="w-full rounded-none border border-gray-200 focus:border-[#B76E79] px-4 h-12 font-light text-sm bg-white outline-none">
+                        className="w-full rounded-none border border-gray-200 focus:border-[#1A1A1A] px-4 h-12 font-light text-sm bg-white outline-none">
                         <option value="India">India</option>
                       </select>
                     </div>
@@ -592,12 +594,12 @@ export default function CheckoutPage() {
                 {/* Payment Method */}
                 <div className="bg-white border border-gray-100 p-4 sm:p-8">
                   <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-                    <CreditCard className="h-5 w-5" style={{ color: '#B76E79' }} />
-                    <h2 className="text-lg font-fairplay text-[#1C1C1C]">Payment Method</h2>
+                    <CreditCard className="h-5 w-5" style={{ color: '#1A1A1A' }} />
+                    <h2 className="text-lg font-playfair text-[#1C1C1C]">Payment Method</h2>
                   </div>
                   <div className="space-y-3">
-                    <label className={`flex items-center gap-4 p-5 border cursor-pointer transition-colors ${paymentMethod === 'razorpay' ? 'border-[#B76E79] bg-[#F9F5F2]' : 'border-gray-200 hover:border-gray-300'}`}>
-                      <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod('razorpay')} className="accent-[#B76E79]" />
+                    <label className={`flex items-center gap-4 p-5 border cursor-pointer transition-colors ${paymentMethod === 'razorpay' ? 'border-[#1A1A1A] bg-[#F9F5F2]' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod('razorpay')} className="accent-[#1A1A1A]" />
                       <div>
                         <p className="text-sm font-medium text-[#1C1C1C]">Pay Online</p>
                         <p className="text-xs text-gray-400 mt-0.5">UPI, Card, Net Banking, Wallets</p>
@@ -607,8 +609,8 @@ export default function CheckoutPage() {
                         <span className="text-[10px] bg-gray-50 text-gray-600 px-2 py-1 font-medium">CARD</span>
                       </div>
                     </label>
-                    <label className={`flex items-center gap-4 p-5 border cursor-pointer transition-colors ${paymentMethod === 'cod' ? 'border-[#B76E79] bg-[#F9F5F2]' : 'border-gray-200 hover:border-gray-300'}`}>
-                      <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="accent-[#B76E79]" />
+                    <label className={`flex items-center gap-4 p-5 border cursor-pointer transition-colors ${paymentMethod === 'cod' ? 'border-[#1A1A1A] bg-[#F9F5F2]' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="accent-[#1A1A1A]" />
                       <div>
                         <p className="text-sm font-medium text-[#1C1C1C]">Cash on Delivery</p>
                         <p className="text-xs text-gray-400 mt-0.5">Pay when your order arrives</p>
@@ -625,7 +627,7 @@ export default function CheckoutPage() {
                     { icon: <RefreshCw className="h-5 w-5" />, text: 'Easy Returns' },
                   ].map(({ icon, text }) => (
                     <div key={text} className="bg-white border border-gray-100 p-4 flex flex-col items-center gap-2 text-center">
-                      <span style={{ color: '#B76E79' }}>{icon}</span>
+                      <span style={{ color: '#1A1A1A' }}>{icon}</span>
                       <span className="text-[10px] font-elegant tracking-widest uppercase text-gray-500">{text}</span>
                     </div>
                   ))}
@@ -644,13 +646,13 @@ export default function CheckoutPage() {
               >
                 <span className="text-sm font-medium text-[#1C1C1C]">Order Summary ({checkoutItems.length} items)</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium" style={{ color: '#B76E79' }}>{formatPrice(finalTotal)}</span>
+                  <span className="text-sm font-medium" style={{ color: '#1A1A1A' }}>{formatPrice(finalTotal)}</span>
                   {orderSummaryOpen ? <ChevronUp className="h-4 w-4 text-gray-400" /> : <ChevronDown className="h-4 w-4 text-gray-400" />}
                 </div>
               </button>
 
               <div className={`p-6 ${orderSummaryOpen ? 'block' : 'hidden lg:block'}`}>
-                <h2 className="text-base font-fairplay text-[#1C1C1C] mb-5 pb-4 border-b border-gray-100 hidden lg:block">
+                <h2 className="text-base font-playfair text-[#1C1C1C] mb-5 pb-4 border-b border-gray-100 hidden lg:block">
                   Order Summary
                 </h2>
 
@@ -660,7 +662,7 @@ export default function CheckoutPage() {
                     <div key={item.productId} className="flex gap-3">
                       <div className="relative w-14 h-14 flex-shrink-0 bg-[#F9F5F2] border border-gray-100">
                         <Image src={item.image || '/placeholder.svg'} alt={item.name} fill sizes="56px" className="object-cover" unoptimized={item.image?.startsWith('http')} />
-                        <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-white text-[10px] flex items-center justify-center font-medium" style={{ backgroundColor: '#B76E79' }}>
+                        <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-white text-[10px] flex items-center justify-center font-medium" style={{ backgroundColor: '#1A1A1A' }}>
                           {item.quantity}
                         </span>
                       </div>
@@ -690,7 +692,7 @@ export default function CheckoutPage() {
                         className="flex-1 px-3 py-2.5 text-sm font-light outline-none bg-white" />
                       <button onClick={handleApplyCoupon} disabled={couponLoading || !couponCode.trim()}
                         className="px-4 text-xs font-elegant tracking-widest uppercase text-white disabled:opacity-50"
-                        style={{ backgroundColor: '#B76E79' }}>
+                        style={{ backgroundColor: '#1A1A1A' }}>
                         {couponLoading ? '...' : 'Apply'}
                       </button>
                     </div>
@@ -723,7 +725,7 @@ export default function CheckoutPage() {
                     </div>
                   )}
                   <div className="flex justify-between text-base font-medium text-[#1C1C1C] pt-3 border-t border-gray-100">
-                    <span className="font-fairplay">Total</span>
+                    <span className="font-playfair">Total</span>
                     <span>{formatPrice(finalTotal)}</span>
                   </div>
                 </div>
@@ -733,7 +735,7 @@ export default function CheckoutPage() {
                   <>
                     <Button onClick={handlePlaceOrder} disabled={loading}
                       className="w-full mt-6 h-14 text-white rounded-none border-none tracking-[0.2em] uppercase text-sm font-medium disabled:opacity-60"
-                      style={{ backgroundColor: '#B76E79' }}>
+                      style={{ backgroundColor: '#1A1A1A' }}>
                       {loading ? (
                         <span className="flex items-center gap-2">
                           <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
@@ -745,8 +747,8 @@ export default function CheckoutPage() {
                     </Button>
                     <p className="text-[10px] text-gray-400 font-light text-center mt-3 leading-relaxed">
                       By placing your order, you agree to our{' '}
-                      <Link href="/terms" className="underline hover:text-[#B76E79]">Terms</Link> &{' '}
-                      <Link href="/privacy" className="underline hover:text-[#B76E79]">Privacy Policy</Link>
+                      <Link href="/terms" className="underline hover:text-[#1A1A1A]">Terms</Link> &{' '}
+                      <Link href="/privacy" className="underline hover:text-[#1A1A1A]">Privacy Policy</Link>
                     </p>
                   </>
                 )}

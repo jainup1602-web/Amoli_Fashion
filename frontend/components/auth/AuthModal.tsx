@@ -231,11 +231,11 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
 
       {/* Modal */}
       <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 overflow-y-auto min-h-screen">
-        <div className="rounded-2xl shadow-2xl max-w-md w-full relative animate-fade-in mx-auto" style={{ backgroundColor: '#F8F6F2' }}>
+        <div className="rounded-2xl shadow-2xl max-w-md w-full relative animate-fade-in mx-auto" style={{ backgroundColor: '#FDFCF0' }}>
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 hover:bg-[#B76E79]/10 rounded-full transition z-10"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 hover:bg-[#1A1A1A]/10 rounded-full transition z-10"
           >
             <X className="h-5 w-5 text-gray-500" />
           </button>
@@ -243,8 +243,8 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
           <div className="p-5 sm:p-8">
             {/* Logo/Brand */}
             <div className="text-center mb-5 sm:mb-6">
-              <div className="w-12 h-px mx-auto mb-4" style={{ backgroundColor: '#B76E79' }} />
-              <h2 className="text-xl sm:text-2xl font-fairplay text-[#1C1C1C] mb-1.5">Amoli Fashion Jewellery</h2>
+              <div className="w-12 h-px mx-auto mb-4" style={{ backgroundColor: '#1A1A1A' }} />
+              <h2 className="text-xl sm:text-2xl font-playfair text-[#1C1C1C] mb-1.5">Amoli Fashion Jewellery</h2>
               <p className="text-xs text-gray-500 font-light tracking-wide">
                 {mode === 'login' ? 'Welcome back — discover exclusive collections' : 'Join us for premium jewellery & exclusive offers'}
               </p>
@@ -255,14 +255,14 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
               <button
                 onClick={() => { setMode('login'); setStep('input'); setName(''); setOtp(''); }}
                 className="flex-1 py-2.5 text-xs font-medium tracking-widest uppercase transition-all"
-                style={mode === 'login' ? { backgroundColor: '#B76E79', color: 'white' } : { backgroundColor: 'white', color: '#B76E79' }}
+                style={mode === 'login' ? { backgroundColor: '#1A1A1A', color: 'white' } : { backgroundColor: 'white', color: '#1A1A1A' }}
               >
                 Login
               </button>
               <button
                 onClick={() => { setMode('register'); setStep('input'); setOtp(''); }}
                 className="flex-1 py-2.5 text-xs font-medium tracking-widest uppercase transition-all"
-                style={mode === 'register' ? { backgroundColor: '#B76E79', color: 'white' } : { backgroundColor: 'white', color: '#B76E79' }}
+                style={mode === 'register' ? { backgroundColor: '#1A1A1A', color: 'white' } : { backgroundColor: 'white', color: '#1A1A1A' }}
               >
                 Register
               </button>
@@ -277,11 +277,11 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="rounded-none border-gray-200 bg-white focus:border-[#B76E79] focus:ring-0 text-sm"
+                    className="rounded-none border-gray-200 bg-white focus:border-[#1A1A1A] focus:ring-0 text-sm"
                   />
                 )}
 
-                <div className="flex items-center border border-gray-200 bg-white focus-within:border-[#B76E79] transition-colors">
+                <div className="flex items-center border border-gray-200 bg-white focus-within:border-[#1A1A1A] transition-colors">
                   <span className="px-3 text-xs font-medium text-gray-500 border-r border-gray-200 h-10 flex items-center bg-gray-50 flex-shrink-0">+91</span>
                   <input
                     type="tel"
@@ -295,7 +295,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
 
                 {mode === 'register' && (
                   <label className="flex items-start gap-2 text-xs text-gray-500 cursor-pointer">
-                    <input type="checkbox" required className="mt-0.5 accent-[#B76E79]" />
+                    <input type="checkbox" required className="mt-0.5 accent-[#1A1A1A]" />
                     <span>I accept the Privacy Policy and Terms & Conditions</span>
                   </label>
                 )}
@@ -304,7 +304,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                   type="submit"
                   disabled={loading}
                   className="w-full py-3 text-white text-xs font-medium tracking-widest uppercase transition-opacity hover:opacity-90 disabled:opacity-60"
-                  style={{ backgroundColor: '#B76E79' }}
+                  style={{ backgroundColor: '#1A1A1A' }}
                 >
                   {loading ? 'Sending OTP...' : 'Continue'}
                 </button>
@@ -318,7 +318,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   maxLength={6}
                   required
-                  className="w-full border border-gray-200 bg-white px-4 h-12 text-center text-xl tracking-[0.5em] outline-none focus:border-[#B76E79] transition-colors"
+                  className="w-full border border-gray-200 bg-white px-4 h-12 text-center text-xl tracking-[0.5em] outline-none focus:border-[#1A1A1A] transition-colors"
                 />
                 <p className="text-xs text-gray-400 text-center">OTP sent to {phone}</p>
 
@@ -326,7 +326,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                   type="submit"
                   disabled={loading}
                   className="w-full py-3 text-white text-xs font-medium tracking-widest uppercase transition-opacity hover:opacity-90 disabled:opacity-60"
-                  style={{ backgroundColor: '#B76E79' }}
+                  style={{ backgroundColor: '#1A1A1A' }}
                 >
                   {loading ? 'Verifying...' : 'Verify & Continue'}
                 </button>
@@ -334,7 +334,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                 <button
                   type="button"
                   onClick={() => { setStep('input'); setOtp(''); setConfirmationResult(null); }}
-                  className="w-full text-xs text-gray-400 hover:text-[#B76E79] transition-colors"
+                  className="w-full text-xs text-gray-400 hover:text-[#1A1A1A] transition-colors"
                 >
                   Change phone number
                 </button>
@@ -349,7 +349,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                 { icon: '◈', label: 'Exclusive', sub: 'Unique designs' },
               ].map((item) => (
                 <div key={item.label} className="border border-gray-200 bg-white p-2.5 rounded-sm">
-                  <div className="text-base mb-1" style={{ color: '#B76E79' }}>{item.icon}</div>
+                  <div className="text-base mb-1" style={{ color: '#1A1A1A' }}>{item.icon}</div>
                   <p className="text-[10px] font-semibold text-gray-800">{item.label}</p>
                   <p className="text-[9px] text-gray-400 mt-0.5">{item.sub}</p>
                 </div>

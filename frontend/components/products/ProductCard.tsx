@@ -114,10 +114,10 @@ function ProductCardComponent({ product }: ProductCardProps) {
         whileHover={{ y: -4 }}
       >
       <Link href={`/products/${product.slug}`}>
-        <div className="group relative overflow-hidden transition-luxury hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gold/10 hover:border-gold/30" style={{ backgroundColor: '#F8F6F2' }}>
+        <div className="group relative overflow-hidden transition-luxury hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gold/10 hover:border-gold/30" style={{ backgroundColor: '#FDFCF0' }}>
 
           {/* Product Image */}
-          <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#F8F6F2' }}>
+          <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#FDFCF0' }}>
             {/* Primary image */}
             <Image
               src={imageUrl}
@@ -144,12 +144,12 @@ function ProductCardComponent({ product }: ProductCardProps) {
             <button
               onClick={handleToggleWishlist}
               className="absolute bottom-1.5 left-1.5 z-10 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-105 w-7 h-7 sm:w-8 sm:h-8"
-              style={{ backgroundColor: isInWishlist ? '#B76E79' : 'rgba(255,255,255,0.92)' }}
+              style={{ backgroundColor: isInWishlist ? '#1A1A1A' : 'rgba(255,255,255,0.92)' }}
               aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
             >
               <Heart
                 className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0"
-                style={{ color: isInWishlist ? '#fff' : '#B76E79', fill: isInWishlist ? '#fff' : 'none' }}
+                style={{ color: isInWishlist ? '#fff' : '#1A1A1A', fill: isInWishlist ? '#fff' : 'none' }}
               />
             </button>
 
@@ -158,7 +158,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
               onClick={handleAddToCart}
               disabled={product.stock === 0 || isAddingToCart}
               className="absolute bottom-1.5 right-1.5 z-10 rounded-full flex items-center justify-center gap-1 shadow-md disabled:opacity-50 disabled:cursor-not-allowed px-2 py-1 sm:px-3 sm:py-1.5"
-              style={{ backgroundColor: '#B76E79' }}
+              style={{ backgroundColor: '#1A1A1A' }}
               aria-label={product.stock === 0 ? 'Out of stock' : 'Add to cart'}
             >
               <ShoppingCart className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 text-white flex-shrink-0" />
@@ -169,9 +169,9 @@ function ProductCardComponent({ product }: ProductCardProps) {
           </div>
 
           {/* Product Info */}
-          <div className="px-2 sm:px-3 pt-2 pb-2.5 text-center relative z-20" style={{ backgroundColor: '#F8F6F2' }}>
+          <div className="px-2 sm:px-3 pt-2 pb-2.5 text-center relative z-20" style={{ backgroundColor: '#FDFCF0' }}>
             {/* Product Name */}
-            <h3 className="font-fairplay text-sm sm:text-[15px] line-clamp-1 leading-snug text-[#1C1C1C] group-hover:text-[#B76E79] transition-colors duration-200 mb-1">
+            <h3 className="font-playfair text-sm sm:text-[15px] line-clamp-1 leading-snug text-[#1C1C1C] group-hover:text-[#1A1A1A] transition-colors duration-200 mb-1">
               {product.name}
             </h3>
 
@@ -187,7 +187,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
                   </span>
                   <span
                     className="font-elegant italic font-bold"
-                    style={{ color: '#B76E79', fontSize: '12px', letterSpacing: '0.03em' }}
+                    style={{ color: '#1A1A1A', fontSize: '12px', letterSpacing: '0.03em' }}
                   >
                     ({discountPercent}%)
                   </span>
@@ -199,7 +199,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
             {product.stock === 0 ? (
               <p className="text-[9px] text-red-600 font-elegant uppercase tracking-[0.15em] mt-1">Waitlist</p>
             ) : product.stock < 10 ? (
-              <p className="text-[9px] font-elegant uppercase tracking-[0.15em] mt-1" style={{ color: '#B76E79' }}>Only {product.stock} left</p>
+              <p className="text-[9px] font-elegant uppercase tracking-[0.15em] mt-1" style={{ color: '#1A1A1A' }}>Only {product.stock} left</p>
             ) : null}
           </div>
         </div>

@@ -22,6 +22,11 @@ import { useAppSelector } from '@/store/hooks';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+const getToken = async () => {
+  const { getAuthToken } = await import('@/lib/firebase-client');
+  return await getAuthToken();
+};
+
 interface DashboardStats {
   totalUsers: number;
   totalOrders: number;
@@ -72,7 +77,7 @@ export default function AdminDashboard() {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = await getToken();
       if (!token) { setLoading(false); return; }
 
       const response = await fetch('/api/admin/dashboard', {

@@ -196,7 +196,7 @@ export function SearchBar() {
             <X className="h-4 w-4" />
           </button>
         )}
-        <button type="submit" className="px-4 py-2.5 text-white text-xs font-elegant tracking-widest uppercase transition-colors" style={{ backgroundColor: '#B76E79' }}>
+        <button type="submit" className="px-4 py-2.5 text-white text-xs font-elegant tracking-widest uppercase transition-colors" style={{ backgroundColor: '#1A1A1A' }}>
           Search
         </button>
       </form>
@@ -217,7 +217,7 @@ export function SearchBar() {
                 <button
                   key={i}
                   onClick={() => handleSearch(r)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#F8F6F2] text-left transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#FDFCF0] text-left transition-colors"
                 >
                   <Clock className="h-3.5 w-3.5 text-gray-300 flex-shrink-0" />
                   <span className="text-sm text-gray-700 font-light">{r}</span>
@@ -248,7 +248,7 @@ export function SearchBar() {
                   <button
                     key={product.id}
                     onClick={() => handleProductClick(product.slug, product.name)}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#F8F6F2] text-left transition-colors border-t border-gray-50"
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#FDFCF0] text-left transition-colors border-t border-gray-50"
                   >
                     <div className="w-12 h-12 flex-shrink-0 bg-gray-100 overflow-hidden">
                       <img src={img || '/placeholder.svg'} alt={product.name} className="w-full h-full object-cover" />
@@ -269,8 +269,8 @@ export function SearchBar() {
               {/* View all */}
               <button
                 onClick={() => handleSearch()}
-                className="w-full px-4 py-3 text-center text-xs font-elegant tracking-widest uppercase border-t border-gold/10 hover:bg-[#F8F6F2] transition-colors"
-                style={{ color: '#B76E79' }}
+                className="w-full px-4 py-3 text-center text-xs font-elegant tracking-widest uppercase border-t border-gold/10 hover:bg-[#FDFCF0] transition-colors"
+                style={{ color: '#1A1A1A' }}
               >
                 View all results for "{query}"
               </button>

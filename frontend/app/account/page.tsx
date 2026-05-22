@@ -64,13 +64,13 @@ export default function AccountPage() {
       case 'orders': return <OrdersPage />;
       case 'addresses': return (
         <div className="space-y-6">
-          <h2 className="text-xl font-fairplay text-[#1C1C1C]">Saved Addresses</h2>
+          <h2 className="text-xl font-playfair text-[#1C1C1C]">Saved Addresses</h2>
           <SavedAddresses />
         </div>
       );
       case 'loyalty': return (
         <div className="space-y-6">
-          <h2 className="text-xl font-fairplay text-[#1C1C1C]">Loyalty Points</h2>
+          <h2 className="text-xl font-playfair text-[#1C1C1C]">Loyalty Points</h2>
           <LoyaltyPoints points={(user as any)?.loyaltyPoints || 0} />
           <div className="bg-white border border-gray-100 p-6">
             <h3 className="text-sm font-semibold text-gray-800 mb-3">How it works</h3>
@@ -101,7 +101,7 @@ export default function AccountPage() {
               {/* User info */}
               <div className="p-5 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0" style={{ backgroundColor: '#B76E79' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0" style={{ backgroundColor: '#1A1A1A' }}>
                     {user?.displayName?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                   <div className="min-w-0">
@@ -120,9 +120,9 @@ export default function AccountPage() {
                     className={`w-full flex items-center justify-between px-5 py-3 text-sm transition-colors ${
                       activeTab === id
                         ? 'text-white font-medium'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#B76E79]'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#1A1A1A]'
                     }`}
-                    style={activeTab === id ? { backgroundColor: '#B76E79' } : {}}
+                    style={activeTab === id ? { backgroundColor: '#1A1A1A' } : {}}
                   >
                     <div className="flex items-center gap-3">
                       <Icon className="h-4 w-4 flex-shrink-0" />
@@ -154,9 +154,9 @@ export default function AccountPage() {
                   key={id}
                   onClick={() => setActiveTab(id)}
                   className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-2 text-xs font-elegant tracking-widest uppercase border transition-colors ${
-                    activeTab === id ? 'text-white border-[#B76E79]' : 'text-gray-500 border-gray-200'
+                    activeTab === id ? 'text-white border-[#1A1A1A]' : 'text-gray-500 border-gray-200'
                   }`}
-                  style={activeTab === id ? { backgroundColor: '#B76E79' } : {}}
+                  style={activeTab === id ? { backgroundColor: '#1A1A1A' } : {}}
                 >
                   <Icon className="h-3.5 w-3.5" />
                   {label}

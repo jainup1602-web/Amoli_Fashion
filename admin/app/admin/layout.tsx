@@ -1,3 +1,5 @@
+'use client';
+
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { Menu } from 'lucide-react';
 
@@ -7,12 +9,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex bg-gray-50/30">
+    <div className="min-h-screen flex bg-gray-50/30 overflow-x-hidden w-full">
       {/* Sidebar - fixed left, full height */}
       <AdminSidebar />
 
       {/* Main content - offset by sidebar width on desktop */}
-      <main className="flex-1 lg:ml-64 flex flex-col min-h-screen">
+      <main className="flex-1 lg:ml-64 flex flex-col min-h-screen max-w-full w-full overflow-x-hidden">
         {/* Mobile top bar */}
         <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 sticky top-0 z-30">
           <button 

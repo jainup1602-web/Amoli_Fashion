@@ -93,14 +93,14 @@ export function OfferPopup() {
 
         {/* Left Side: Content */}
         <div className="flex-1 flex flex-col justify-center text-center px-8 py-10 md:py-12 bg-white relative z-10">
-          <Star className="h-8 w-8 mx-auto mb-4" style={{ color: '#B76E79' }} />
+          <Star className="h-8 w-8 mx-auto mb-4" style={{ color: '#1A1A1A' }} />
           
           <h2 className="text-2xl md:text-3xl font-serif font-semibold tracking-wide text-gray-900 mb-2">
             {popupData.title}
           </h2>
           
           {popupData.subtitle && (
-            <p className="text-xs tracking-[0.2em] uppercase mb-4" style={{ color: '#B76E79' }}>
+            <p className="text-xs tracking-[0.2em] uppercase mb-4" style={{ color: '#1A1A1A' }}>
               {popupData.subtitle}
             </p>
           )}
@@ -114,9 +114,9 @@ export function OfferPopup() {
           {popupData.offerText && (
             <div
               className="border border-dashed rounded-lg px-4 py-3 mb-6 mx-auto w-full max-w-xs"
-              style={{ borderColor: '#B76E79', backgroundColor: '#fdf5f6' }}
+              style={{ borderColor: '#1A1A1A', backgroundColor: '#fdf5f6' }}
             >
-              <p className="text-sm font-medium" style={{ color: '#B76E79' }}>
+              <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>
                 {popupData.offerText}
               </p>
             </div>
@@ -125,7 +125,7 @@ export function OfferPopup() {
           <button
             onClick={handleButtonClick}
             className="w-full max-w-xs mx-auto text-white py-3 px-6 rounded text-sm font-semibold tracking-wider uppercase transition-opacity hover:opacity-90 shadow-md"
-            style={{ backgroundColor: '#B76E79' }}
+            style={{ backgroundColor: '#1A1A1A' }}
           >
             {popupData.buttonText}
           </button>
@@ -147,7 +147,7 @@ export function OfferPopup() {
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
-            <div className="absolute inset-0 w-full h-full bg-[#B76E79]">
+            <div className="absolute inset-0 w-full h-full bg-[#1A1A1A]">
               <img
                 src="https://images.unsplash.com/photo-1599643478524-fb66f70d00a8?q=80&w=1000&auto=format&fit=crop"
                 alt="Jewelry Offer"

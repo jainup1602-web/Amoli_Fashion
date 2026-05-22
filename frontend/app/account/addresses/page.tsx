@@ -12,7 +12,7 @@ export default function AddressesPage() {
         <div className="flex flex-wrap items-center justify-between gap-3 mb-5 sm:mb-8">
           <h1 className="text-xl sm:text-3xl font-bold">My Addresses</h1>
           <div className="flex gap-2">
-            <Button className="text-xs h-8 px-3" style={{ backgroundColor: '#B76E79' }}>
+            <Button className="text-xs h-8 px-3" style={{ backgroundColor: '#1A1A1A' }}>
               <Plus className="h-3.5 w-3.5 mr-1.5" />
               Add Address
             </Button>
@@ -27,7 +27,7 @@ export default function AddressesPage() {
             <MapPin className="h-12 w-12 sm:h-16 sm:w-16 mx-auto text-gray-400 mb-4" />
             <h3 className="text-lg sm:text-xl font-semibold mb-2">No addresses saved</h3>
             <p className="text-gray-600 text-sm mb-5">Add an address for faster checkout</p>
-            <Button className="text-xs h-9" style={{ backgroundColor: '#B76E79' }}>
+            <Button className="text-xs h-9" style={{ backgroundColor: '#1A1A1A' }}>
               <Plus className="h-3.5 w-3.5 mr-1.5" />
               Add Address
             </Button>

@@ -132,7 +132,7 @@ export function CartSummary() {
       {/* Checkout Button */}
       <Button
         className="w-full mt-6 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs h-11"
-        style={{ backgroundColor: '#B76E79' }}
+        style={{ backgroundColor: '#1A1A1A' }}
         asChild
       >
         <Link href="/checkout">Proceed to Checkout</Link>
@@ -140,9 +140,9 @@ export function CartSummary() {
 
       <Button
         variant="outline"
-        className="w-full mt-2 rounded-none border-gray-300 text-[#1C1C1C] hover:text-white hover:border-[#B76E79] transition-colors tracking-[0.1em] uppercase text-xs h-9"
+        className="w-full mt-2 rounded-none border-gray-300 text-[#1C1C1C] hover:text-white hover:border-[#1A1A1A] transition-colors tracking-[0.1em] uppercase text-xs h-9"
         style={{}}
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#B76E79')}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1A1A1A')}
         onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
         asChild
       >

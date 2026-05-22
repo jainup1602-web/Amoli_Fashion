@@ -2,7 +2,7 @@ export default function Loading() {
   return (
     <div
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-      style={{ backgroundColor: '#F8F6F2' }}
+      style={{ backgroundColor: '#FDFCF0' }}
     >
       <style>{`
         @keyframes shimmer {
@@ -28,15 +28,15 @@ export default function Loading() {
       {/* Logo mark */}
       <div className="mb-8 loader-name">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="22" stroke="#B76E79" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
-          <circle cx="24" cy="24" r="14" stroke="#B76E79" strokeWidth="1" opacity="0.6" />
-          <circle cx="24" cy="24" r="4" fill="#B76E79" />
+          <circle cx="24" cy="24" r="22" stroke="#1A1A1A" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
+          <circle cx="24" cy="24" r="14" stroke="#1A1A1A" strokeWidth="1" opacity="0.6" />
+          <circle cx="24" cy="24" r="4" fill="#1A1A1A" />
         </svg>
       </div>
 
       {/* Brand name */}
       <h1
-        className="loader-name font-fairplay text-[#1C1C1C] tracking-[0.25em] uppercase mb-1"
+        className="loader-name font-playfair text-[#1C1C1C] tracking-[0.25em] uppercase mb-1"
         style={{ fontSize: 'clamp(22px, 5vw, 32px)' }}
       >
         Amoli
@@ -55,7 +55,7 @@ export default function Loading() {
         <div
           className="absolute inset-y-0 left-0 w-1/3"
           style={{
-            backgroundColor: '#B76E79',
+            backgroundColor: '#1A1A1A',
             animation: 'shimmer 1.6s ease-in-out infinite',
           }}
         />
@@ -63,9 +63,9 @@ export default function Loading() {
 
       {/* Dots */}
       <div className="flex gap-1.5 mt-6">
-        <span className="dot1 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
-        <span className="dot2 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
-        <span className="dot3 w-1 h-1 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+        <span className="dot1 w-1 h-1 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
+        <span className="dot2 w-1 h-1 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
+        <span className="dot3 w-1 h-1 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
       </div>
     </div>
   );

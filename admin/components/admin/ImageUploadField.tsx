@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Upload } from 'lucide-react';
 
 interface ImageUploadFieldProps {
@@ -13,7 +13,13 @@ interface ImageUploadFieldProps {
 
 export default function ImageUploadField({ value, onChange, label, required, editingHint }: ImageUploadFieldProps) {
   const [mode, setMode] = useState<'url' | 'file'>(value?.startsWith('data:') ? 'file' : 'url');
+  const [imageError, setImageError] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Reset error when URL changes
+  useEffect(() => {
+    setImageError(false);
+  }, [value]);
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -84,7 +90,20 @@ export default function ImageUploadField({ value, onChange, label, required, edi
 
       {/* Preview for URL mode */}
       {mode === 'url' && value && !value.startsWith('data:') && (
-        <img src={value} alt="preview" className="mt-2 h-20 object-contain rounded border" onError={(e) => (e.currentTarget.style.display = 'none')} />
+        <div className="mt-2">
+          {imageError ? (
+            <div className="text-xs text-red-500 bg-red-50 p-2 rounded border border-red-100 inline-block">
+              ⚠️ Image failed to load. Check if the URL is correct and public.
+            </div>
+          ) : (
+            <img 
+              src={value} 
+              alt="preview" 
+              className="h-20 object-contain rounded border bg-gray-50" 
+              onError={() => setImageError(true)} 
+            />
+          )}
+        </div>
       )}
     </div>
   );

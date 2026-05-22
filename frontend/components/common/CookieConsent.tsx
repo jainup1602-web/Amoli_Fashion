@@ -61,14 +61,14 @@ export function CookieConsent() {
           >
             <div className="bg-white shadow-2xl border border-gray-100 overflow-hidden" style={{ borderRadius: '2px' }}>
               {/* Top accent line */}
-              <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, #B76E79, #d4a0a8)' }} />
+              <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, #1A1A1A, #d4a0a8)' }} />
 
               <div className="p-5">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 flex items-center justify-center rounded-full" style={{ backgroundColor: '#FDF0F2' }}>
-                      <Cookie className="h-4 w-4" style={{ color: '#B76E79' }} />
+                      <Cookie className="h-4 w-4" style={{ color: '#1A1A1A' }} />
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-gray-900 tracking-wide">Cookie Preferences</p>
@@ -105,7 +105,7 @@ export function CookieConsent() {
                               <p className="text-[10px] text-gray-400">Required for the site to function</p>
                             </div>
                           </div>
-                          <div className="w-8 h-4 rounded-full flex items-center px-0.5" style={{ backgroundColor: '#B76E79' }}>
+                          <div className="w-8 h-4 rounded-full flex items-center px-0.5" style={{ backgroundColor: '#1A1A1A' }}>
                             <div className="w-3 h-3 bg-white rounded-full ml-auto" />
                           </div>
                         </div>
@@ -122,7 +122,7 @@ export function CookieConsent() {
                           <button
                             onClick={() => setConsent(p => ({ ...p, analytics: !p.analytics }))}
                             className="w-8 h-4 rounded-full flex items-center px-0.5 transition-colors"
-                            style={{ backgroundColor: consent.analytics ? '#B76E79' : '#d1d5db' }}
+                            style={{ backgroundColor: consent.analytics ? '#1A1A1A' : '#d1d5db' }}
                           >
                             <div className={`w-3 h-3 bg-white rounded-full transition-transform ${consent.analytics ? 'ml-auto' : ''}`} />
                           </button>
@@ -140,7 +140,7 @@ export function CookieConsent() {
                           <button
                             onClick={() => setConsent(p => ({ ...p, preferences: !p.preferences }))}
                             className="w-8 h-4 rounded-full flex items-center px-0.5 transition-colors"
-                            style={{ backgroundColor: consent.preferences ? '#B76E79' : '#d1d5db' }}
+                            style={{ backgroundColor: consent.preferences ? '#1A1A1A' : '#d1d5db' }}
                           >
                             <div className={`w-3 h-3 bg-white rounded-full transition-transform ${consent.preferences ? 'ml-auto' : ''}`} />
                           </button>
@@ -155,7 +155,7 @@ export function CookieConsent() {
                   <button
                     onClick={acceptAll}
                     className="flex-1 py-2 text-white text-xs font-semibold tracking-[0.1em] uppercase transition-opacity hover:opacity-90"
-                    style={{ backgroundColor: '#B76E79' }}
+                    style={{ backgroundColor: '#1A1A1A' }}
                   >
                     Accept All
                   </button>
@@ -169,7 +169,7 @@ export function CookieConsent() {
                     <button
                       onClick={saveCustom}
                       className="flex-1 py-2 text-xs font-semibold tracking-[0.1em] uppercase border transition-colors"
-                      style={{ borderColor: '#B76E79', color: '#B76E79' }}
+                      style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}
                     >
                       Save
                     </button>

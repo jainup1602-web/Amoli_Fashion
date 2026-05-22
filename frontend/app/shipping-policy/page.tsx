@@ -15,7 +15,7 @@ export default function ShippingPolicyPage() {
   const policies = [
     {
       title: 'Dispatch Timelines',
-      icon: <Package className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <Package className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p>
@@ -29,7 +29,7 @@ export default function ShippingPolicyPage() {
     },
     {
       title: 'Delivery Timelines',
-      icon: <Truck className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <Truck className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p>Delivery estimates are shown at the product pages & checkout. These estimates depend on your specific pincode and the items you&apos;ve chosen.</p>
@@ -39,15 +39,15 @@ export default function ShippingPolicyPage() {
     },
     {
       title: 'Shipping Charges',
-      icon: <CreditCard className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <CreditCard className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <ul className="space-y-3 text-gray-600 font-light">
           <li className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
             <span><strong className="font-medium text-gray-900">Prepaid Orders:</strong> Free shipping across India above ₹999.</span>
           </li>
           <li className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#B76E79' }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
             <span><strong className="font-medium text-gray-900">Cash on Delivery (COD):</strong> ₹75 COD Charge is Applicable.</span>
           </li>
         </ul>
@@ -55,7 +55,7 @@ export default function ShippingPolicyPage() {
     },
     {
       title: 'Order Tracking',
-      icon: <MapPin className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <MapPin className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p>Once shipped, you&apos;ll receive a tracking link via SMS, WhatsApp, and Email.</p>
@@ -65,12 +65,12 @@ export default function ShippingPolicyPage() {
     },
     {
       title: 'Delays & Exceptions',
-      icon: <AlertTriangle className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <AlertTriangle className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-4 text-gray-600 leading-relaxed font-light">
           <p>Occasional delays may occur due to weather, Government Authority, local restrictions, or courier-related issues.</p>
           <p>Certain Logistic partners may request for an ID proof while delivering the shipment. When the original recipient is not available and the shipment value is high, the delivery agent may request for ID proof from whomever is collecting the shipment at the mentioned address on behalf of the customer. This is to ensure correct and safe delivery of the product.</p>
-          <div className="p-4 border-l-2" style={{ backgroundColor: 'rgba(183, 110, 121, 0.05)', borderColor: '#B76E79' }}>
+          <div className="p-4 border-l-2" style={{ backgroundColor: 'rgba(183, 110, 121, 0.05)', borderColor: '#1A1A1A' }}>
             <p className="text-sm italic"><strong className="font-medium text-gray-900 not-italic">Please note:</strong> In case you suspect that the package may have tampered before the delivery, you may reject it at the time of delivery.</p>
           </div>
           <p>If your address becomes unserviceable, our team will contact you with alternatives or a refund.</p>
@@ -79,7 +79,7 @@ export default function ShippingPolicyPage() {
     },
     {
       title: 'Secure Packaging',
-      icon: <ShieldCheck className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <ShieldCheck className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p>Every product goes through multiple quality checks to ensure we deliver you the perfect jewels safely. Once the jewellery passes quality checks it is packed to ensure the safest delivery. The packaged products come in Amoli&apos;s Fashion Jewellery Box/Pouches.</p>
@@ -89,7 +89,7 @@ export default function ShippingPolicyPage() {
     },
     {
       title: 'Unboxing Video',
-      icon: <Video className="w-6 h-6" style={{ color: '#B76E79' }} />,
+      icon: <Video className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p className="font-medium text-gray-900">A Simple Step to Help Us Help You</p>
@@ -101,17 +101,17 @@ export default function ShippingPolicyPage() {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F8F6F2' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FDFCF0' }}>
       {/* Header Banner */}
       <div className="py-16 md:py-24 px-4 text-center border-b border-gray-200" style={{ backgroundColor: '#fff' }}>
         <div className="max-w-4xl mx-auto">
-          <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase mb-4 font-elegant drop-shadow-sm" style={{ color: '#B76E79' }}>
+          <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase mb-4 font-elegant drop-shadow-sm" style={{ color: '#1A1A1A' }}>
             Customer Information
           </p>
-          <h1 className="text-4xl md:text-5xl font-fairplay text-[#1C1C1C] tracking-wide mb-6">
+          <h1 className="text-4xl md:text-5xl font-playfair text-[#1C1C1C] tracking-wide mb-6">
             Shipping & Delivery Policy
           </h1>
-          <div className="w-24 h-[1px] mx-auto mb-8" style={{ backgroundColor: '#B76E79' }} />
+          <div className="w-24 h-[1px] mx-auto mb-8" style={{ backgroundColor: '#1A1A1A' }} />
           <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto font-light text-sm md:text-base">
             At Amoli, we partner with trusted courier services to ensure your orders reach you safely and efficiently. 
             In India, Amoli serves to all major cities. Please check if we deliver to your pincode in shopping cart checkout page. 
@@ -139,7 +139,7 @@ export default function ShippingPolicyPage() {
                   {policy.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-fairplay text-gray-900 tracking-wide mb-4">
+                  <h3 className="text-xl font-playfair text-gray-900 tracking-wide mb-4">
                     {policy.title}
                   </h3>
                   {policy.content}
