@@ -24,8 +24,8 @@ export default function BirthstoneSectionAdmin() {
     quote: "\"Maecenas Porta Id Nibh Quis Imperdiet...\"",
     buttonText: "Shop Now",
     buttonLink: "/products",
-    mainImage: "https://images.unsplash.com/photo-1599643478524-fb66f70d00a8?q=80&w=800&auto=format&fit=crop",
-    smallImage: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=400&auto=format&fit=crop",
+    mainImage: "/image/Amoli_1.png",
+    smallImage: "/image/Amoli_2.png",
     stats: [
       { number: '100', label: 'Worldwide Branch' },
       { number: '250+', label: 'Products Designs' },

@@ -18,7 +18,7 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
   experimental: {
-    serverActions: { bodySizeLimit: '2mb' },
+    serverActions: { bodySizeLimit: '10mb' },
     optimizePackageImports: ['lucide-react', '@reduxjs/toolkit', 'framer-motion'],
   },
   async headers() {

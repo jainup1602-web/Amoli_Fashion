@@ -130,17 +130,25 @@ export function CartSummary() {
       </div>
 
       {/* Checkout Button */}
-      <Button
-        className="w-full mt-6 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs h-11"
+      <Link
+        href="/checkout"
+        className="w-full mt-6 flex items-center justify-center gap-2 py-3 px-3 text-white transition-opacity hover:opacity-90 overflow-hidden"
         style={{ backgroundColor: '#1A1A1A' }}
-        asChild
       >
-        <Link href="/checkout">Proceed to Checkout</Link>
-      </Button>
+        {/* Text */}
+        <span className="tracking-[0.08em] uppercase font-semibold text-[10px] whitespace-nowrap">Proceed to Checkout</span>
+
+        {/* Payment icons */}
+        <div className="flex items-center shrink-0">
+          <img src="/image/paytm-icon.png"      alt="Paytm"      title="Paytm"      className="h-5 w-5 rounded-full object-contain bg-white border border-white/30 relative z-30" />
+          <img src="/image/phonepe-icon.png"    alt="PhonePe"    title="PhonePe"    className="h-5 w-5 rounded-full object-contain bg-white border border-white/30 relative z-20 -ml-1.5" />
+          <img src="/image/google-pay-icon.png" alt="Google Pay" title="Google Pay" className="h-5 w-5 rounded-full object-contain bg-white border border-white/30 relative z-10 -ml-1.5" />
+        </div>
+      </Link>
 
       <Button
         variant="outline"
-        className="w-full mt-2 rounded-none border-gray-300 text-[#1C1C1C] hover:text-white hover:border-[#1A1A1A] transition-colors tracking-[0.1em] uppercase text-xs h-9"
+        className="w-full mt-3 rounded-none border-gray-300 text-[#1C1C1C] hover:text-white hover:border-[#1A1A1A] transition-colors tracking-[0.1em] uppercase text-xs h-9"
         style={{}}
         onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1A1A1A')}
         onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}

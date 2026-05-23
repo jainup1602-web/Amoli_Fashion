@@ -51,16 +51,16 @@ export function CartItem({ item }: CartItemProps) {
   const imageSrc = imageError || !item.image ? '/placeholder.svg' : item.image;
 
   return (
-    <div className="bg-gray-50 border border-gold/10 p-3 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 group hover:border-gold/30 transition-luxury shadow-sm relative">
-      <div className="flex items-center gap-6 flex-1 w-full">
+    <div className="bg-gray-50 border border-gold/10 p-3 sm:p-6 group hover:border-gold/30 transition-luxury shadow-sm relative">
+      <div className="flex items-center gap-3 sm:gap-6 w-full">
         {/* Product Image */}
         <Link href={`/products/${item.slug}`} className="flex-shrink-0">
-          <div className="relative w-24 h-24 md:w-32 md:h-32 bg-[#FDFBF7] border border-gold/10">
+          <div className="relative w-16 h-16 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-[#FDFBF7] border border-gold/10">
             <Image
               src={imageSrc}
               alt={item.name}
               fill
-              sizes="(max-width: 768px) 96px, 128px"
+              sizes="(max-width: 640px) 64px, (max-width: 768px) 96px, 112px"
               className="object-cover rounded"
               onError={() => setImageError(true)}
               unoptimized={imageSrc.startsWith('data:') || imageSrc.startsWith('http')}
@@ -68,15 +68,18 @@ export function CartItem({ item }: CartItemProps) {
           </div>
         </Link>
 
-        {/* Product Info */}
-        <div className="flex-1 min-w-0">
+        {/* Product Info + Controls */}
+        <div className="flex-1 min-w-0 pr-6">
+          {/* Name */}
           <Link href={`/products/${item.slug}`}>
-            <h3 className="font-serif text-lg text-[#1C1C1C] hover:text-gold transition-colors line-clamp-2 leading-relaxed">
+            <h3 className="font-serif text-sm sm:text-base md:text-lg text-[#1C1C1C] hover:text-gold transition-colors line-clamp-2 leading-snug">
               {item.name}
             </h3>
           </Link>
-          <div className="flex items-center mt-2 space-x-3">
-            <p className="text-md font-medium text-[#1C1C1C]">
+
+          {/* Price */}
+          <div className="flex items-center mt-1 sm:mt-2 gap-2">
+            <p className="text-sm sm:text-base font-medium text-[#1C1C1C]">
               {formatPrice(item.price)}
             </p>
             {item.price < item.originalPrice && (
@@ -85,39 +88,40 @@ export function CartItem({ item }: CartItemProps) {
               </p>
             )}
           </div>
-        </div>
 
-        {/* Quantity Controls */}
-        <div className="flex items-center border border-gold/30">
-          <button
-            onClick={() => handleUpdateQuantity(item.quantity - 1)}
-            disabled={item.quantity <= 1}
-            className="px-3 py-2 text-gold hover:bg-gold hover:text-white transition-colors disabled:opacity-50"
-          >
-            <Minus className="h-3 w-3" />
-          </button>
-          <span className="w-10 text-center text-sm font-medium text-[#1C1C1C]">{item.quantity}</span>
-          <button
-            onClick={() => handleUpdateQuantity(item.quantity + 1)}
-            disabled={item.quantity >= item.stock}
-            className="px-3 py-2 text-gold hover:bg-gold hover:text-white transition-colors disabled:opacity-50"
-          >
-            <Plus className="h-3 w-3" />
-          </button>
-        </div>
+          {/* Quantity + Subtotal row */}
+          <div className="flex items-center gap-3 sm:gap-6 mt-2 sm:mt-3">
+            {/* Quantity Controls */}
+            <div className="flex items-center border border-gold/30">
+              <button
+                onClick={() => handleUpdateQuantity(item.quantity - 1)}
+                disabled={item.quantity <= 1}
+                className="px-2 sm:px-3 py-1.5 sm:py-2 text-gold hover:bg-gold hover:text-white transition-colors disabled:opacity-50"
+              >
+                <Minus className="h-3 w-3" />
+              </button>
+              <span className="w-8 sm:w-10 text-center text-sm font-medium text-[#1C1C1C]">{item.quantity}</span>
+              <button
+                onClick={() => handleUpdateQuantity(item.quantity + 1)}
+                disabled={item.quantity >= item.stock}
+                className="px-2 sm:px-3 py-1.5 sm:py-2 text-gold hover:bg-gold hover:text-white transition-colors disabled:opacity-50"
+              >
+                <Plus className="h-3 w-3" />
+              </button>
+            </div>
 
-        {/* Subtotal View Desktop */}
-        <div className="hidden sm:block text-right min-w-[100px] ml-4">
-          <p className="text-md font-medium text-[#1C1C1C] tracking-wide">
-            {formatPrice(item.price * item.quantity)}
-          </p>
+            {/* Subtotal */}
+            <p className="text-sm sm:text-base font-medium text-[#1C1C1C] tracking-wide">
+              {formatPrice(item.price * item.quantity)}
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Remove Button */}
       <button
         onClick={handleRemove}
-        className="absolute top-4 right-4 text-gray-400 hover:text-red-700 transition-colors"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-red-700 transition-colors"
         aria-label="Remove item"
       >
         <Trash2 className="h-4 w-4" />

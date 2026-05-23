@@ -25,33 +25,17 @@ export default function Loading() {
         .dot3 { animation: dot 1.4s ease-in-out 0.4s infinite; }
       `}</style>
 
-      {/* Logo mark */}
-      <div className="mb-8 loader-name">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="22" stroke="#1A1A1A" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
-          <circle cx="24" cy="24" r="14" stroke="#1A1A1A" strokeWidth="1" opacity="0.6" />
-          <circle cx="24" cy="24" r="4" fill="#1A1A1A" />
-        </svg>
+      {/* Amoli Logo */}
+      <div className="mb-6 loader-name">
+        <img
+          src="/image/Amoli_2.png"
+          alt="Amoli Fashion Jewellery"
+          style={{ width: '160px', height: 'auto', objectFit: 'contain' }}
+        />
       </div>
 
-      {/* Brand name */}
-      <h1
-        className="loader-name font-playfair text-[#1C1C1C] tracking-[0.25em] uppercase mb-1"
-        style={{ fontSize: 'clamp(22px, 5vw, 32px)' }}
-      >
-        Amoli
-      </h1>
-
-      {/* Tagline */}
-      <p
-        className="loader-sub font-elegant text-gray-400 tracking-[0.4em] uppercase mb-10"
-        style={{ fontSize: '9px' }}
-      >
-        Fashion Jewellery
-      </p>
-
       {/* Animated bar */}
-      <div className="loader-bar relative w-32 h-px overflow-hidden" style={{ backgroundColor: '#e8ddd9' }}>
+      <div className="loader-bar relative w-32 h-px overflow-hidden mb-10" style={{ backgroundColor: '#e8ddd9' }}>
         <div
           className="absolute inset-y-0 left-0 w-1/3"
           style={{

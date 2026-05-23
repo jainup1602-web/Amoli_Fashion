@@ -1,80 +1,83 @@
+'use client';
+
 import React from 'react';
+import { Gift, Gem, Heart, Sparkles } from 'lucide-react';
+
+const services = [
+  {
+    icon: Gift,
+    title: 'Gift Collection',
+    description: 'Curated jewellery sets crafted for every special occasion and celebration.',
+    accent: '#C9A96E',
+  },
+  {
+    icon: Gem,
+    title: 'Premium Jewellery',
+    description: 'Handpicked designs in copper & stainless steel — skin-friendly and long-lasting.',
+    accent: '#B76E79',
+  },
+  {
+    icon: Heart,
+    title: 'Wedding Collection',
+    description: 'Timeless bridal pieces that complement every look on your most precious day.',
+    accent: '#C9A96E',
+  },
+  {
+    icon: Sparkles,
+    title: 'New Arrivals',
+    description: 'Fresh styles added every week — stay ahead with the latest trends in fashion jewellery.',
+    accent: '#B76E79',
+  },
+];
 
 export const ServicesSection = () => {
   return (
-    <section className="py-16 md:py-24 w-full border-t border-b border-[#e8dccf]" style={{ backgroundColor: '#F3E9DD' }}>
+    <section
+      className="py-10 sm:py-14 md:py-16 w-full border-t border-b border-[#e8dccf]"
+      style={{ backgroundColor: '#F3E9DD' }}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          
-          {/* Feature 1 */}
-          <div className="flex-1 flex flex-col items-center text-center px-4 md:px-8 py-8 md:py-0 group cursor-pointer">
-            <div className="mb-6 transform transition-transform duration-500 group-hover:-translate-y-2">
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1C1C1C" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-                {/* Ring Box */}
-                <path d="M5 15h14v3c0 2-2 3-7 3s-7-1-7-3v-3z" />
-                <path d="M4 15h16c1 0 1-1 1-1L19 9c0-2-2-3-7-3S5 7 5 9L3 14c0 0 0 1 1 1z" />
-                <path d="M4 14h16" />
-                <path d="M10 11c0-2 4-2 4 0" />
-                <polygon points="11,9 13,9 12,7" fill="#1C1C1C"/>
-                <path d="M5 9c0 1.5 3 2.5 7 2.5s7-1 7-2.5" strokeDasharray="1 3" />
-              </svg>
-            </div>
-            <h3 className="text-[1.35rem] font-playfair text-[#1A1A1A] tracking-wide mb-3">Gift Collection</h3>
-            <p className="text-[#595959] text-[0.7rem] leading-[1.6] font-elegant tracking-widest uppercase opacity-80">
-              Nibh Nunc Nullam Dignissim Orci Nunc Duis<br />
-              Purus Leo Vulputate Vivamus Orci Ornare
-            </p>
-          </div>
 
-          {/* Divider */}
-          <div className="hidden md:block w-[1px] h-32 bg-[#1A1A1A] opacity-[0.08]"></div>
-          <div className="block md:hidden w-32 h-[1px] bg-[#1A1A1A] opacity-[0.08] my-2"></div>
-
-          {/* Feature 2 */}
-          <div className="flex-1 flex flex-col items-center text-center px-4 md:px-8 py-8 md:py-0 group cursor-pointer">
-            <div className="mb-6 transform transition-transform duration-500 group-hover:-translate-y-2">
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1C1C1C" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-                {/* Diamond */}
-                <path d="M3.5 10L12 21.5 20.5 10 16.5 3.5h-9L3.5 10z"/>
-                <path d="M3.5 10h17"/>
-                <path d="M12 21.5L8.5 10 12 3.5l3.5 6.5L12 21.5z"/>
-                <path d="M7.5 3.5l-2 6.5"/>
-                <path d="M16.5 3.5l2 6.5"/>
-                {/* Sparkles */}
-                <path d="M18 1.5l1 1-1 1M21 4.5l1 1-1 1M4 4l-1-1 1-1" strokeWidth="1"/>
-              </svg>
-            </div>
-            <h3 className="text-[1.35rem] font-playfair text-[#1A1A1A] tracking-wide mb-3">Diamond Jewelry</h3>
-            <p className="text-[#595959] text-[0.7rem] leading-[1.6] font-elegant tracking-widest uppercase opacity-80">
-              Fames Auctor Pellentesque Urna<br />
-              Fermentum Vehicula Sociosqu Ante Arcu
-            </p>
-          </div>
-
-          {/* Divider */}
-          <div className="hidden md:block w-[1px] h-32 bg-[#1A1A1A] opacity-[0.08]"></div>
-          <div className="block md:hidden w-32 h-[1px] bg-[#1A1A1A] opacity-[0.08] my-2"></div>
-
-          {/* Feature 3 */}
-          <div className="flex-1 flex flex-col items-center text-center px-4 md:px-8 py-8 md:py-0 group cursor-pointer">
-            <div className="mb-6 transform transition-transform duration-500 group-hover:-translate-y-2">
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1C1C1C" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-                {/* Wedding Ring */}
-                <ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(-25 12 12)" />
-                <ellipse cx="12" cy="12" rx="6.5" ry="2.5" transform="rotate(-25 12 12)" />
-                {/* Dashed Target/Focus Frame */}
-                <path d="M8 9h1.5v-1.5 M8 15h1.5v1.5 M16 9h-1.5v-1.5 M16 15h-1.5v1.5" strokeWidth="1"/>
-                <path d="M8 9v1.5h-1.5 M8 15v-1.5h-1.5 M16 9v1.5h1.5 M16 15v-1.5h1.5" strokeWidth="1"/>
-              </svg>
-            </div>
-            <h3 className="text-[1.35rem] font-playfair text-[#1A1A1A] tracking-wide mb-3">Wedding Rings</h3>
-            <p className="text-[#595959] text-[0.7rem] leading-[1.6] font-elegant tracking-widest uppercase opacity-80">
-              Massa Conubia Tellus Et Netus Tincidunt<br />
-              Nascetur Primis MollisLacus Odio
-            </p>
-          </div>
-
+        {/* Section label */}
+        <div className="text-center mb-8 sm:mb-10">
+          <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-[#8a7560] font-elegant">
+            Why Choose Amoli
+          </p>
         </div>
+
+        {/* Grid — 2 cols on mobile, 4 on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#e0d4c4]">
+          {services.map(({ icon: Icon, title, description, accent }) => (
+            <div
+              key={title}
+              className="flex flex-col items-center text-center px-4 sm:px-6 py-7 sm:py-10 group cursor-pointer transition-all duration-300 hover:bg-[#ede3d8]"
+              style={{ backgroundColor: '#F3E9DD' }}
+            >
+              {/* Icon circle */}
+              <div
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center mb-4 sm:mb-5 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 flex-shrink-0"
+                style={{ backgroundColor: `${accent}18`, border: `1.5px solid ${accent}40` }}
+              >
+                <Icon
+                  className="w-5 h-5 sm:w-6 sm:h-6 transition-colors duration-300"
+                  style={{ color: accent }}
+                  strokeWidth={1.5}
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-sm sm:text-base font-playfair text-[#1A1A1A] tracking-wide mb-2 leading-snug">
+                {title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-[11px] sm:text-xs text-[#7a6a58] leading-relaxed font-light max-w-[160px] sm:max-w-none">
+                {description}
+              </p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

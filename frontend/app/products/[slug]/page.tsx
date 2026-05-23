@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -257,21 +257,37 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
           {/* Images */}
           <div>
-            <div className="relative aspect-square bg-white border border-gold/10 overflow-hidden">
+            <div
+              className="relative aspect-square bg-white border border-gold/10 overflow-hidden group cursor-zoom-in"
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                const img = e.currentTarget.querySelector('.zoom-img') as HTMLElement;
+                if (img) {
+                  img.style.transformOrigin = `${x}% ${y}%`;
+                }
+              }}
+            >
               <Image
                 src={product.images[selectedImage] || '/placeholder.svg'}
                 alt={product.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
+                className="zoom-img object-cover transition-transform duration-300 group-hover:scale-[2.2]"
                 priority
                 unoptimized={product.images[selectedImage]?.startsWith('data:')}
+                loading="eager"
               />
               {discount > 0 && (
-                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase" style={{ backgroundColor: '#1A1A1A' }}>
+                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase z-10" style={{ backgroundColor: '#1A1A1A' }}>
                   -{discount}%
                 </div>
               )}
+              {/* Zoom hint */}
+              <div className="absolute bottom-3 right-3 bg-black/50 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none select-none hidden md:block">
+                Hover to zoom
+              </div>
             </div>
             {product.images.length > 1 && (
               <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-3">
@@ -281,7 +297,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                     onClick={() => setSelectedImage(idx)}
                     className={`relative aspect-square border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#1A1A1A]' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
-                    <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="80px" className="object-cover" unoptimized={img.startsWith('data:')} />
+                    <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="80px" className="object-cover" unoptimized={img.startsWith('data:')} loading="lazy" />
                   </button>
                 ))}
               </div>
@@ -393,7 +409,17 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   <span className="w-full text-center tracking-[0.15em]">Out of Stock</span>
                 ) : (
                   <>
-                    <span className="tracking-[0.15em]">Buy Now</span>
+                    {/* Left spacer to balance right icons */}
+                    <div className="flex items-center opacity-0 pointer-events-none" aria-hidden="true">
+                      <div className="w-6 h-6" />
+                      <div className="w-6 h-6 -ml-2" />
+                      <div className="w-6 h-6 -ml-2" />
+                      <div className="w-4 h-4 ml-3" />
+                    </div>
+
+                    {/* Center text */}
+                    <span className="tracking-[0.15em] absolute left-1/2 -translate-x-1/2">Buy Now</span>
+
                     <div className="flex items-center">
                       <div className="flex -space-x-2 mr-3 group-hover:scale-105 transition-transform">
                         {/* GPay */}

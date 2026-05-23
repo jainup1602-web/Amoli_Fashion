@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ChevronRight as ArrowRight } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 
 interface Stat {
   number: string;
@@ -24,133 +24,223 @@ interface BirthstoneData {
 const defaultData: BirthstoneData = {
   subtitle: "Born To Shine, Crafted To Last",
   title: "A Gem For Every Birthday, A Story For Every Stone",
-  description: "Vestibulum Vehicula Nunc Ad Fringilla Pretium Ex Ac Praesent Vitae. Conubia Egestas Porta Per Maximus Sem Congue! Vulputate Tristique Interdum Consectetur Mollis Nulla Etiam Quam Lacinia Molestie. Class A Vestibulum Amet Iaculis Auctor Facilisis. Diam Facilisis Nascetur Morbi Consequat Primis Proin Lacus. Erat Urna Taciti Luctus Vel Bibendum Porta.",
-  quote: "\"Maecenas Porta Id Nibh Quis Imperdiet. Quisque Hendrerit, Justo Egestas Fermentum Pulvinar\"",
+  description: "Discover our handcrafted jewellery collection — made with premium copper and stainless steel, nickel-free and skin-friendly. Each piece is designed to celebrate your unique story.",
+  quote: "\"Crafted with love, worn with pride — jewellery that tells your story.\"",
   buttonText: "Shop Now",
   buttonLink: "/products",
-  mainImage: "https://images.unsplash.com/photo-1599643478524-fb66f70d00a8?q=80&w=800&auto=format&fit=crop",
-  smallImage: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=400&auto=format&fit=crop",
+  mainImage: "/image/Amoli_1.png",
+  smallImage: "",
   stats: [
-    { number: '100', label: 'Worldwide Branch' },
-    { number: '250+', label: 'Products Designs' },
-    { number: '2K', label: 'Products Reviews' },
-    { number: '100K', label: 'Happy Customers' }
-  ]
+    { number: '100+', label: 'Unique Designs' },
+    { number: '250+', label: 'Products' },
+    { number: '2K+', label: 'Reviews' },
+    { number: '100K', label: 'Happy Customers' },
+  ],
 };
+
+// Parse number string like "100+", "2K+", "100K" → numeric value + suffix
+function parseNumber(str: string): { value: number; suffix: string } {
+  const clean = str.trim();
+  // Match: optional digits, optional K/M, optional +
+  const match = clean.match(/^(\d+(?:\.\d+)?)(K|M|k|m)?(\+?)$/);
+  if (!match) return { value: 0, suffix: clean };
+  let value = parseFloat(match[1]);
+  const multiplier = match[2]?.toUpperCase();
+  const plus = match[3] || '';
+  if (multiplier === 'K') value = value * 1000;
+  if (multiplier === 'M') value = value * 1000000;
+  return { value, suffix: (multiplier ? multiplier : '') + plus };
+}
+
+// Format display: 100000 → "100K", 2000 → "2K", 250 → "250"
+function formatDisplay(current: number, target: number, suffix: string): string {
+  if (target >= 1000) {
+    const k = Math.round(current / 1000);
+    return `${k}K${suffix.replace('K', '')}`;
+  }
+  return `${Math.round(current)}${suffix}`;
+}
+
+function AnimatedStat({ number, label, animate }: { number: string; label: string; animate: boolean }) {
+  const { value: target, suffix } = parseNumber(number);
+  const [current, setCurrent] = useState(0);
+  const rafRef = useRef<number | null>(null);
+  const startRef = useRef<number | null>(null);
+  const duration = 1800; // ms
+
+  useEffect(() => {
+    if (!animate) return;
+    if (target === 0) { setCurrent(0); return; }
+
+    startRef.current = null;
+    const step = (timestamp: number) => {
+      if (!startRef.current) startRef.current = timestamp;
+      const elapsed = timestamp - startRef.current;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCurrent(eased * target);
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(step);
+      } else {
+        setCurrent(target);
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [animate, target]);
+
+  const display = target === 0 ? number : formatDisplay(current, target, suffix);
+
+  return (
+    <div
+      className="flex flex-col items-center text-center py-3 sm:py-4 px-1 rounded-xl transition-all hover:scale-105"
+      style={{ backgroundColor: '#EFE8DF' }}
+    >
+      <p className="text-base sm:text-xl font-playfair text-[#1A1A1A] leading-none mb-1 tabular-nums">
+        {display}
+      </p>
+      <p className="text-[9px] sm:text-[10px] text-gray-500 font-medium leading-tight">{label}</p>
+    </div>
+  );
+}
 
 export function BirthstoneSection() {
   const [data, setData] = useState<BirthstoneData>(defaultData);
+  const [animateStats, setAnimateStats] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/settings');
-        const json = await res.json();
+    fetch('/api/settings')
+      .then(r => r.json())
+      .then(json => {
         if (json.success && json.settings?.birthstone_section) {
-          setData(json.settings.birthstone_section);
+          const s = json.settings.birthstone_section;
+          setData({
+            ...defaultData,
+            ...s,
+            smallImage: s.smallImage?.includes('Amoli') ? '' : (s.smallImage || ''),
+            description: s.description?.toLowerCase().includes('vestibulum') ? defaultData.description : (s.description || defaultData.description),
+            quote: s.quote?.toLowerCase().includes('maecenas') ? defaultData.quote : (s.quote || defaultData.quote),
+          });
         }
-      } catch (error) {
-        console.error('Failed to fetch birthstone section settings:', error);
-      }
-    };
-    fetchData();
+      })
+      .catch(() => {});
+  }, []);
+
+  // Trigger count-up when stats section enters viewport
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setAnimateStats(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden" style={{ backgroundColor: '#FCF9F6' }}>
-      {/* Decorative leaf background (Right) */}
-      <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-[0.03] pointer-events-none overflow-hidden">
-        <svg viewBox="0 0 200 400" className="w-full h-full object-cover">
-          <path d="M100,0 C150,100 200,150 150,300 C100,450 50,200 100,0 Z" fill="currentColor" />
-          <path d="M100,50 Q180,100 120,200" stroke="currentColor" fill="none" strokeWidth="2" />
-          <path d="M100,100 Q150,150 100,250" stroke="currentColor" fill="none" strokeWidth="2" />
-        </svg>
+    <section className="relative py-12 sm:py-16 md:py-20 overflow-hidden" style={{ backgroundColor: '#FCF9F6' }}>
+
+      {/* Subtle background decoration */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -right-20 top-0 w-72 h-72 rounded-full opacity-[0.04]" style={{ backgroundColor: '#C9A96E' }} />
+        <div className="absolute -left-10 bottom-0 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: '#B76E79' }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-          
-          {/* Left Column - Image with Arch */}
-          <div className="w-full lg:w-1/2 relative pl-4 sm:pl-8">
-            {/* Outline Box */}
-            <div className="absolute top-10 left-0 right-10 bottom-[-20px] border border-white z-0 hidden sm:block" style={{ backgroundColor: 'transparent', boxShadow: '0 0 0 1px rgba(255,255,255,0.5)' }}></div>
-            
-            {/* Arch Image Container */}
-            <div 
-              className="relative z-10 w-[85%] max-w-[420px] mx-auto lg:mx-0 aspect-[3/4] overflow-hidden bg-gray-200" 
-              style={{ borderTopLeftRadius: '250px', borderTopRightRadius: '250px' }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={data.mainImage} 
-                alt="Model"
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 lg:gap-16 items-center">
 
-            {/* Circular Know More Button */}
-            <div className="absolute bottom-10 right-4 lg:right-10 z-30">
-               <div className="w-24 h-24 sm:w-[110px] sm:h-[110px] rounded-full bg-[#FCF9F6] border-4 border-white flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <span className="text-center text-[10px] sm:text-[11px] text-[#1A1A1A] uppercase tracking-widest font-serif leading-tight">Know<br/>More</span>
-               </div>
+          {/* ── Left: Image ── */}
+          <div className="w-full lg:w-[45%] flex-shrink-0">
+            <div className="relative mx-auto lg:mx-0" style={{ maxWidth: '340px' }}>
+
+              {/* Offset background box */}
+              <div
+                className="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 rounded-2xl"
+                style={{ backgroundColor: '#EFE8DF' }}
+              />
+
+              {/* Main image */}
+              <div className="relative rounded-2xl overflow-hidden aspect-[3/4] bg-[#EFE8DF]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={data.mainImage || '/image/Amoli_1.png'}
+                  alt="Amoli Jewellery"
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.src = '/image/Amoli_1.png'; }}
+                />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+              </div>
+
+              {/* Floating badge */}
+              <div
+                className="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-white z-10"
+                style={{ backgroundColor: '#4E3421' }}
+              >
+                <Star className="w-4 h-4 text-[#C9A96E] mb-0.5" fill="#C9A96E" />
+                <span className="text-white text-[9px] sm:text-[10px] font-semibold tracking-widest uppercase leading-tight text-center">
+                  Premium<br />Quality
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Right Column - Content */}
-          <div className="w-full lg:w-1/2 flex flex-col pt-8 lg:pt-0 relative z-10">
-            <div className="flex justify-between items-start mb-6">
-              <div className="pr-4">
-                <p className="text-[10px] tracking-[0.25em] uppercase text-gray-500 mb-4 font-elegant">{data.subtitle}</p>
-                <h2 className="text-4xl sm:text-5xl lg:text-5xl font-serif text-[#1A1A1A] leading-[1.15] max-w-sm">
-                  {data.title}
-                </h2>
-              </div>
-              <div 
-                className="hidden sm:block w-32 h-40 shrink-0 bg-gray-200 overflow-hidden ml-4"
-                style={{ borderTopLeftRadius: '100px', borderTopRightRadius: '100px' }}
-              >
-                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                 <img 
-                    src={data.smallImage} 
-                    alt="Details" 
-                    className="w-full h-full object-cover" 
-                 />
-              </div>
-            </div>
+          {/* ── Right: Content ── */}
+          <div className="w-full lg:w-[55%] flex flex-col mt-6 lg:mt-0">
 
-            <p className="text-xs sm:text-[13px] text-gray-500 leading-[1.8] mb-8 max-w-xl font-light">
+            {/* Subtitle */}
+            <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-[#8a7560] font-elegant mb-3">
+              {data.subtitle}
+            </p>
+
+            {/* Title */}
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-playfair text-[#1A1A1A] leading-[1.2] mb-4 sm:mb-5">
+              {data.title}
+            </h2>
+
+            {/* Description */}
+            <p className="text-sm text-gray-500 leading-relaxed mb-6 font-light max-w-lg">
               {data.description}
             </p>
 
-            {/* Stats */}
-            {data.stats && data.stats.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            {/* Stats grid */}
+            {data.stats?.length > 0 && (
+              <div ref={statsRef} className="grid grid-cols-4 gap-2 sm:gap-3 mb-6">
                 {data.stats.map((stat, idx) => (
-                  <div key={idx} className="bg-[#EFE8DF] px-2 py-5 text-center rounded-sm transition-all hover:bg-[#EAE0D4]">
-                     <p className="text-xl sm:text-2xl font-serif text-[#1A1A1A] mb-1.5">{stat.number}</p>
-                     <p className="text-[9px] sm:text-[10px] tracking-wide text-gray-700 capitalize font-medium">{stat.label}</p>
-                  </div>
+                  <AnimatedStat
+                    key={idx}
+                    number={stat.number}
+                    label={stat.label}
+                    animate={animateStats}
+                  />
                 ))}
               </div>
             )}
 
+            {/* Quote */}
             {data.quote && (
-              <p className="text-xs italic text-gray-500 mb-8 font-serif">
+              <p className="text-xs sm:text-sm italic text-gray-400 mb-6 font-serif border-l-2 border-[#C9A96E] pl-3 leading-relaxed">
                 {data.quote}
               </p>
             )}
 
+            {/* CTA Button */}
             {data.buttonText && data.buttonLink && (
-              <div>
-                <Link href={data.buttonLink}>
-                  <button className="bg-[#4E3421] text-white px-7 py-3 text-[11px] tracking-widest uppercase flex items-center gap-3 hover:bg-[#322010] transition-colors group">
-                    {data.buttonText}
-                    <span className="bg-white text-[#4E3421] rounded-full p-0.5 group-hover:translate-x-1 transition-transform">
-                       <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
-                  </button>
-                </Link>
-              </div>
+              <Link href={data.buttonLink}>
+                <button
+                  className="inline-flex items-center gap-2.5 px-6 py-3 text-white text-xs tracking-[0.2em] uppercase font-semibold rounded-none transition-all duration-300 hover:gap-4 group"
+                  style={{ backgroundColor: '#4E3421' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#322010')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#4E3421')}
+                >
+                  {data.buttonText}
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
+              </Link>
             )}
           </div>
 

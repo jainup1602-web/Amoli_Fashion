@@ -240,6 +240,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
                     alt={model.modelName}
                     className="w-full h-full object-cover object-center transition-transform duration-[1.5s] group-hover:scale-105"
                     draggable={false}
+                    loading="lazy"
                   />
                   {/* Bottom Gradient for Text Readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
@@ -468,16 +469,14 @@ export default function HomePage() {
           .d2 { animation: dot 1.4s ease-in-out 0.2s infinite; }
           .d3 { animation: dot 1.4s ease-in-out 0.4s infinite; }
         `}</style>
-        <div className="mb-8 l-name">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="22" stroke="#1A1A1A" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.4" />
-            <circle cx="24" cy="24" r="14" stroke="#1A1A1A" strokeWidth="1" opacity="0.6" />
-            <circle cx="24" cy="24" r="4" fill="#1A1A1A" />
-          </svg>
+        {/* Amoli Logo */}
+        <div className="mb-6 l-name">
+          <img
+            src="/image/Amoli_2.png"
+            alt="Amoli Fashion Jewellery"
+            style={{ width: '160px', height: 'auto', objectFit: 'contain' }}
+          />
         </div>
-        <h1 className="l-name font-playfair text-[#1C1C1C] tracking-[0.25em] uppercase mb-1" style={{ fontSize: 'clamp(22px, 5vw, 32px)' }}>
-          Amoli
-        </h1>
         <p className="l-sub font-elegant text-gray-400 tracking-[0.4em] uppercase mb-10" style={{ fontSize: '9px' }}>
           Fashion Jewellery
         </p>
@@ -553,12 +552,18 @@ export default function HomePage() {
               style={{ width: `${100 / duplicatedBanners.length}%` }}
             >
               {/* Banner Image Background */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 bg-[#1A1A1A]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={banner.image || '/placeholder.svg'}
+                  src={banner.image || '/image/Amoli_1.png'}
                   alt={banner.title}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.src.endsWith('/image/Amoli_1.png')) {
+                      target.src = '/image/Amoli_1.png';
+                    }
+                  }}
                 />
               </div>
 
@@ -589,22 +594,6 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-
-        {/* Navigation Arrows — fully transparent */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all z-10 hover:scale-110"
-          style={{ color: '#1A1A1A' }}
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all z-10 hover:scale-110"
-          style={{ color: '#1A1A1A' }}
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
 
         {/* Dots Indicator - Only show for original banners */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
@@ -646,7 +635,8 @@ export default function HomePage() {
                     fill
                     sizes="(max-width: 768px) 33vw, 16vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    unoptimized={category.image?.startsWith('data:')}
+                    unoptimized={true}
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute bottom-3 left-3">

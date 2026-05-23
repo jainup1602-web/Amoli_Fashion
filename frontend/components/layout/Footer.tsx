@@ -107,7 +107,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="bg-[#1A1A1A] py-5 px-4 text-center">
           <p className="text-white text-sm font-medium">
-            All right reserved © Amoli Fashion Jewellery Powered by CuriousApes
+            All rights reserved © Amoli Fashion Jewellery | Powered by JAINUP | Growth Systems
           </p>
         </div>
       </div>
@@ -191,7 +191,7 @@ export function Footer() {
       <div className="hidden md:block bg-[#1A1A1A] py-5">
         <div className="container-custom flex justify-center text-sm">
           <p className="text-white font-medium">
-            All right reserved © Amoli Fashion Jewellery Powered by CuriousApes
+            All rights reserved © Amoli Fashion Jewellery | Powered by JAINUP | Growth Systems
           </p>
         </div>
       </div>

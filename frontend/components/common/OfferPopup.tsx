@@ -149,7 +149,7 @@ export function OfferPopup() {
           ) : (
             <div className="absolute inset-0 w-full h-full bg-[#1A1A1A]">
               <img
-                src="https://images.unsplash.com/photo-1599643478524-fb66f70d00a8?q=80&w=1000&auto=format&fit=crop"
+                src="/image/Amoli_1.png"
                 alt="Jewelry Offer"
                 className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"
               />

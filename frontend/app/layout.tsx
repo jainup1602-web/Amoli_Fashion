@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Premium copper and stainless steel jewelry. Nickel-free, skin-friendly, and crafted with care in Rajasthan.",
   keywords: "jewelry, fashion jewelry, copper jewelry, stainless steel jewelry, nickel-free jewelry, Rajasthan jewelry, Amoli",
   authors: [{ name: "Amoli Fashion Jewellery" }],
+  manifest: "/manifest.json",
+  themeColor: "#1A1A1A",
   openGraph: {
     type: "website",
     locale: "en_IN",
