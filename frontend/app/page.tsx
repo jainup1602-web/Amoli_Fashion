@@ -71,6 +71,58 @@ const features = [
   },
 ];
 
+// Showcase Card — used in bento grid
+function ShowcaseCard({ showcase, tall }: { showcase: any; tall?: boolean }) {
+  return (
+    <Link
+      href={showcase.link || '/products'}
+      className={`group relative overflow-hidden block w-full h-full ${tall ? 'min-h-[320px] sm:min-h-[460px] md:min-h-[580px]' : 'min-h-[180px] sm:min-h-[220px] md:min-h-[280px]'}`}
+      style={{ borderRadius: '2px' }}
+    >
+      {/* Image */}
+      <Image
+        src={showcase.image || '/placeholder.svg'}
+        alt={showcase.title}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        unoptimized={showcase.image?.startsWith('data:') || showcase.image?.startsWith('http')}
+      />
+
+      {/* Dark overlay — stronger at bottom */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/10 transition-opacity duration-500 group-hover:from-black/85" />
+
+      {/* Top-right category tag */}
+      {showcase.subtitle && (
+        <div className="absolute top-4 right-4 z-10">
+          <span className="text-[9px] tracking-[0.3em] uppercase font-elegant text-white/80 bg-black/30 backdrop-blur-sm px-2.5 py-1 border border-white/20">
+            {showcase.subtitle}
+          </span>
+        </div>
+      )}
+
+      {/* Bottom content */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7 z-10">
+        {/* Animated line */}
+        <div
+          className="h-[1px] bg-white/40 mb-4 transition-all duration-500 ease-out"
+          style={{ width: '32px' }}
+        />
+
+        <h3 className="text-lg sm:text-xl md:text-2xl font-playfair text-white leading-tight mb-2 drop-shadow-sm">
+          {showcase.title}
+        </h3>
+
+        {/* CTA — slides up on hover */}
+        <div className="flex items-center gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 ease-out">
+          <span className="text-[10px] tracking-[0.25em] uppercase font-elegant text-white/90">Shop Now</span>
+          <ArrowRight className="h-3 w-3 text-white/90 group-hover:translate-x-1 transition-transform duration-300" />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 // Single video card — autoplay, muted, with overlay info
 function VideoCard({ review }: { review: any }) {
   return (
@@ -873,53 +925,83 @@ export default function HomePage() {
 
       {/* Showcases Section - Dynamic from Admin Panel */}
       {showcases.length > 0 && (
-        <section className="py-16 relative" style={{ backgroundColor: '#FDFCF0' }}>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#1A1A1A', opacity: '0.3' }}></div>
-          <div className="max-w-full">
-            {/* Elegant Section Header */}
-            <div className="text-center mb-12 px-4">
-              <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#1A1A1A] mb-4 font-elegant drop-shadow-sm">Exclusive Selections</p>
-              <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Featured Collection</h2>
-              <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#1A1A1A' }} />
-            </div>
+        <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#FDFCF0' }}>
+          {/* Decorative top line */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px]" style={{ backgroundColor: '#1A1A1A', opacity: '0.2' }} />
 
-            {/* Dynamic Grid - 2 Images per Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {showcases.map((showcase) => (
-                <Link
-                  key={showcase.id}
-                  href={showcase.link}
-                  className="group relative h-[280px] sm:h-[380px] md:h-[500px] overflow-hidden"
-                >
-                  <Image
-                    src={showcase.image || '/placeholder.svg'}
-                    alt={showcase.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                    unoptimized={showcase.image?.startsWith('data:') || showcase.image?.startsWith('http')}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                    <div className="p-4 sm:p-8 md:p-12 text-white">
-                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2 text-white drop-shadow-md">{showcase.title}</h3>
-                      <p className="text-sm sm:text-base md:text-lg text-white/90">{showcase.subtitle}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+          {/* Section Header */}
+          <div className="text-center mb-10 px-4">
+            <p className="text-[10px] sm:text-xs tracking-[0.45em] uppercase text-[#8a7560] mb-3 font-elegant">Exclusive Selections</p>
+            <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Featured Collection</h2>
+            <div className="flex items-center justify-center gap-3 mt-5">
+              <div className="h-px w-12 bg-[#1A1A1A]/20" />
+              <span className="text-[#1A1A1A]/40 text-xs">✦</span>
+              <div className="h-px w-12 bg-[#1A1A1A]/20" />
             </div>
+          </div>
 
-            {/* View All Button */}
-            <div className="flex justify-end mt-12 px-4">
-              <Link href="/products">
-                <button className="group relative inline-flex items-center gap-3 px-8 py-3 overflow-hidden border transition-all duration-300"
-                  style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
-                  <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#1A1A1A' }} />
-                  <span className="relative font-elegant tracking-[0.25em] uppercase text-[11px] group-hover:text-white transition-colors duration-300">View All Collection</span>
-                  <ArrowRight className="relative h-3.5 w-3.5 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
-                </button>
-              </Link>
-            </div>
+          {/* Bento Grid */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {showcases.length === 1 && (
+              <div className="grid grid-cols-1">
+                {showcases.map((showcase) => (
+                  <ShowcaseCard key={showcase.id} showcase={showcase} tall />
+                ))}
+              </div>
+            )}
+
+            {showcases.length === 2 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {showcases.map((showcase) => (
+                  <ShowcaseCard key={showcase.id} showcase={showcase} tall />
+                ))}
+              </div>
+            )}
+
+            {showcases.length === 3 && (
+              <div
+                className="grid gap-3"
+                style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto' }}
+              >
+                <div style={{ gridRow: 'span 2' }}>
+                  <ShowcaseCard showcase={showcases[0]} tall />
+                </div>
+                <ShowcaseCard showcase={showcases[1]} />
+                <ShowcaseCard showcase={showcases[2]} />
+              </div>
+            )}
+
+            {showcases.length >= 4 && (
+              <div
+                className="grid gap-3"
+                style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto' }}
+              >
+                {/* Card 1 — tall, spans 2 rows on left */}
+                <div style={{ gridRow: 'span 2' }}>
+                  <ShowcaseCard showcase={showcases[0]} tall />
+                </div>
+                {/* Card 2 — top right */}
+                <ShowcaseCard showcase={showcases[1]} />
+                {/* Card 3 — bottom right */}
+                <ShowcaseCard showcase={showcases[2]} />
+                {/* Cards 4+ — full width below */}
+                {showcases.slice(3).map((showcase) => (
+                  <ShowcaseCard key={showcase.id} showcase={showcase} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* View All */}
+          <div className="flex justify-center mt-12 px-4">
+            <Link href="/products">
+              <button className="group relative inline-flex items-center gap-3 px-10 py-3.5 overflow-hidden border transition-all duration-300"
+                style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>
+                <span className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ backgroundColor: '#1A1A1A' }} />
+                <span className="relative font-elegant tracking-[0.3em] uppercase text-[11px] group-hover:text-white transition-colors duration-300">View All Collection</span>
+                <ArrowRight className="relative h-3.5 w-3.5 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </button>
+            </Link>
           </div>
         </section>
       )}

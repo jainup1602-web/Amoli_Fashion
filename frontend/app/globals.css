@@ -647,3 +647,111 @@ header,
     padding-bottom: 64px;
   }
 }
+
+/* =============================================
+   Micro Animations
+   ============================================= */
+
+/* Button press tap effect */
+.btn-tap {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.btn-tap:active {
+  transform: scale(0.96);
+}
+
+/* Subtle lift on hover */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Card scale on hover */
+.hover-scale {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Image zoom inside card */
+.img-zoom img,
+.img-zoom {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-zoom:hover img,
+.img-zoom:hover {
+  transform: scale(1.06);
+}
+
+/* Underline slide-in on hover */
+.underline-slide {
+  position: relative;
+}
+.underline-slide::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.underline-slide:hover::after {
+  width: 100%;
+}
+
+/* Stagger children fade-in (use with JS delay) */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: staggerFadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.12s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.19s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.26s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.33s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.40s; }
+
+@keyframes staggerFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pulse ring — for badges/notifications */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  70%  { transform: scale(1.5); opacity: 0;   }
+  100% { transform: scale(1.5); opacity: 0;   }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: pulse-ring 1.8s ease-out infinite;
+  z-index: -1;
+}
+
+/* Skeleton shimmer loader */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0ede8 25%, #e8e4de 50%, #f0ede8 75%);
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* Smooth page-level fade (used by PageTransition component) */
+@keyframes pageFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}

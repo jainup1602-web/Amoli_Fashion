@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { alertSuccess, alertError } from '@/lib/alert';
+import { FadeInSection } from '@/components/common/FadeInSection';
 
 export default function ContactPage() {
   const [settings, setSettings] = useState<any>(null);
@@ -82,115 +83,129 @@ export default function ContactPage() {
         <Breadcrumb items={[{ label: 'Contact Us' }]} />
 
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6">Contact Us</h1>
-          <p className="text-base sm:text-lg text-gray-600 text-center mb-8 sm:mb-12">
-            Have a question? We&apos;d love to hear from you
-          </p>
+          <FadeInSection direction="up">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6">Contact Us</h1>
+            <p className="text-base sm:text-lg text-gray-600 text-center mb-8 sm:mb-12">
+              Have a question? We&apos;d love to hear from you
+            </p>
+          </FadeInSection>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {/* Contact Info */}
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 lg:gap-6">
               {settings?.contactEmail && (
-                <Card className="p-4 sm:p-6">
-                  <Mail className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
-                  <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Email Us</h3>
-                  <p className="text-xs sm:text-sm text-gray-600 break-all">{settings.contactEmail}</p>
-                </Card>
+                <FadeInSection direction="left" delay={0.05}>
+                  <Card className="p-4 sm:p-6 hover-lift">
+                    <Mail className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Email Us</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 break-all">{settings.contactEmail}</p>
+                  </Card>
+                </FadeInSection>
               )}
 
               {settings?.contactPhone && (
-                <Card className="p-4 sm:p-6">
-                  <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
-                  <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Call Us</h3>
-                  <p className="text-xs sm:text-sm text-gray-600">{settings.contactPhone}</p>
-                </Card>
+                <FadeInSection direction="left" delay={0.1}>
+                  <Card className="p-4 sm:p-6 hover-lift">
+                    <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Call Us</h3>
+                    <p className="text-xs sm:text-sm text-gray-600">{settings.contactPhone}</p>
+                  </Card>
+                </FadeInSection>
               )}
 
               {settings?.address && (
-                <Card className="p-4 sm:p-6">
-                  <MapPin className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
-                  <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Visit Us</h3>
-                  <p className="text-xs sm:text-sm text-gray-600 whitespace-pre-line">{settings.address}</p>
-                </Card>
+                <FadeInSection direction="left" delay={0.15}>
+                  <Card className="p-4 sm:p-6 hover-lift">
+                    <MapPin className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Visit Us</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 whitespace-pre-line">{settings.address}</p>
+                  </Card>
+                </FadeInSection>
               )}
 
               {settings?.whatsappNumber && (
-                <Card className="p-4 sm:p-6">
-                  <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
-                  <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">WhatsApp</h3>
-                  <a 
-                    href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs sm:text-sm text-gray-900 hover:underline"
-                  >
-                    {settings.whatsappNumber}
-                  </a>
-                </Card>
+                <FadeInSection direction="left" delay={0.2}>
+                  <Card className="p-4 sm:p-6 hover-lift">
+                    <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">WhatsApp</h3>
+                    <a 
+                      href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs sm:text-sm text-gray-900 hover:underline"
+                    >
+                      {settings.whatsappNumber}
+                    </a>
+                  </Card>
+                </FadeInSection>
               )}
 
-              <Card className="p-4 sm:p-6">
-                <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
-                <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Business Hours</h3>
-                <p className="text-xs sm:text-sm text-gray-600">
-                  Mon - Sat: 9:00 AM - 6:00 PM<br />
-                  Sunday: Closed
-                </p>
-              </Card>
+              <FadeInSection direction="left" delay={0.25}>
+                <Card className="p-4 sm:p-6 hover-lift">
+                  <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3" />
+                  <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Business Hours</h3>
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    Mon - Sat: 9:00 AM - 6:00 PM<br />
+                    Sunday: Closed
+                  </p>
+                </Card>
+              </FadeInSection>
             </div>
 
             {/* Contact Form */}
-            <Card className="lg:col-span-2 p-4 sm:p-6 lg:p-8">
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <FadeInSection direction="up" delay={0.1} className="lg:col-span-2">
+              <Card className="p-4 sm:p-6 lg:p-8">
+                <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Send us a Message</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Name</label>
+                      <Input
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Your name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Email</label>
+                      <Input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+                  </div>
+
                   <div>
-                    <label className="block text-sm font-medium mb-1">Name</label>
+                    <label className="block text-sm font-medium mb-1">Subject</label>
                     <Input
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Your name"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      placeholder="How can we help?"
                       required
                     />
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
-                    <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="your@email.com"
+                    <label className="block text-sm font-medium mb-1">Message</label>
+                    <textarea
+                      className="w-full border rounded-lg p-3 min-h-[120px] sm:min-h-[150px] text-sm"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Your message..."
                       required
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-1">Subject</label>
-                  <Input
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="How can we help?"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">Message</label>
-                  <textarea
-                    className="w-full border rounded-lg p-3 min-h-[120px] sm:min-h-[150px] text-sm"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Your message..."
-                    required
-                  />
-                </div>
-
-                <Button type="submit" disabled={submitting} className="w-full">
-                  {submitting ? 'Sending...' : 'Send Message'}
-                </Button>
-              </form>
-            </Card>
+                  <Button type="submit" disabled={submitting} className="w-full btn-tap">
+                    {submitting ? 'Sending...' : 'Send Message'}
+                  </Button>
+                </form>
+              </Card>
+            </FadeInSection>
           </div>
         </div>
       </div>

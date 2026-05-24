@@ -8,6 +8,7 @@ import { AppInitializer } from '@/components/providers/AppInitializer';
 import { CookieConsent } from '@/components/common/CookieConsent';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { ScrollToTopButton } from '@/components/common/ScrollToTopButton';
+import { PageTransition } from '@/components/common/PageTransition';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -16,7 +17,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   if (isAdminRoute) {
     return (
       <AppInitializer>
-        {children}
+        <PageTransition>{children}</PageTransition>
       </AppInitializer>
     );
   }
@@ -25,7 +26,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     <AppInitializer>
       <Header />
       <main className="min-h-screen flex flex-col" style={{ backgroundColor: '#FDFCF0', color: '#1A1A1A' }}>
-        {children}
+        <PageTransition>{children}</PageTransition>
       </main>
       <Footer />
       <MobileBottomNav />

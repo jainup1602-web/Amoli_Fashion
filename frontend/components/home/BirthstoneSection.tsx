@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Star } from 'lucide-react';
+import { FadeInSection } from '@/components/common/FadeInSection';
 
 interface Stat {
   number: string;
@@ -130,6 +131,7 @@ export function BirthstoneSection() {
 
   // Trigger count-up when stats section enters viewport
   useEffect(() => {
+    if (animateStats) return; // already triggered, don't re-observe
     const el = statsRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
@@ -138,7 +140,7 @@ export function BirthstoneSection() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [data, animateStats]); // re-run after data loads so statsRef is attached
 
   return (
     <section className="relative py-12 sm:py-16 md:py-20 overflow-hidden" style={{ backgroundColor: '#FCF9F6' }}>
@@ -153,7 +155,7 @@ export function BirthstoneSection() {
         <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 lg:gap-16 items-center">
 
           {/* ── Left: Image ── */}
-          <div className="w-full lg:w-[45%] flex-shrink-0">
+          <FadeInSection direction="left" className="w-full lg:w-[45%] flex-shrink-0">
             <div className="relative mx-auto lg:mx-0" style={{ maxWidth: '340px' }}>
 
               {/* Offset background box */}
@@ -187,10 +189,10 @@ export function BirthstoneSection() {
                 </span>
               </div>
             </div>
-          </div>
+          </FadeInSection>
 
           {/* ── Right: Content ── */}
-          <div className="w-full lg:w-[55%] flex flex-col mt-6 lg:mt-0">
+          <FadeInSection direction="right" delay={0.1} className="w-full lg:w-[55%] flex flex-col mt-6 lg:mt-0">
 
             {/* Subtitle */}
             <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-[#8a7560] font-elegant mb-3">
@@ -242,7 +244,7 @@ export function BirthstoneSection() {
                 </button>
               </Link>
             )}
-          </div>
+          </FadeInSection>
 
         </div>
       </div>
