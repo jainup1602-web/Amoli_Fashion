@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ReduxProvider } from "@/store/providers/ReduxProvider";
@@ -11,13 +11,16 @@ export const metadata: Metadata = {
   keywords: "jewelry, fashion jewelry, copper jewelry, stainless steel jewelry, nickel-free jewelry, Rajasthan jewelry, Amoli",
   authors: [{ name: "Amoli Fashion Jewellery" }],
   manifest: "/manifest.json",
-  themeColor: "#1A1A1A",
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: process.env.NEXT_PUBLIC_APP_URL,
     siteName: "Amoli Fashion Jewellery",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1A1A1A",
 };
 
 export default function RootLayout({
