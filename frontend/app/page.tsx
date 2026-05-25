@@ -675,8 +675,13 @@ export default function HomePage() {
       </section>
 
 
-      {/* Category Section */}
-      <section className="py-12" style={{ backgroundColor: '#FDFCF0' }}>
+      <motion.section 
+        className="py-12" style={{ backgroundColor: '#FDFCF0' }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Title */}
           <div className="text-center mb-6">
@@ -713,7 +718,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Marquee Section */}
       {marqueeItems.length > 0 && (
@@ -725,7 +730,13 @@ export default function HomePage() {
       )}
 
       {/* Top Styles Section */}
-      <section className="py-12" style={{ backgroundColor: '#FDFCF0' }}>
+      <motion.section 
+        className="py-12" style={{ backgroundColor: '#FDFCF0' }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section Title */}
@@ -918,7 +929,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Birthstone / Special Section */}
       <BirthstoneSection />
@@ -1047,7 +1058,13 @@ export default function HomePage() {
       )}
 
       {/* Video Reviews Section */}
-      <section className="py-12" style={{ backgroundColor: '#FDFCF0' }}>
+      <motion.section 
+        className="py-12" style={{ backgroundColor: '#FDFCF0' }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
         <div className="w-full">
           {/* Elegant Section Header */}
           <div className="text-center mb-12 px-4">
@@ -1057,7 +1074,7 @@ export default function HomePage() {
           </div>
           <VideoReviewCarousel reviews={videoReviews} />
         </div>
-      </section>
+      </motion.section>
 
       {/* Security / Trust Badges */}
       <div className="w-full">
@@ -1071,7 +1088,13 @@ export default function HomePage() {
       </div>
 
       {/* CTA Section */}
-      <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
+      <motion.section 
+        className="py-16 relative overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
         {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent"></div>
         <div className="absolute -top-24 -left-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#1A1A1A' }}></div>
@@ -1099,7 +1122,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Payment Methods & Trust Section — temporarily hidden */}
     </div>

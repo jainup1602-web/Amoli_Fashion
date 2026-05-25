@@ -1015,19 +1015,34 @@ export function Header() {
                 <div className="mx-3 mt-3 mb-1 px-3">
                   <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Categories</p>
                 </div>
-                <div className="mx-3 space-y-0.5">
+                <motion.div 
+                  className="mx-3 space-y-0.5"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.05 } }
+                  }}
+                >
                   {(categories.length > 0 ? categories : ['Rings','Earrings','Necklaces','Bangles','Bracelets','Chains','Anklets'].map(n => ({ id: n, name: n, slug: n.toLowerCase() }))).map((cat) => (
-                    <Link
+                    <motion.div
                       key={cat.id}
-                      href={`/products?category=${cat.slug}`}
-                      onClick={() => setCategoryMenuOpen(false)}
-                      className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
+                      variants={{
+                        hidden: { opacity: 0, x: -30 },
+                        visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } }
+                      }}
                     >
-                      <span className="text-sm text-gray-700 group-hover:text-[#1A1A1A] transition-colors">{cat.name}</span>
-                      <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#1A1A1A] transition-colors" />
-                    </Link>
+                      <Link
+                        href={`/products?category=${cat.slug}`}
+                        onClick={() => setCategoryMenuOpen(false)}
+                        className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
+                      >
+                        <span className="text-sm text-gray-700 group-hover:text-[#1A1A1A] transition-colors">{cat.name}</span>
+                        <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#1A1A1A] transition-colors" />
+                      </Link>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
 
                 {/* Collections */}
                 {[

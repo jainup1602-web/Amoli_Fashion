@@ -72,10 +72,10 @@ function ListRowCard({ product }: { product: any }) {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-30px' }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
+        variants={{
+          hidden: { opacity: 0, x: -30 },
+          visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+        }}
       >
       <Link href={`/products/${product.slug}`}>
         <div className="group flex gap-0 bg-white border border-gray-100 hover:border-[#1A1A1A]/20 hover:shadow-sm transition-all duration-300 overflow-hidden">
@@ -168,22 +168,40 @@ export function ProductGrid({ products, viewMode = '4col' }: ProductGridProps) {
   // 1col = horizontal list card (image left + details right)
   if (viewMode === '1col') {
     return (
-      <div className="flex flex-col gap-4">
+      <motion.div 
+        className="flex flex-col gap-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "50px" }}
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.08 } },
+        }}
+      >
         {products.map((product) => (
           <ListRowCard key={product.id} product={product} />
         ))}
-      </div>
+      </motion.div>
     );
   }
 
   // list = compact text list (old behavior kept as fallback)
   if (viewMode === 'list') {
     return (
-      <div className="flex flex-col gap-4">
+      <motion.div 
+        className="flex flex-col gap-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "50px" }}
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.08 } },
+        }}
+      >
         {products.map((product) => (
           <ListRowCard key={product.id} product={product} />
         ))}
-      </div>
+      </motion.div>
     );
   }
 
@@ -191,10 +209,11 @@ export function ProductGrid({ products, viewMode = '4col' }: ProductGridProps) {
     <motion.div
       className={GRID_CLASSES[viewMode as keyof typeof GRID_CLASSES]}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, margin: "50px" }}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.07 } },
+        visible: { transition: { staggerChildren: 0.08 } },
       }}
     >
       {products.map((product) => (
