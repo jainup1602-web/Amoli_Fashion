@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma, executeWithRetry } from '@/lib/prisma';
 import { verifyAdmin } from '@/middleware/auth';
 
 // GET - Fetch settings
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const settingsRecords = await prisma.settings.findMany();
+    const settingsRecords = await executeWithRetry(() => prisma.settings.findMany());
 
     // Convert array to object (parse JSON values)
     const settings: any = {};
@@ -54,14 +54,16 @@ export async function PUT(request: NextRequest) {
     // Update or create each setting (ensure values are JSON strings)
     for (const [key, value] of Object.entries(body)) {
       const jsonValue = typeof value === 'string' ? JSON.stringify(value) : JSON.stringify(value);
-      await prisma.settings.upsert({
-        where: { key },
-        update: { value: jsonValue },
-        create: { key, value: jsonValue },
-      });
+      await executeWithRetry(() => 
+        prisma.settings.upsert({
+          where: { key },
+          update: { value: jsonValue },
+          create: { key, value: jsonValue },
+        })
+      );
     }
 
-    const settingsRecords = await prisma.settings.findMany();
+    const settingsRecords = await executeWithRetry(() => prisma.settings.findMany());
     const settings: any = {};
     settingsRecords.forEach(record => {
       try {

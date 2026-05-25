@@ -21,16 +21,66 @@ export default function ImageUploadField({ value, onChange, label, required, edi
     setImageError(false);
   }, [value]);
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (file: File, maxWidth = 1000, maxHeight = 1000, quality = 0.7): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(event.target?.result as string); // fallback to original base64
+            return;
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          const dataUrl = canvas.toDataURL(mimeType, mimeType === 'image/jpeg' ? quality : undefined);
+          resolve(dataUrl);
+        };
+        img.onerror = (err) => reject(err);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  };
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      alert('Image must be under 2MB. Please compress the image before uploading.');
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image must be under 10MB.');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => onChange(reader.result as string);
-    reader.readAsDataURL(file);
+
+    try {
+      const compressedDataUrl = await compressImage(file);
+      onChange(compressedDataUrl);
+    } catch (error) {
+      console.error('Error compressing image:', error);
+      const reader = new FileReader();
+      reader.onload = () => onChange(reader.result as string);
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
