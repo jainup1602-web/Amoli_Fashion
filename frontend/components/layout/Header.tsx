@@ -871,13 +871,18 @@ export function Header() {
             <div ref={pincodeRef} className="relative flex-shrink-0">
               <button
                 onClick={() => { setPincodeOpen(!pincodeOpen); setPincodeError(''); }}
-                className="relative flex items-center justify-center transition-opacity hover:opacity-70"
-                style={{ background: 'none', border: 'none', padding: '4px' }}
-                title={pincode ? `Delivering to ${pincodeCity || pincode} (${pincode})` : 'Set delivery pincode'}
+                className="relative flex items-center justify-center gap-1.5 transition-opacity hover:opacity-70 px-2 py-1.5 rounded-lg"
+                style={{ background: pincode ? 'rgba(26,26,26,0.03)' : 'transparent', border: 'none' }}
+                title={pincode ? `Delivering to ${pincodeCity || pincode}` : 'Set delivery pincode'}
               >
-                <span style={{ fontSize: '20px', lineHeight: 1 }}>📍</span>
+                <span style={{ fontSize: '18px', lineHeight: 1 }}>📍</span>
                 {pincode && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
+                  <div className="hidden sm:flex flex-col items-start text-left">
+                    <span className="text-[9px] font-bold tracking-widest uppercase text-gray-400 leading-none mb-1">Deliver to</span>
+                    <span className="text-[11px] font-bold leading-none tracking-wide" style={{ color: '#1A1A1A' }}>
+                      {pincodeCity ? `${pincodeCity.substring(0, 12)}${pincodeCity.length > 12 ? '..' : ''} - ${pincode}` : pincode}
+                    </span>
+                  </div>
                 )}
               </button>
 
