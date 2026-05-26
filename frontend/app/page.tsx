@@ -71,64 +71,55 @@ const features = [
   },
 ];
 
-// Showcase Card — Elegant modern design
+// Showcase Card — Premium Bento Layout
 function ShowcaseCard({ showcase, tall, index = 0 }: { showcase: any; tall?: boolean, index?: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="h-full w-full"
     >
       <Link
         href={showcase.link || '/products'}
-        className={`group relative overflow-hidden block w-full h-full ${tall ? 'min-h-[380px] sm:min-h-[500px] md:min-h-[640px]' : 'min-h-[220px] sm:min-h-[260px] md:min-h-[340px]'}`}
-        style={{ borderRadius: '0px' }}
+        className={`group relative overflow-hidden block w-full h-full rounded-[14px] shadow-sm ${tall ? 'min-h-[380px] sm:min-h-[500px] md:min-h-[640px]' : 'min-h-[260px] sm:min-h-[300px] md:min-h-[340px]'}`}
       >
         {/* Image with slow elegant zoom */}
-        <div className="absolute inset-0 overflow-hidden bg-[#FDFCF0]">
+        <div className="absolute inset-0 bg-[#FDFCF0]">
           <Image
             src={showcase.image || '/placeholder.svg'}
             alt={showcase.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
+            className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.03]"
             unoptimized={showcase.image?.startsWith('data:') || showcase.image?.startsWith('http')}
           />
         </div>
 
-        {/* Sophisticated dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 transition-opacity duration-700 opacity-80 group-hover:opacity-100" />
+        {/* Elegant Bottom Gradient (No full dark overlay) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-700" />
 
-        {/* Top-right category tag */}
-        {showcase.subtitle && (
-          <div className="absolute top-5 right-5 z-10 transition-transform duration-500 group-hover:-translate-y-1">
-            <span className="text-[10px] tracking-[0.35em] uppercase font-elegant text-white bg-white/10 backdrop-blur-md px-3 py-1.5 border border-white/30 shadow-lg">
+        {/* Content - Bottom Left Aligned */}
+        <div className="absolute bottom-0 left-0 p-6 sm:p-8 md:p-10 z-10 w-full max-w-lg">
+          {showcase.subtitle && (
+            <p className="text-[10px] sm:text-[11px] tracking-[0.35em] uppercase font-elegant text-white/85 mb-3 transform transition-transform duration-500 group-hover:-translate-y-1">
               {showcase.subtitle}
-            </span>
-          </div>
-        )}
-
-        {/* Bottom content - structured for elegance */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 z-10 flex flex-col items-center text-center">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-playfair text-white leading-tight mb-4 drop-shadow-md transition-transform duration-500 group-hover:-translate-y-2">
+            </p>
+          )}
+          
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-playfair text-white leading-[1.1] mb-2 drop-shadow-sm transform transition-transform duration-500 group-hover:-translate-y-1">
             {showcase.title}
           </h3>
 
-          {/* CTA — slides up on hover, center aligned */}
-          <div className="flex flex-col items-center justify-center overflow-hidden h-8">
-             <div className="flex items-center gap-2 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[0.25,0.46,0.45,0.94]">
-               <span className="text-[10px] tracking-[0.3em] uppercase font-elegant text-white">Discover More</span>
+          {/* CTA — slides right on hover */}
+          <div className="flex items-center gap-3 overflow-hidden mt-4 h-6">
+             <div className="flex items-center gap-3 transform -translate-x-6 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-[0.25,0.46,0.45,0.94]">
+               <div className="w-8 h-[1px] bg-white/70" />
+               <span className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase font-elegant text-white font-medium">Explore Collection</span>
                <ArrowRight className="h-3.5 w-3.5 text-white" />
              </div>
           </div>
-          
-          {/* Animated bottom line */}
-          <div
-            className="h-[1px] bg-white mt-4 transition-all duration-700 ease-out opacity-60 group-hover:w-24 group-hover:opacity-100"
-            style={{ width: '0px' }}
-          />
         </div>
       </Link>
     </motion.div>
@@ -966,10 +957,10 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* Editorial Grid */}
+          {/* Premium Bento Grid */}
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {showcases.length === 1 && (
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-5xl mx-auto">
                 <ShowcaseCard showcase={showcases[0]} tall index={0} />
               </div>
             )}
@@ -983,14 +974,11 @@ export default function HomePage() {
             )}
 
             {showcases.length === 3 && (
-              <div
-                className="grid gap-4 lg:gap-6"
-                style={{ gridTemplateColumns: 'repeat(12, 1fr)' }}
-              >
-                <div className="col-span-12 md:col-span-7 lg:col-span-8">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+                <div className="lg:col-span-8 h-full">
                   <ShowcaseCard showcase={showcases[0]} tall index={0} />
                 </div>
-                <div className="col-span-12 md:col-span-5 lg:col-span-4 flex flex-col gap-4 lg:gap-6">
+                <div className="lg:col-span-4 flex flex-col gap-4 lg:gap-6 h-full">
                   <ShowcaseCard showcase={showcases[1]} index={1} />
                   <ShowcaseCard showcase={showcases[2]} index={2} />
                 </div>
@@ -998,32 +986,31 @@ export default function HomePage() {
             )}
 
             {showcases.length === 4 && (
-              <div className="flex flex-col gap-4 lg:gap-6">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
-                  <div className="lg:col-span-7">
-                    <ShowcaseCard showcase={showcases[0]} tall index={0} />
-                  </div>
-                  <div className="lg:col-span-5 flex flex-col gap-4 lg:gap-6">
-                    <ShowcaseCard showcase={showcases[1]} index={1} />
-                    <ShowcaseCard showcase={showcases[2]} index={2} />
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6">
+                {/* Row 1: Large left, narrow right */}
+                <div className="md:col-span-8">
+                  <ShowcaseCard showcase={showcases[0]} tall index={0} />
                 </div>
-                <div className="w-full">
-                  <ShowcaseCard showcase={showcases[3]} index={3} />
+                <div className="md:col-span-4">
+                  <ShowcaseCard showcase={showcases[1]} tall index={1} />
+                </div>
+                {/* Row 2: Narrow left, large right */}
+                <div className="md:col-span-4">
+                  <ShowcaseCard showcase={showcases[2]} tall index={2} />
+                </div>
+                <div className="md:col-span-8">
+                  <ShowcaseCard showcase={showcases[3]} tall index={3} />
                 </div>
               </div>
             )}
 
             {showcases.length >= 5 && (
               <div className="flex flex-col gap-4 lg:gap-6">
-                <div
-                  className="grid gap-4 lg:gap-6"
-                  style={{ gridTemplateColumns: 'repeat(12, 1fr)' }}
-                >
-                  <div className="col-span-12 md:col-span-7">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+                  <div className="lg:col-span-8 h-full">
                     <ShowcaseCard showcase={showcases[0]} tall index={0} />
                   </div>
-                  <div className="col-span-12 md:col-span-5 flex flex-col gap-4 lg:gap-6">
+                  <div className="lg:col-span-4 flex flex-col gap-4 lg:gap-6 h-full">
                     <ShowcaseCard showcase={showcases[1]} index={1} />
                     <ShowcaseCard showcase={showcases[2]} index={2} />
                   </div>
