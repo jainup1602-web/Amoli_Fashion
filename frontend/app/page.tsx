@@ -83,7 +83,7 @@ function ShowcaseCard({ showcase, tall, index = 0 }: { showcase: any; tall?: boo
     >
       <Link
         href={showcase.link || '/products'}
-        className={`group relative overflow-hidden block w-full h-full rounded-[14px] shadow-sm ${tall ? 'min-h-[380px] sm:min-h-[500px] md:min-h-[640px]' : 'min-h-[260px] sm:min-h-[300px] md:min-h-[340px]'}`}
+        className={`group relative overflow-hidden block w-full h-full rounded-[14px] shadow-sm ${tall ? 'min-h-[220px] sm:min-h-[320px] md:min-h-[420px]' : 'min-h-[160px] sm:min-h-[200px] md:min-h-[240px]'}`}
       >
         {/* Image with slow elegant zoom */}
         <div className="absolute inset-0 bg-[#FDFCF0]">
@@ -101,7 +101,7 @@ function ShowcaseCard({ showcase, tall, index = 0 }: { showcase: any; tall?: boo
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-700" />
 
         {/* Content - Bottom Left Aligned */}
-        <div className="absolute bottom-0 left-0 p-6 sm:p-8 md:p-10 z-10 w-full max-w-lg">
+        <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8 z-10 w-full max-w-lg">
           {showcase.subtitle && (
             <p className="text-[10px] sm:text-[11px] tracking-[0.35em] uppercase font-elegant text-white/85 mb-3 transform transition-transform duration-500 group-hover:-translate-y-1">
               {showcase.subtitle}
