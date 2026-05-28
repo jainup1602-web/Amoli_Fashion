@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/products/ProductCard';
 import { Truck, Package, RefreshCw, Phone, ChevronLeft, ChevronRight, ChevronRight as ArrowRight, Star, SlidersHorizontal, X } from 'lucide-react';
 import { OfferPopup } from '@/components/common/OfferPopup';
-import { PageLoader } from '@/components/common/LoadingSpinner';
+
 import { DualMarquee } from '@/components/home/DualMarquee';
 import { BirthstoneSection } from '@/components/home/BirthstoneSection';
 import { ServicesSection } from '@/components/home/ServicesSection';
@@ -504,10 +504,6 @@ export default function HomePage() {
     finally { setTabLoading(false); }
   };
 
-  // Step 1: Branded loader — 3 seconds
-  if (brandLoading) {
-    return <PageLoader />;
-  }
 
   // Step 2: Skeleton — while data loads
   if (pageLoading) {
