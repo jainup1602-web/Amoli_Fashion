@@ -1076,7 +1076,10 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <motion.section 
-        className="py-16 relative overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}
+        className="py-16 relative overflow-hidden" 
+        style={{ 
+          background: 'linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url("/image/Amoli_1.png") center/cover no-repeat fixed' 
+        }}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
@@ -1084,8 +1087,6 @@ export default function HomePage() {
       >
         {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent"></div>
-        <div className="absolute -top-24 -left-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#1A1A1A' }}></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 opacity-10 rounded-full blur-3xl" style={{ backgroundColor: '#1A1A1A' }}></div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <span className="text-sm tracking-[0.3em] uppercase font-elegant text-white/80 block mb-3">Experience Elegance</span>

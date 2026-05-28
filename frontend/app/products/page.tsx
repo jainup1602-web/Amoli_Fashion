@@ -352,19 +352,17 @@ export default function ProductsPage() {
       <div 
         className="relative text-white overflow-hidden" 
         style={{ 
-          backgroundColor: heroData?.backgroundColor || '#1A1A1A',
+          background: '#1A1A1A',
           minHeight: '160px'
         }}
       >
-        {heroData?.image && (
-          <div className="absolute inset-0 z-0">
-            <img 
-              src={heroData.image} 
-              alt={heroData.title || ''} 
-              className="w-full h-full object-cover opacity-60"
-            />
-          </div>
-        )}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroData?.image || '/image/Amoli_1.png'} 
+            alt={heroData?.title || 'Banner'} 
+            className="w-full h-full object-cover opacity-40"
+          />
+        </div>
         <div className="relative z-10 max-w-full px-4 sm:px-8 py-8 sm:py-12 text-center">
           <p className="text-[10px] tracking-[0.35em] uppercase text-white/50 mb-2">
             {heroData?.subtitle || 'Discover'}
