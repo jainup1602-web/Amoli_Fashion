@@ -308,7 +308,7 @@ model showcase {
   id        String   @id @default(uuid())
   title     String
   subtitle  String?
-  image     String   @db.Text
+  image     String   @db.LongText
   link      String?  @db.Text
   isActive  Boolean  @default(true)
   order     Int      @default(0)
