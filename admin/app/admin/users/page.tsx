@@ -152,7 +152,7 @@ export default function AdminUsersPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#FDFBF7]">
-        <div className="loading-jewelry"></div>
+        <div className="loading-jewellery"></div>
       </div>
     );
   }

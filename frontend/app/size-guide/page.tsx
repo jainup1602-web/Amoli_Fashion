@@ -25,7 +25,7 @@ export default function SizeGuidePage() {
         >
           <h1 className="text-4xl md:text-5xl font-playfair tracking-wide text-[#1A1A1A] mb-4">Size Guide</h1>
           <p className="text-sm md:text-base text-gray-500 font-light max-w-2xl mx-auto">
-            Find your perfect fit with our comprehensive jewelry sizing guides.
+            Find your perfect fit with our comprehensive jewellery sizing guides.
           </p>
         </motion.div>
       </div>

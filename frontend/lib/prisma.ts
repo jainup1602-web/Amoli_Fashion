@@ -8,7 +8,7 @@ function getDatabaseUrl(): string {
   const port = process.env.DB_PORT || '3306';
   const user = process.env.DB_USER || 'root';
   const password = process.env.DB_PASSWORD || 'root';
-  const name = process.env.DB_NAME || 'amoli_jewelry';
+  const name = process.env.DB_NAME || 'amoli_jewellery';
   const ssl = process.env.DB_SSL === 'true' ? '?ssl-mode=REQUIRED' : '';
 
   return `mysql://${user}:${encodeURIComponent(password)}@${host}:${port}/${name}${ssl}`;

@@ -117,7 +117,7 @@ export function Footer() {
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={180} height={65} className="object-contain" priority />
             </Link>
             <p className="text-sm text-gray-600 mb-4">
-              {settings?.siteDescription || 'Premium copper and stainless steel jewelry. Nickel-free, skin-friendly, and crafted with care in Rajasthan.'}
+              {settings?.siteDescription || 'Premium copper and stainless steel jewellery. Nickel-free, skin-friendly, and crafted with care in Rajasthan.'}
             </p>
             <div className="flex space-x-3">
               <a href={settings?.socialLinks?.facebook || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}><Facebook className="h-4 w-4" /></a>

@@ -14,7 +14,7 @@ async function main() {
 
   console.log('Connected to Railway MySQL!');
 
-  const content = fs.readFileSync('amoli_jewelry.sql', 'utf8');
+  const content = fs.readFileSync('amoli_jewellery.sql', 'utf8');
   const lines = content.split('\n');
 
   const insertLines = [];

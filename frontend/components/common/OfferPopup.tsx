@@ -39,7 +39,7 @@ export function OfferPopup() {
           id: 'fallback',
           title: 'Exclusive Offer',
           subtitle: 'Welcome to Amoli',
-          description: 'Discover our premium jewelry collection crafted with love and precision.',
+          description: 'Discover our premium jewellery collection crafted with love and precision.',
           image: '',
           offerText: 'Shop for ₹1000+ & Get 10% Extra Discount',
           buttonText: 'Shop Now',
@@ -54,7 +54,7 @@ export function OfferPopup() {
         id: 'fallback',
         title: 'Exclusive Offer',
         subtitle: 'Welcome to Amoli',
-        description: 'Discover our premium jewelry collection crafted with love and precision.',
+        description: 'Discover our premium jewellery collection crafted with love and precision.',
         image: '',
         offerText: 'Shop for ₹1000+ & Get 10% Extra Discount',
         buttonText: 'Shop Now',
@@ -150,7 +150,7 @@ export function OfferPopup() {
             <div className="absolute inset-0 w-full h-full bg-[#1A1A1A]">
               <img
                 src="/image/Amoli_1.png"
-                alt="Jewelry Offer"
+                alt="Jewellery Offer"
                 className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"
               />
             </div>

@@ -20,7 +20,7 @@ export default function AboutPage() {
             Amoli – Because Some Things<br className="hidden sm:block" /> are Truly Priceless.
           </h1>
           <p className="text-white/80 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed">
-            Born in the heart of Rajasthan's jewelry heritage. Crafted for the modern woman.
+            Born in the heart of Rajasthan's jewellery heritage. Crafted for the modern woman.
           </p>
         </FadeInSection>
       </section>
@@ -36,10 +36,10 @@ export default function AboutPage() {
             At Amoli, we believe that high-end fashion shouldn't come with a "one-time wear" expiration date. Our journey began with a simple question:
           </p>
           <blockquote className="text-center text-xl sm:text-2xl font-playfair italic mb-8" style={{ color: '#1A1A1A' }}>
-            "Why should premium, handcrafted jewelry be out of reach for the everyday woman?"
+            "Why should premium, handcrafted jewellery be out of reach for the everyday woman?"
           </blockquote>
           <p className="text-gray-600 text-sm sm:text-base font-light leading-relaxed text-center max-w-2xl mx-auto">
-            We realized the market was filled with jewelry that looked beautiful on day one but lost its luster by day ten. We decided to change that.
+            We realized the market was filled with jewellery that looked beautiful on day one but lost its luster by day ten. We decided to change that.
           </p>
         </FadeInSection>
       </section>
@@ -62,7 +62,7 @@ export default function AboutPage() {
               {
                 icon: '✦',
                 title: 'Handcrafted Integrity',
-                desc: 'We move away from mass-produced, glued-on stones. Our pieces feature meticulous prong-setting and artisan craftsmanship that honors the tradition of Rajasthani jewelry-making.',
+                desc: 'We move away from mass-produced, glued-on stones. Our pieces feature meticulous prong-setting and artisan craftsmanship that honors the tradition of Rajasthani jewellery-making.',
               },
               {
                 icon: '◇',
@@ -119,7 +119,7 @@ export default function AboutPage() {
         <FadeInSection direction="up" className="max-w-3xl mx-auto px-4 sm:px-6">
           <p className="text-xs tracking-[0.3em] uppercase text-white/70 mb-4">Our Vision</p>
           <p className="text-white text-base sm:text-xl font-light leading-relaxed mb-8">
-            To empower every woman to build a jewelry wardrobe that reflects her unique personality — without compromising on quality or ethics. Whether it's a minimalist office look or a grand wedding celebration, Amoli is here to make your moments unforgettable.
+            To empower every woman to build a jewellery wardrobe that reflects her unique personality — without compromising on quality or ethics. Whether it's a minimalist office look or a grand wedding celebration, Amoli is here to make your moments unforgettable.
           </p>
           <Link href="/products"
             className="inline-block px-8 py-3 bg-white text-sm font-medium tracking-widest uppercase transition-opacity hover:opacity-90 btn-tap"
@@ -133,7 +133,7 @@ export default function AboutPage() {
       <FadeInSection direction="up" className="py-12 text-center max-w-2xl mx-auto px-4">
         <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-3">Heritage</p>
         <p className="text-sm text-gray-600 font-light leading-relaxed">
-          Born in the heart of Rajasthan's jewelry heritage — the land of Kundan, Meenakari & Polki. Every Amoli piece carries the soul of centuries-old craftsmanship, reimagined for the modern woman.
+          Born in the heart of Rajasthan's jewellery heritage — the land of Kundan, Meenakari & Polki. Every Amoli piece carries the soul of centuries-old craftsmanship, reimagined for the modern woman.
         </p>
       </FadeInSection>
 

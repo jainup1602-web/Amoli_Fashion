@@ -118,7 +118,7 @@ export async function notifyWelcome(userId: string, userName: string) {
     userId,
     type: 'system',
     title: `Welcome to PRAO, ${userName}! 👋`,
-    message: 'Thank you for joining us. Explore our exclusive jewelry collection and enjoy shopping!',
+    message: 'Thank you for joining us. Explore our exclusive jewellery collection and enjoy shopping!',
     link: '/products',
   });
 }

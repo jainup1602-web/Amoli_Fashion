@@ -1052,7 +1052,7 @@ export default function HomePage() {
             Embrace Your True Brilliance
           </h2>
           <p className="text-sm sm:text-base text-white/85 mb-6 sm:mb-10 max-w-2xl mx-auto font-light">
-            Discover our exclusive collections of finely crafted jewelry, designed to illuminate your every moment.
+            Discover our exclusive collections of finely crafted jewellery, designed to illuminate your every moment.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link href="/products">

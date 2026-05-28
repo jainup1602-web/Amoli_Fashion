@@ -211,7 +211,7 @@ export default function PopupsPage() {
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Get amazing discounts on all jewelry items..."
+                  placeholder="Get amazing discounts on all jewellery items..."
                   className="w-full p-2 border rounded h-20 text-sm"
                 />
               </div>
