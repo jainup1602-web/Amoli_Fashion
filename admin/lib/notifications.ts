@@ -117,7 +117,7 @@ export async function notifyWelcome(userId: string, userName: string) {
   return createNotification({
     userId,
     type: 'system',
-    title: `Welcome to PRAO, ${userName}! 👋`,
+    title: `Welcome to Amoli, ${userName}! 👋`,
     message: 'Thank you for joining us. Explore our exclusive jewellery collection and enjoy shopping!',
     link: '/products',
   });
