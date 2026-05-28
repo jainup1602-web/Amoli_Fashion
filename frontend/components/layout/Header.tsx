@@ -793,7 +793,7 @@ export function Header() {
                     className="w-full px-4 py-2.5 text-sm font-medium text-center transition-colors"
                     style={{ color: '#1A1A1A', backgroundColor: '#f0f7f4' }}
                   >
-                    View all results for "{searchQuery}"
+                    View all results for &quot;{searchQuery}&quot;
                   </button>
                 </motion.div>
               )}
