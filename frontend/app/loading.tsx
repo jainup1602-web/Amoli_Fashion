@@ -1,8 +1,8 @@
 export default function Loading() {
   return (
     <div
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-      style={{ backgroundColor: '#FDFCF0' }}
+      className="fixed inset-0 flex flex-col items-center justify-center"
+      style={{ backgroundColor: '#FDFCF0', zIndex: 2147483647 }}
     >
       <style>{`
         @keyframes shimmer {

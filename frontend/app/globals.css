@@ -642,10 +642,9 @@ header,
 }
 
 /* Mobile bottom nav spacing */
+/* Mobile bottom nav spacing handled by footer padding instead */
 @media (max-width: 767px) {
-  body {
-    padding-bottom: 64px;
-  }
+  /* body padding removed to avoid white space below footer */
 }
 
 /* =============================================

@@ -43,7 +43,8 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-[99999] bg-[#FDFCF0]"
+            className="fixed inset-0 bg-[#FDFCF0]"
+            style={{ zIndex: 2147483647 }}
           >
             <PageLoader />
           </motion.div>

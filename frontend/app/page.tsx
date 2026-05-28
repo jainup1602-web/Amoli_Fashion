@@ -93,7 +93,7 @@ function ShowcaseCard({ showcase, tall, index = 0 }: { showcase: any; tall?: boo
             alt={showcase.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.03]"
+            className="object-contain transition-transform duration-[2s] ease-out group-hover:scale-[1.03]"
             unoptimized={showcase.image?.startsWith('data:') || showcase.image?.startsWith('http')}
           />
         </div>
@@ -539,7 +539,7 @@ export default function HomePage() {
             animation: shimmer-pulse 1.5s ease-in-out infinite;
           }
         `}</style>
-        <div className="skeleton h-[300px] sm:h-[420px] md:h-[520px] lg:h-[600px] w-full" />
+        <div className="skeleton h-[220px] sm:h-[380px] md:h-[480px] lg:h-[600px] w-full" />
         <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="skeleton h-5 w-40 mx-auto mb-2 rounded" />
           <div className="skeleton h-px w-16 mx-auto mb-6" />
@@ -570,7 +570,7 @@ export default function HomePage() {
       
       {/* Hero Banner Slider */}
       <section 
-        className="relative h-[300px] sm:h-[420px] md:h-[520px] lg:h-[600px] overflow-hidden"
+        className="relative h-[220px] sm:h-[380px] md:h-[480px] lg:h-[600px] overflow-hidden"
         onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; }}
         onTouchMove={(e) => { touchEndX.current = e.targetTouches[0].clientX; }}
         onTouchEnd={() => {

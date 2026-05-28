@@ -490,7 +490,7 @@ export default function CategoriesPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
+                <label className="block text-sm font-medium mb-1">Group (e.g. Shop By Type)</label>
                 <textarea
                   value={subcategoryForm.description}
                   onChange={(e) =>
