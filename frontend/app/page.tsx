@@ -289,7 +289,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
                   ...getStyle(index),
                 }}
               >
-                <div className="w-full h-[85%] relative overflow-hidden group bg-white shadow-2xl transition-all duration-700" style={{ borderRadius: '0px' }}>
+                <div className="w-full h-full relative overflow-hidden group bg-white shadow-2xl transition-all duration-700" style={{ borderRadius: '0px' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={model.image}
