@@ -45,7 +45,7 @@ export function LoadingSpinner({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
 
 export function PageLoader() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFCF0]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#FDFCF0]">
       <div className="text-center flex flex-col items-center">
         <LoadingSpinner size="lg" />
         <motion.p 
