@@ -10,19 +10,19 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(`http://www.postalpincode.in/api/pincode/${pincode}`, {
+    const res = await fetch(`http://api.zippopotam.us/in/${pincode}`, {
       signal: AbortSignal.timeout(5000),
     });
     
     if (res.ok) {
       const data = await res.json();
-      if (data.Status === 'Success' && data.PostOffice && data.PostOffice.length > 0) {
-        const record = data.PostOffice[0];
+      if (data.places && data.places.length > 0) {
+        const place = data.places[0];
         return NextResponse.json({
           success: true,
-          city: record.District || record.Taluk || '',
-          state: record.State || '',
-          postOffice: record.Name || ''
+          city: place['place name'] || '',
+          state: place.state || '',
+          postOffice: place['place name'] || ''
         });
       }
     }
