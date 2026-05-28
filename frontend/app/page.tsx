@@ -344,7 +344,6 @@ export default function HomePage() {
   const [modelGallery, setModelGallery] = useState<any[]>([]);
   const [marqueeItems, setMarqueeItems] = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
-  const [brandLoading, setBrandLoading] = useState(true); // 3 sec branded loader
 
   // Category filter tabs for Top Styles
   const [activeTab, setActiveTab] = useState<string>('all');
@@ -358,12 +357,10 @@ export default function HomePage() {
   const duplicatedBanners = banners.length > 0 ? [...banners, ...banners, ...banners] : [];
 
   useEffect(() => {
-    // Step 1: Show branded loader for exactly 3 seconds
-    const brandTimer = setTimeout(() => setBrandLoading(false), 3000);
-    // Step 2: Fetch data (skeleton shows after brand loader)
-    const maxTimer = setTimeout(() => setPageLoading(false), 11000);
-    fetchData().finally(() => clearTimeout(maxTimer));
-    return () => { clearTimeout(brandTimer); clearTimeout(maxTimer); };
+    // Fetch data and hide skeleton when done
+    const maxTimer = setTimeout(() => setPageLoading(false), 8000);
+    fetchData().finally(() => { clearTimeout(maxTimer); });
+    return () => clearTimeout(maxTimer);
   }, []);
 
   useEffect(() => {

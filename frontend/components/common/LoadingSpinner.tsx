@@ -27,15 +27,14 @@ export function LoadingSpinner({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
         <motion.div
           animate={{ scale: [0.9, 1.05, 0.9], opacity: [0.7, 1, 0.7] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="relative flex items-center justify-center bg-white rounded-full shadow-sm"
+          className="relative flex items-center justify-center bg-white rounded-full shadow-sm overflow-hidden"
           style={{ width: currentSize, height: currentSize }}
         >
-          <Image
+          {/* Using standard img for instant loading on splash screen */}
+          <img
             src="/image/Amoli_2.png"
             alt="Loading..."
-            width={currentSize - 10}
-            height={currentSize - 10}
-            className="object-contain opacity-90 p-2"
+            className="object-contain w-full h-full p-2.5 opacity-90"
           />
         </motion.div>
       </div>
