@@ -956,6 +956,7 @@ export function Header() {
                     hidden: {},
                     visible: { transition: { staggerChildren: 0.05 } }
                   }}
+                >
                   {categories.map((cat) => {
                     const groups: { [key: string]: any[] } = {};
                     if (cat.subcategory) {
