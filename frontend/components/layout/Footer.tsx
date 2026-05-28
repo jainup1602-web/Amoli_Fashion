@@ -33,7 +33,7 @@ export function Footer() {
   const socialIconCls = "w-8 h-8 flex items-center justify-center rounded-md text-gray-600 hover:text-[#1A1A1A] transition-all duration-200";
 
   return (
-    <footer className="border-t border-gray-200 relative z-10 pb-16 md:pb-0" style={{ backgroundColor: '#FDFCF0' }}>
+    <footer className="border-t border-gray-200 relative z-10" style={{ backgroundColor: '#FDFCF0' }}>
 
       {/* ── MOBILE ACCORDION (< md) ── */}
       <div className="md:hidden flex flex-col">
@@ -105,7 +105,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="bg-[#1A1A1A] py-5 px-4 text-center">
+        <div className="bg-[#1A1A1A] pt-5 pb-[5.5rem] px-4 text-center">
           <p className="text-white text-sm font-medium">
             All rights reserved © Amoli Fashion Jewellery | Powered by JAINUP | Growth Systems
           </p>
