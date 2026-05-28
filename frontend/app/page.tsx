@@ -209,6 +209,9 @@ function ModelGallerySlider({ models }: { models: any[] }) {
   const total = models.length;
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
   const startAuto = () => {
     if (autoRef.current) clearInterval(autoRef.current);
     autoRef.current = setInterval(() => setActive(p => (p + 1) % total), 3500);
@@ -264,7 +267,20 @@ function ModelGallerySlider({ models }: { models: any[] }) {
         </div>
 
         {/* Stage */}
-        <div className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto h-[400px] md:h-[500px] lg:h-[650px]" style={{ perspective: '1600px' }}>
+        <div 
+          className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto h-[400px] md:h-[500px] lg:h-[650px]" 
+          style={{ perspective: '1600px' }}
+          onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; }}
+          onTouchMove={(e) => { touchEndX.current = e.targetTouches[0].clientX; }}
+          onTouchEnd={() => {
+            if (!touchStartX.current || !touchEndX.current) return;
+            const distance = touchStartX.current - touchEndX.current;
+            if (distance > 50) next();
+            if (distance < -50) prev();
+            touchStartX.current = 0;
+            touchEndX.current = 0;
+          }}
+        >
           
           {/* Left Arrow */}
           <button onClick={prev} className="absolute left-2 sm:left-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#1A1A1A] shadow-lg hover:scale-110">
@@ -344,6 +360,9 @@ export default function HomePage() {
   const [modelGallery, setModelGallery] = useState<any[]>([]);
   const [marqueeItems, setMarqueeItems] = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
+
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   // Category filter tabs for Top Styles
   const [activeTab, setActiveTab] = useState<string>('all');
@@ -550,7 +569,19 @@ export default function HomePage() {
       <OfferPopup />
       
       {/* Hero Banner Slider */}
-      <section className="relative h-[300px] sm:h-[420px] md:h-[520px] lg:h-[600px] overflow-hidden">
+      <section 
+        className="relative h-[300px] sm:h-[420px] md:h-[520px] lg:h-[600px] overflow-hidden"
+        onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; }}
+        onTouchMove={(e) => { touchEndX.current = e.targetTouches[0].clientX; }}
+        onTouchEnd={() => {
+          if (!touchStartX.current || !touchEndX.current) return;
+          const distance = touchStartX.current - touchEndX.current;
+          if (distance > 50) nextSlide();
+          if (distance < -50) prevSlide();
+          touchStartX.current = 0;
+          touchEndX.current = 0;
+        }}
+      >
         <div 
           className={`flex h-full ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
           style={{ 
