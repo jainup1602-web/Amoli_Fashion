@@ -264,7 +264,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
         </div>
 
         {/* Stage */}
-        <div className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto" style={{ height: 'clamp(400px, 65vh, 650px)', perspective: '1600px' }}>
+        <div className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto h-[400px] md:h-[500px] lg:h-[650px]" style={{ perspective: '1600px' }}>
           
           {/* Left Arrow */}
           <button onClick={prev} className="absolute left-2 sm:left-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#1A1A1A] shadow-lg hover:scale-110">
@@ -282,7 +282,7 @@ function ModelGallerySlider({ models }: { models: any[] }) {
                 onClick={() => { if (d !== 0) { setActive(index); startAuto(); } }}
                 className="absolute top-0 bottom-0 flex items-center justify-center"
                 style={{
-                  width: 'clamp(200px, 28vw, 400px)',
+                  width: 'clamp(220px, 30vw, 400px)',
                   transition: 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                   cursor: d !== 0 ? 'pointer' : 'default',
                   transformStyle: 'preserve-3d',
