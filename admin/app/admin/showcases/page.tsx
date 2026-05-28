@@ -25,13 +25,21 @@ export default function ShowcasesAdmin() {
     isActive: true,
   });
 
+  const getToken = async () => {
+    const { getAuthToken } = await import('@/lib/firebase-client');
+    return await getAuthToken();
+  };
+
   useEffect(() => {
     fetchShowcases();
   }, []);
 
   const fetchShowcases = async () => {
     try {
-      const res = await fetch('/api/admin/showcases');
+      const token = await getToken();
+      const res = await fetch('/api/admin/showcases', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       const data = await res.json();
       if (data.success) {
         setShowcases(data.showcases);
@@ -56,9 +64,13 @@ export default function ShowcasesAdmin() {
       const method = editingShowcase ? 'PUT' : 'POST';
       const body = editingShowcase ? { ...formData, id: editingShowcase.id } : formData;
 
+      const token = await getToken();
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(body),
       });
 
@@ -95,8 +107,10 @@ export default function ShowcasesAdmin() {
     if (!ok) return;
 
     try {
+      const token = await getToken();
       const res = await fetch(`/api/admin/showcases?id=${id}`, {
         method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
       const data = await res.json();
