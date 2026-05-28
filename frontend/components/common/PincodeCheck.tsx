@@ -60,7 +60,7 @@ export function PincodeCheck({ pincode }: PincodeCheckProps) {
             setState(infoData.state || '');
             setStatus('available');
           } else {
-            setStatus('unavailable');
+            setStatus('available'); // default allow even if city info unavailable
           }
         } catch {
           setStatus('available'); // default allow
