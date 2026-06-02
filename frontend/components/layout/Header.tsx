@@ -691,26 +691,6 @@ export function Header() {
                               })}
                             </div>
                           )}
-
-                          {/* Other Sections */}
-                          <div className="border-t border-gray-100 py-1">
-                            <p className="px-4 pt-2 pb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Other</p>
-                            <button
-                              type="button"
-                              onClick={() => { setSelectedCategory({ name: 'New Arrivals', slug: 'new-arrivals' }); setCategoryDropdownOpen(false); router.push('/products?sortBy=createdAt'); }}
-                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-[#FDFCF0] transition-colors group"
-                            >
-                              <span>New Arrivals</span>
-                              <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: '#1A1A1A' }}>New</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => { setSelectedCategory({ name: 'Best Sellers', slug: 'best-sellers' }); setCategoryDropdownOpen(false); router.push('/products?sortBy=salesCount'); }}
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#FDFCF0] transition-colors"
-                            >
-                              Best Sellers
-                            </button>
-                          </div>
                         </div>
                       </motion.div>
                     </>
@@ -1035,28 +1015,6 @@ export function Header() {
                   })}
                 </motion.div>
 
-                {/* Other Sections */}
-                <div className="mx-3 mt-3 pt-3 border-t border-gray-100">
-                  <div className="px-3 mb-1">
-                    <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Other Sections</p>
-                  </div>
-                  <Link
-                    href="/products?filter=new-arrivals"
-                    onClick={() => setCategoryMenuOpen(false)}
-                    className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors"
-                  >
-                    <span className="text-sm text-gray-700">New Arrivals</span>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: '#1A1A1A' }}>New</span>
-                  </Link>
-                  <Link
-                    href="/products?filter=best-seller"
-                    onClick={() => setCategoryMenuOpen(false)}
-                    className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
-                  >
-                    <span className="text-sm text-gray-700">Best Sellers</span>
-                    <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#1A1A1A] transition-colors" />
-                  </Link>
-                </div>
 
                 {/* Bottom padding for safe area */}
                 <div className="h-6" />

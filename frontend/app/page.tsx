@@ -669,31 +669,60 @@ export default function HomePage() {
             <div className="w-16 h-px mx-auto mt-3" style={{ backgroundColor: '#1A1A1A' }} />
           </div>
 
-          {/* Categories Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5">
-            {categories.map((category) => (
+          {/* Categories Grid - Circular Style */}
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12 lg:gap-16">
+            {[
+              {
+                id: 'western',
+                name: 'Western',
+                slug: 'western',
+                href: '/products?occasion=Casual',
+                image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800'
+              },
+              {
+                id: 'ethnic',
+                name: 'Ethnic',
+                slug: 'ethnic',
+                href: '/products?occasion=Wedding',
+                image: 'https://images.unsplash.com/photo-1599643478524-fb66f7ca065b?w=800'
+              },
+              {
+                id: 'whats-new',
+                name: 'Whats New',
+                slug: 'whats-new',
+                href: '/products?sortBy=newest',
+                image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800'
+              },
+              {
+                id: 'best-seller',
+                name: 'Best Seller',
+                slug: 'best-seller',
+                href: '/products?sortBy=price-desc',
+                image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800'
+              }
+            ].map((collection) => (
               <Link
-                key={category.id}
-                href={`/products?category=${category.slug}`}
-                className="group block"
+                key={collection.id}
+                href={collection.href}
+                className="group flex flex-col items-center"
               >
-                <div className="relative w-full aspect-[3/4] overflow-hidden" style={{ backgroundColor: '#FDFCF0' }}>
+                <div 
+                  className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden transition-all duration-300 shadow-md group-hover:shadow-lg"
+                  style={{ border: '1.5px solid #B76E79' }}
+                >
                   <Image
-                    src={category.image || '/placeholder.svg'}
-                    alt={category.name}
+                    src={collection.image}
+                    alt={collection.name}
                     fill
-                    sizes="(max-width: 768px) 33vw, 16vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 96px, 128px"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-full"
                     unoptimized={true}
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3">
-                    <h3 className="text-white font-elegant tracking-[0.15em] uppercase text-xs md:text-sm font-medium">
-                      {category.name}
-                    </h3>
-                  </div>
                 </div>
+                <h3 className="mt-3 text-xs sm:text-sm font-medium text-[#1A1A1A] group-hover:text-[#B76E79] transition-colors duration-300 font-elegant tracking-widest uppercase text-center">
+                  {collection.name}
+                </h3>
               </Link>
             ))}
           </div>
@@ -744,12 +773,11 @@ export default function HomePage() {
 
             {/* Desktop Inline Filters */}
             <div className="hidden lg:flex items-center gap-3 flex-1 flex-wrap">
-              {[{ id: 'all', name: 'All Collection' }, { id: 'best-sellers', name: 'Best Sellers' }, ...categories].map((cat) => (
+              {[{ id: 'all', name: 'All Collection' }, ...categories].map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => {
                     if (cat.id === 'all') handleTabChange('all');
-                    else if (cat.id === 'best-sellers') handleTabChange('best-sellers');
                     else handleTabChange(cat.id, cat.id);
                   }}
                   className="text-[10px] sm:text-xs tracking-[0.1em] uppercase font-elegant transition-all duration-300 border px-3 py-1.5 sm:py-2"
@@ -825,7 +853,7 @@ export default function HomePage() {
                   <div className="border-b border-gray-100">
                     <p className="px-5 py-3 text-[11px] font-semibold tracking-[0.12em] uppercase text-gray-800">Categories</p>
                     <div className="px-5 pb-4 space-y-2.5">
-                      {[{ id: 'all', name: 'All' }, { id: 'best-sellers', name: 'Best Sellers' }, ...categories].map((cat) => (
+                      {[{ id: 'all', name: 'All' }, ...categories].map((cat) => (
                         <label key={cat.id} className="flex items-center gap-2.5 cursor-pointer group">
                           <span
                             className="w-4 h-4 flex-shrink-0 border flex items-center justify-center transition-all"
@@ -842,7 +870,6 @@ export default function HomePage() {
                             style={activeTab === cat.id ? { color: '#1A1A1A', fontWeight: 500 } : { color: '#4b5563' }}
                             onClick={() => {
                               if (cat.id === 'all') handleTabChange('all');
-                              else if (cat.id === 'best-sellers') handleTabChange('best-sellers');
                               else handleTabChange(cat.id, cat.id);
                               setFilterSidebarOpen(false);
                             }}
@@ -897,7 +924,6 @@ export default function HomePage() {
           <div className="flex justify-end mt-10 pr-1">
             <Link href={
               activeTab === 'all' ? '/products' :
-              activeTab === 'best-sellers' ? '/products?sortBy=salesCount' :
               `/products?category=${categories.find(c => c.id === activeTab)?.slug || ''}`
             }>
               <button className="group relative inline-flex items-center gap-3 px-8 py-3 overflow-hidden border transition-all duration-300"

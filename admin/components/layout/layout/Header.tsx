@@ -594,171 +594,84 @@ export function Header() {
                           {/* Dynamic Categories from API */}
                           {categories.length > 0 && (
                             <div className="py-1">
-                              <p className="px-4 pt-2 pb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Categories</p>
-                              {categories.map((cat) => (
-                                <button
-                                  key={cat.id}
-                                  type="button"
-                                  onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); router.push(`/products?category=${cat.slug}`); }}
-                                  className={`w-full flex items-center justify-between px-4 py-2 text-sm transition-colors group ${selectedCategory?.slug === cat.slug ? 'text-white font-medium' : 'text-gray-700 hover:bg-[#F8F6F2]'}`}
-                                  style={selectedCategory?.slug === cat.slug ? { backgroundColor: '#B76E79' } : {}}
-                                >
-                                  <span>{cat.name}</span>
-                                  <ChevronRight className={`h-3 w-3 flex-shrink-0 ${selectedCategory?.slug === cat.slug ? 'text-white' : 'text-gray-300 group-hover:text-[#B76E79]'}`} />
-                                </button>
-                              ))}
+                              {categories.map((cat) => {
+                                const groups: { [key: string]: any[] } = {};
+                                if (cat.subcategory) {
+                                  cat.subcategory.forEach(sub => {
+                                    const groupName = sub.description || 'Others';
+                                    if (!groups[groupName]) groups[groupName] = [];
+                                    groups[groupName].push(sub);
+                                  });
+                                }
+                                const hasSubcategories = cat.subcategory && cat.subcategory.length > 0;
+                                
+                                return (
+                                  <div key={cat.id} className="border-t border-gray-100 first:border-0">
+                                    {hasSubcategories ? (
+                                      <>
+                                        <button
+                                          type="button"
+                                          onClick={() => toggleDropdown(`search-cat-${cat.id}`)}
+                                          className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
+                                        >
+                                          <span className="text-[10px] uppercase tracking-widest text-gray-500">{cat.name}</span>
+                                          <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns[`search-cat-${cat.id}`] ? 'rotate-90' : ''}`} />
+                                        </button>
+                                        <AnimatePresence>
+                                          {openDropdowns[`search-cat-${cat.id}`] && (
+                                            <motion.div
+                                              initial={{ height: 0, opacity: 0 }}
+                                              animate={{ height: 'auto', opacity: 1 }}
+                                              exit={{ height: 0, opacity: 0 }}
+                                              transition={{ duration: 0.25 }}
+                                              className="overflow-hidden bg-[#F8F6F2] pb-2"
+                                            >
+                                              <button
+                                                type="button"
+                                                onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); router.push(`/products?category=${cat.slug}`); }}
+                                                className="w-full text-left px-6 py-1.5 text-sm font-medium text-[#B76E79] hover:underline"
+                                              >
+                                                View All {cat.name}
+                                              </button>
+                                              
+                                              {Object.entries(groups).map(([groupName, subs]) => (
+                                                <div key={groupName} className="mt-2">
+                                                  <p className="px-6 py-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">{groupName}</p>
+                                                  {subs.map(sub => (
+                                                    <button
+                                                      key={sub.id}
+                                                      type="button"
+                                                      onClick={() => {
+                                                        setSelectedCategory(cat);
+                                                        setCategoryDropdownOpen(false);
+                                                        router.push(`/products?category=${cat.slug}&subcategory=${sub.slug}`);
+                                                      }}
+                                                      className="w-full text-left px-8 py-1 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                                    >
+                                                      {sub.name}
+                                                    </button>
+                                                  ))}
+                                                </div>
+                                              ))}
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
+                                      </>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); router.push(`/products?category=${cat.slug}`); }}
+                                        className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors group ${selectedCategory?.slug === cat.slug ? 'text-white font-medium bg-[#B76E79]' : 'text-gray-700 hover:bg-[#F8F6F2]'}`}
+                                      >
+                                        <span className="text-[10px] uppercase tracking-widest">{cat.name}</span>
+                                        <ChevronRight className={`h-3 w-3 flex-shrink-0 ${selectedCategory?.slug === cat.slug ? 'text-white' : 'text-gray-300 group-hover:text-[#B76E79]'}`} />
+                                      </button>
+                                    )}
+                                  </div>
+                                );
+                              })}
                             </div>
                           )}
-
-                          {/* Ethnic Collection */}
-                          <div className="border-t border-gray-100">
-                            <button
-                              type="button"
-                              onClick={() => toggleDropdown('search-ethnic')}
-                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
-                            >
-                              <span className="text-[10px] uppercase tracking-widest text-gray-500">Ethnic Collection</span>
-                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-ethnic'] ? 'rotate-90' : ''}`} />
-                            </button>
-                            <AnimatePresence>
-                              {openDropdowns['search-ethnic'] && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.25 }}
-                                  className="overflow-hidden bg-[#F8F6F2]"
-                                >
-                                  {[
-                                    { label: 'Necklaces', slug: 'necklaces', collection: 'ethnic' },
-                                    { label: 'Earrings', slug: 'earrings', collection: 'ethnic' },
-                                    { label: 'Rings', slug: 'rings', collection: 'ethnic' },
-                                    { label: 'Bangles', slug: 'bangles', collection: 'ethnic' },
-                                    { label: 'Tikka', slug: 'tikka', collection: 'ethnic' },
-                                  ].map((item) => (
-                                    <button
-                                      key={item.slug}
-                                      type="button"
-                                      onClick={() => {
-                                        setSelectedCategory({ name: `Ethnic ${item.label}`, slug: item.slug });
-                                        setCategoryDropdownOpen(false);
-                                        router.push(`/products?category=${item.slug}`);
-                                      }}
-                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
-                                    >
-                                      {item.label}
-                                    </button>
-                                  ))}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-
-                          {/* Western Collection */}
-                          <div className="border-t border-gray-100">
-                            <button
-                              type="button"
-                              onClick={() => toggleDropdown('search-western')}
-                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
-                            >
-                              <span className="text-[10px] uppercase tracking-widest text-gray-500">Western Collection</span>
-                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-western'] ? 'rotate-90' : ''}`} />
-                            </button>
-                            <AnimatePresence>
-                              {openDropdowns['search-western'] && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.25 }}
-                                  className="overflow-hidden bg-[#F8F6F2]"
-                                >
-                                  {[
-                                    { label: 'Jewellery Sets', slug: 'jewellery-sets' },
-                                    { label: 'Earrings', slug: 'earrings' },
-                                    { label: 'Rings', slug: 'rings' },
-                                    { label: 'Wristwear', slug: 'wristwear' },
-                                  ].map((item) => (
-                                    <button
-                                      key={item.slug}
-                                      type="button"
-                                      onClick={() => {
-                                        setSelectedCategory({ name: `Western ${item.label}`, slug: item.slug });
-                                        setCategoryDropdownOpen(false);
-                                        router.push(`/products?category=${item.slug}`);
-                                      }}
-                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
-                                    >
-                                      {item.label}
-                                    </button>
-                                  ))}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-
-                          {/* Minimalist */}
-                          <div className="border-t border-gray-100">
-                            <button
-                              type="button"
-                              onClick={() => toggleDropdown('search-minimalist')}
-                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-[#F8F6F2] transition-colors"
-                            >
-                              <span className="text-[10px] uppercase tracking-widest text-gray-500">Minimalist</span>
-                              <ChevronRight className={`h-3 w-3 text-[#B76E79] transition-transform duration-200 ${openDropdowns['search-minimalist'] ? 'rotate-90' : ''}`} />
-                            </button>
-                            <AnimatePresence>
-                              {openDropdowns['search-minimalist'] && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.25 }}
-                                  className="overflow-hidden bg-[#F8F6F2]"
-                                >
-                                  {[
-                                    { label: 'Jewellery Sets', slug: 'jewellery-sets' },
-                                    { label: 'Earrings', slug: 'earrings' },
-                                    { label: 'Rings', slug: 'rings' },
-                                    { label: 'Wristwear', slug: 'wristwear' },
-                                  ].map((item) => (
-                                    <button
-                                      key={item.slug}
-                                      type="button"
-                                      onClick={() => {
-                                        setSelectedCategory({ name: `Minimalist ${item.label}`, slug: item.slug });
-                                        setCategoryDropdownOpen(false);
-                                        router.push(`/products?category=${item.slug}`);
-                                      }}
-                                      className="w-full text-left px-6 py-1.5 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
-                                    >
-                                      {item.label}
-                                    </button>
-                                  ))}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-
-                          {/* Other Sections */}
-                          <div className="border-t border-gray-100 py-1">
-                            <p className="px-4 pt-2 pb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Other</p>
-                            <button
-                              type="button"
-                              onClick={() => { setSelectedCategory({ name: 'New Arrivals', slug: 'new-arrivals' }); setCategoryDropdownOpen(false); router.push('/products?sortBy=createdAt'); }}
-                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors group"
-                            >
-                              <span>New Arrivals</span>
-                              <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: '#B76E79' }}>New</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => { setSelectedCategory({ name: 'Best Sellers', slug: 'best-sellers' }); setCategoryDropdownOpen(false); router.push('/products?sortBy=salesCount'); }}
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors"
-                            >
-                              Best Sellers
-                            </button>
-                          </div>
                         </div>
                       </motion.div>
                     </>
@@ -987,266 +900,96 @@ export function Header() {
                   onClick={() => setCategoryMenuOpen(false)}
                 >
                   <span className="font-medium text-sm">All Products</span>
-                </Link>
-
-                {/* Categories Section */}
-                <div className="pt-3">
-                  <div className="px-3 py-1.5">
-                    <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Categories</h3>
-                  </div>
-                  
-                  {/* Dynamic Categories from API */}
-                  <div className="space-y-0.5">
-                    {categories.length > 0 ? categories.map((cat) => (
-                      <Link
+                       {/* Categories Section */}
+                <div className="mx-3 mt-3 mb-1 px-3">
+                  <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Categories</p>
+                </div>
+                <motion.div 
+                  className="mx-3 space-y-0.5"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.05 } }
+                  }}
+                >
+                  {categories.map((cat) => {
+                    const groups: { [key: string]: any[] } = {};
+                    if (cat.subcategory) {
+                      cat.subcategory.forEach(sub => {
+                        const groupName = sub.description || 'Others';
+                        if (!groups[groupName]) groups[groupName] = [];
+                        groups[groupName].push(sub);
+                      });
+                    }
+                    const hasSubcategories = cat.subcategory && cat.subcategory.length > 0;
+                    
+                    return (
+                      <motion.div
                         key={cat.id}
-                        href={`/products?category=${cat.slug}`}
-                        className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight group"
-                        onClick={() => setCategoryMenuOpen(false)}
+                        variants={{
+                          hidden: { opacity: 0, x: -30 },
+                          visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } }
+                        }}
                       >
-                        <span className="group-hover:text-[#B76E79] transition-colors">{cat.name}</span>
-                        <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
-                      </Link>
-                    )) : (
-                      // Fallback hardcoded categories
-                      ['Rings', 'Earrings', 'Bracelets', 'Bangles', 'Necklaces', 'Chains', 'Anklets'].map((name) => (
-                        <Link
-                          key={name}
-                          href={`/products?category=${name.toLowerCase()}`}
-                          className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight group"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          <span className="group-hover:text-[#B76E79] transition-colors">{name}</span>
-                          <ChevronRight className="h-3 w-3 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
-                        </Link>
-                      ))
-                    )}
-                  </div>
-                </div>
-
-                {/* Ethnic Collection */}
-                <div className="pt-3">
-                  <div className="flex items-center justify-between">
-                    <div className="px-3 py-1.5">
-                      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Ethnic Collection</h3>
-                    </div>
-                    <button
-                      onClick={() => toggleDropdown('ethnic')}
-                      className="p-2 transition-all duration-200"
-                      style={{ color: '#B76E79' }}
-                    >
-                      <ChevronRight 
-                        className={`h-4 w-4 transform transition-transform duration-300 ${
-                          openDropdowns['ethnic'] ? 'rotate-90' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
-                  
-                  <AnimatePresence>
-                    {openDropdowns['ethnic'] && (
-                      <motion.div 
-                        className="overflow-hidden dropdown-smooth"
-                        style={{ overflow: 'hidden' }}
-                        variants={dropdownVariants}
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                      >
-                      <div className="space-y-0.5 bg-gray-50 rounded-lg p-2 mx-3 dropdown-enter">
-                        <Link
-                          href="/products?collection=ethnic&category=necklaces"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Necklaces
-                        </Link>
-                        <Link
-                          href="/products?collection=ethnic&category=earrings"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Earrings
-                        </Link>
-                        <Link
-                          href="/products?collection=ethnic&category=rings"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Rings
-                        </Link>
-                        <Link
-                          href="/products?collection=ethnic&category=bangles"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Bangles
-                        </Link>
-                        <Link
-                          href="/products?collection=ethnic&category=tikka"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Tikka
-                        </Link>
-                      </div>
+                        {hasSubcategories ? (
+                          <>
+                            <button
+                              onClick={() => toggleDropdown(`mobile-cat-${cat.id}`)}
+                              className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
+                            >
+                              <span className="text-sm text-gray-700 font-medium group-hover:text-[#B76E79] transition-colors">{cat.name}</span>
+                              <ChevronRight className={`h-3.5 w-3.5 text-gray-300 transition-transform duration-200 ${openDropdowns[`mobile-cat-${cat.id}`] ? 'rotate-90' : ''}`} />
+                            </button>
+                            <AnimatePresence>
+                              {openDropdowns[`mobile-cat-${cat.id}`] && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden pl-4 pr-2"
+                                >
+                                  <Link
+                                    href={`/products?category=${cat.slug}`}
+                                    onClick={() => setCategoryMenuOpen(false)}
+                                    className="block px-3 py-1.5 text-sm font-medium text-[#B76E79] hover:underline mt-1"
+                                  >
+                                    View All {cat.name}
+                                  </Link>
+                                  {Object.entries(groups).map(([groupName, subs]) => (
+                                    <div key={groupName} className="mt-2">
+                                      <p className="px-3 py-1 text-[10px] font-bold tracking-[0.1em] text-gray-400 uppercase">{groupName}</p>
+                                      {subs.map(sub => (
+                                        <Link
+                                          key={sub.id}
+                                          href={`/products?category=${cat.slug}&subcategory=${sub.slug}`}
+                                          onClick={() => setCategoryMenuOpen(false)}
+                                          className="block px-4 py-1 text-sm text-gray-600 hover:text-[#B76E79] transition-colors"
+                                        >
+                                          {sub.name}
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        ) : (
+                          <Link
+                            href={`/products?category=${cat.slug}`}
+                            onClick={() => setCategoryMenuOpen(false)}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
+                          >
+                            <span className="text-sm text-gray-700 font-medium group-hover:text-[#B76E79] transition-colors">{cat.name}</span>
+                            <ChevronRight className="h-3.5 w-3.5 text-gray-300 group-hover:text-[#B76E79] transition-colors" />
+                          </Link>
+                        )}
                       </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Western Collection */}
-                <div className="pt-3">
-                  <div className="flex items-center justify-between">
-                    <div className="px-3 py-1.5">
-                      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Western Collection</h3>
-                    </div>
-                    <button
-                      onClick={() => toggleDropdown('western')}
-                      className="p-2 transition-all duration-200"
-                      style={{ color: '#B76E79' }}
-                    >
-                      <ChevronRight 
-                        className={`h-4 w-4 transform transition-transform duration-300 ${
-                          openDropdowns['western'] ? 'rotate-90' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
-                  
-                  <AnimatePresence>
-                    {openDropdowns['western'] && (
-                      <motion.div 
-                        className="overflow-hidden dropdown-smooth"
-                        style={{ overflow: 'hidden' }}
-                        variants={dropdownVariants}
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                      >
-                      <div className="space-y-0.5 bg-gray-50 rounded-lg p-2 mx-3 dropdown-enter">
-                        <Link
-                          href="/products?collection=western&category=jewellery-sets"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Jewellery Sets
-                        </Link>
-                        <Link
-                          href="/products?collection=western&category=earrings"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Earrings
-                        </Link>
-                        <Link
-                          href="/products?collection=western&category=rings"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Rings
-                        </Link>
-                        <Link
-                          href="/products?collection=western&category=wristwear"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Wristwear
-                        </Link>
-                      </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Minimalist Collection */}
-                <div className="pt-3">
-                  <div className="flex items-center justify-between">
-                    <div className="px-3 py-1.5">
-                      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Minimalist</h3>
-                    </div>
-                    <button
-                      onClick={() => toggleDropdown('minimalist')}
-                      className="p-2 transition-all duration-200"
-                      style={{ color: '#B76E79' }}
-                    >
-                      <ChevronRight 
-                        className={`h-4 w-4 transform transition-transform duration-300 ${
-                          openDropdowns['minimalist'] ? 'rotate-90' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
-                  
-                  <AnimatePresence>
-                    {openDropdowns['minimalist'] && (
-                      <motion.div 
-                        className="overflow-hidden dropdown-smooth"
-                        style={{ overflow: 'hidden' }}
-                        variants={dropdownVariants}
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                      >
-                      <div className="space-y-0.5 bg-gray-50 rounded-lg p-2 mx-3 dropdown-enter">
-                        <Link
-                          href="/products?collection=minimalist&category=jewellery-sets"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Jewellery Sets
-                        </Link>
-                        <Link
-                          href="/products?collection=minimalist&category=earrings"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Earrings
-                        </Link>
-                        <Link
-                          href="/products?collection=minimalist&category=rings"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Rings
-                        </Link>
-                        <Link
-                          href="/products?collection=minimalist&category=wristwear"
-                          className="block px-4 py-1.5 text-sm text-gray-700 hover:bg-white rounded transition-all duration-200 leading-tight"
-                          onClick={() => setCategoryMenuOpen(false)}
-                        >
-                          Wristwear
-                        </Link>
-                      </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Other Sections */}
-                <div className="pt-3 border-t border-gray-200 mt-3">
-                  <div className="px-3 py-1.5">
-                    <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider leading-tight">Other Sections</h3>
-                  </div>
-                  
-                  <div className="space-y-0.5">
-                    <Link
-                      href="/products?filter=new-arrivals"
-                      className="flex items-center justify-between px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      <span>New Arrivals</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: '#B76E79', color: 'white' }}>New</span>
-                    </Link>
-                    <Link
-                      href="/products?filter=best-seller"
-                      className="block px-6 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded transition-all duration-200 leading-tight"
-                      onClick={() => setCategoryMenuOpen(false)}
-                    >
-                      Best Sellers
-                    </Link>
-                  </div>
-                </div>
+                    );
+                  })}
+                </motion.div>               </div>
               </div>
             </div>
             </motion.div>

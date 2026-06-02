@@ -133,10 +133,50 @@ export default function ProductsPage() {
     if (slug) {
       const cat = categories.find((c) => c.slug === slug);
       if (cat) setSelectedCategories([cat.id]);
+    } else {
+      setSelectedCategories([]);
     }
   }, [searchParams, categoriesLoaded, categories]);
 
-  useEffect(() => { fetchCategories(); }, []);
+  // Read URL param and apply subcategory filter once subcategories are loaded
+  useEffect(() => {
+    if (subcategories.length === 0) {
+      setSelectedSubcategories([]);
+      return;
+    }
+    const subSlug = searchParams.get('subcategory');
+    if (subSlug) {
+      const sub = subcategories.find((s) => s.slug === subSlug);
+      if (sub) {
+        setSelectedSubcategories([sub.id]);
+      }
+    } else {
+      setSelectedSubcategories([]);
+    }
+  }, [searchParams, subcategories]);
+
+  // Read URL param and apply occasion filter
+  useEffect(() => {
+    const occ = searchParams.get('occasion');
+    if (occ) {
+      const matched = OCCASION_OPTIONS.find(o => o.toLowerCase() === occ.toLowerCase());
+      if (matched) {
+        setSelectedOccasions([matched]);
+      } else {
+        setSelectedOccasions([occ]);
+      }
+    } else {
+      setSelectedOccasions([]);
+    }
+  }, [searchParams]);
+
+  // Read URL param and apply sorting
+  useEffect(() => {
+    const sort = searchParams.get('sortBy');
+    if (sort) {
+      setSortBy(sort);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (selectedCategories.length === 1) fetchSubcategories(selectedCategories[0]);
