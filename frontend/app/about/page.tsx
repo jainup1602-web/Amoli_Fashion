@@ -20,11 +20,11 @@ export default function AboutPage() {
             Amoli – Because Some Things<br className="hidden sm:block" /> are Truly Priceless.
           </h1>
           <p className="text-white/80 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed">
-            Born in the heart of Rajasthan's jewellery heritage. Crafted for the modern woman.
+            Born in the heart of Rajasthan's jewellery heritage. Crafted for the modern woman. Specializing in premium, handcrafted demi-fine jewellery.
           </p>
         </FadeInSection>
       </section>
-
+ 
       {/* Mission */}
       <section className="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
         <FadeInSection direction="up" delay={0.05}>
@@ -33,7 +33,7 @@ export default function AboutPage() {
             <div className="w-12 h-px mx-auto" style={{ backgroundColor: '#1A1A1A' }} />
           </div>
           <p className="text-gray-700 text-base sm:text-lg font-light leading-relaxed text-center max-w-2xl mx-auto mb-6">
-            At Amoli, we believe that high-end fashion shouldn't come with a "one-time wear" expiration date. Our journey began with a simple question:
+            At Amoli, we believe that high-end demi-fine jewellery shouldn't come with a "one-time wear" expiration date. Our journey began with a simple question:
           </p>
           <blockquote className="text-center text-xl sm:text-2xl font-playfair italic mb-8" style={{ color: '#1A1A1A' }}>
             "Why should premium, handcrafted jewellery be out of reach for the everyday woman?"

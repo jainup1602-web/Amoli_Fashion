@@ -6,9 +6,9 @@ import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 import { AlertProvider } from "@/components/providers/AlertProvider";
 
 export const metadata: Metadata = {
-  title: "Amoli Fashion Jewellery - Premium Jewellery Online",
-  description: "Premium copper and stainless steel jewellery. Nickel-free, skin-friendly, and crafted with care in Rajasthan.",
-  keywords: "jewellery, fashion jewellery, copper jewellery, stainless steel jewellery, nickel-free jewellery, Rajasthan jewellery, Amoli",
+  title: "Amoli Fashion Jewellery - Premium Demi-Fine Jewellery",
+  description: "Premium demi-fine copper and stainless steel jewellery. Nickel-free, skin-friendly, and crafted with care in Rajasthan.",
+  keywords: "jewellery, demi-fine jewellery, fashion jewellery, copper jewellery, stainless steel jewellery, nickel-free jewellery, Rajasthan jewellery, Amoli",
   authors: [{ name: "Amoli Fashion Jewellery" }],
   manifest: "/manifest.json",
   openGraph: {
