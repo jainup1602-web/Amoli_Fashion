@@ -12,6 +12,10 @@ export async function verifyAuth(request: NextRequest) {
 
     const token = authHeader.split('Bearer ')[1];
     
+    if (!token || token === 'null' || token === 'undefined') {
+      return { error: 'Invalid or missing token', status: 401 };
+    }
+    
     // If Firebase Admin is not configured, skip token verification
     // and just check if user exists in database
     let firebaseUid: string | null = null;

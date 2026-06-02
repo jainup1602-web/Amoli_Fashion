@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ShoppingCart, Heart, ChevronDown, Menu, X, ChevronRight, Search, LogOut, User, MapPin, Package, Settings, Bell } from 'lucide-react';
+import { ShoppingCart, Heart, ChevronDown, Menu, X, ChevronRight, Search, LogOut, User, MapPin, Package, Settings, Bell, CreditCard } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { logout } from '@/store/slices/authSlice';
 import { useRouter } from 'next/navigation';
@@ -502,6 +502,10 @@ export function Header() {
                       <Link href="/account/addresses" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setProfileMenuOpen(false)}>
                         <MapPin className="h-4 w-4 mr-3 text-gray-400" />
                         Addresses
+                      </Link>
+                      <Link href="/account/wallet" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setProfileMenuOpen(false)}>
+                        <CreditCard className="h-4 w-4 mr-3 text-gray-400" />
+                        My Wallet
                       </Link>
                       <Link href="/account/wishlist" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setProfileMenuOpen(false)}>
                         <Heart className="h-4 w-4 mr-3 text-gray-400" />

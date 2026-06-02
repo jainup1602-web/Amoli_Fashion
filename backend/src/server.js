@@ -72,6 +72,8 @@ app.use('/api/admin/marquee',      require('./routes/admin/marquee'));
 app.use('/api/admin/popups',       require('./routes/admin/popups'));
 app.use('/api/admin/sections',     require('./routes/admin/sections'));
 app.use('/api/admin/reports',      require('./routes/admin/reports'));
+app.use('/api/admin/wallet',       require('./routes/admin/wallet'));
+app.use('/api/admin/returns',      require('./routes/admin/returns'));
 
 // Webhooks
 app.use('/api/webhooks/shiprocket', require('./routes/webhooks/shiprocket'));

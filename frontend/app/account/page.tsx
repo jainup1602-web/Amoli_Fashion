@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Package, User, MapPin, Heart, Settings, Bell, LogOut, ChevronRight, Star } from 'lucide-react';
+import { Package, User, MapPin, Heart, Settings, Bell, LogOut, ChevronRight, Star, CreditCard } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { logout } from '@/store/slices/authSlice';
 import { useRouter } from 'next/navigation';
@@ -17,11 +17,13 @@ const AddressesPage = dynamic(() => import('./addresses/page'), { ssr: false });
 const WishlistPage = dynamic(() => import('./wishlist/page'), { ssr: false });
 const NotificationsPage = dynamic(() => import('./notifications/page'), { ssr: false });
 const SettingsPage = dynamic(() => import('./settings/page'), { ssr: false });
+const WalletPage = dynamic(() => import('./wallet/page'), { ssr: false });
 
 const NAV_ITEMS = [
   { id: 'profile', label: 'Profile', icon: User },
   { id: 'orders', label: 'My Orders', icon: Package },
   { id: 'addresses', label: 'Addresses', icon: MapPin },
+  { id: 'wallet', label: 'My Wallet', icon: CreditCard },
   { id: 'loyalty', label: 'Loyalty Points', icon: Star },
   { id: 'wishlist', label: 'Wishlist', icon: Heart },
   { id: 'notifications', label: 'Notifications', icon: Bell },
@@ -83,6 +85,7 @@ export default function AccountPage() {
           </div>
         </div>
       );
+      case 'wallet': return <WalletPage />;
       case 'wishlist': return <WishlistPage />;
       case 'notifications': return <NotificationsPage />;
       case 'settings': return <SettingsPage />;

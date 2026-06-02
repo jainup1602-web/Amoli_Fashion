@@ -20,7 +20,7 @@ export default function AboutPage() {
             Amoli – Because Some Things<br className="hidden sm:block" /> are Truly Priceless.
           </h1>
           <p className="text-white/80 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed">
-            Born in the heart of Rajasthan's jewellery heritage. Crafted for the modern woman. Specializing in premium, handcrafted demi-fine jewellery.
+            Born in the heart of Rajasthan's jewellery heritage. Crafted for the modern woman. Specializing in high quality, handcrafted brass and copper demi-fine jewellery.
           </p>
         </FadeInSection>
       </section>
@@ -36,7 +36,7 @@ export default function AboutPage() {
             At Amoli, we believe that high-end demi-fine jewellery shouldn't come with a "one-time wear" expiration date. Our journey began with a simple question:
           </p>
           <blockquote className="text-center text-xl sm:text-2xl font-playfair italic mb-8" style={{ color: '#1A1A1A' }}>
-            "Why should premium, handcrafted jewellery be out of reach for the everyday woman?"
+            "Why should high quality, handcrafted brass and copper jewellery be out of reach for the everyday woman?"
           </blockquote>
           <p className="text-gray-600 text-sm sm:text-base font-light leading-relaxed text-center max-w-2xl mx-auto">
             We realized the market was filled with jewellery that looked beautiful on day one but lost its luster by day ten. We decided to change that.
@@ -133,7 +133,7 @@ export default function AboutPage() {
       <FadeInSection direction="up" className="py-12 text-center max-w-2xl mx-auto px-4">
         <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-3">Heritage</p>
         <p className="text-sm text-gray-600 font-light leading-relaxed">
-          Born in the heart of Rajasthan's jewellery heritage — the land of Kundan, Meenakari & Polki. Every Amoli piece carries the soul of centuries-old craftsmanship, reimagined for the modern woman.
+          Born in the heart of Rajasthan's jewellery heritage — the land of Kundan, Meenakari & Polki. Every high quality brass and copper Amoli piece carries the soul of centuries-old craftsmanship, reimagined for the modern woman.
         </p>
       </FadeInSection>
 

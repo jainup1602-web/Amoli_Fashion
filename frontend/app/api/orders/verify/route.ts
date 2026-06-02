@@ -45,13 +45,38 @@ export async function POST(request: NextRequest) {
     }
 
     // Update order
-    await prisma.order.update({
-      where: { id: order.id },
-      data: {
-        razorpayPaymentId,
-        paymentStatus: 'paid',
-        orderStatus: 'confirmed',
-      },
+    const updatedOrderDetails = await prisma.$transaction(async (tx) => {
+      const updated = await tx.order.update({
+        where: { id: order.id },
+        data: {
+          razorpayPaymentId,
+          paymentStatus: 'paid',
+          orderStatus: 'confirmed',
+        },
+      });
+
+      // Handle wallet deduction for split payments
+      const walletUsed = Number(order.walletAmountUsed) || 0;
+      if (walletUsed > 0) {
+        const updatedUser = await tx.user.update({
+          where: { id: authResult.user.id },
+          data: { walletBalance: { decrement: walletUsed } },
+        });
+
+        await tx.wallettransaction.create({
+          data: {
+            userId: authResult.user.id,
+            type: 'debit',
+            amount: walletUsed,
+            balance: updatedUser.walletBalance,
+            description: `Used for order ${order.orderNumber}`,
+            referenceId: order.id,
+            referenceType: 'order_payment',
+          },
+        });
+      }
+
+      return updated;
     });
 
     // Update product stock

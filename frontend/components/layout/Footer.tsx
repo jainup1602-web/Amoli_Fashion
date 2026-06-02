@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, ChevronDown } from 'lucide-react';
 import { useAppSelector } from '@/store/hooks';
 
@@ -29,6 +29,19 @@ function AccordionSection({ title, children }: { title: string; children: React.
 
 export function Footer() {
   const { settings } = useAppSelector((state) => state.settings);
+  const [categories, setCategories] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/categories?limit=10')
+      .then(r => r.json())
+      .then(data => {
+        if (data.categories) {
+          // The API should already return them in order.
+          setCategories(data.categories);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const socialIconCls = "w-8 h-8 flex items-center justify-center rounded-md text-gray-600 hover:text-[#1A1A1A] transition-all duration-200";
 
@@ -44,7 +57,7 @@ export function Footer() {
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={160} height={55} className="object-contain" priority />
             </Link>
             <p className="text-sm text-gray-600 leading-relaxed max-w-[90%]">
-              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of luxury jewellery with a curated collection inspired by the finest traditions.'}
+              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of high quality luxury jewellery crafted from brass and copper, with a curated collection inspired by the finest traditions.'}
             </p>
             <div className="flex gap-2 mt-4">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
@@ -66,10 +79,13 @@ export function Footer() {
           <div className="mb-4">
             <AccordionSection title="Categories">
               <ul className="space-y-3 text-sm text-gray-600 text-left">
-                <li><Link href="/products?category=rings" className="hover:text-[#1A1A1A] transition-colors">Rings</Link></li>
-                <li><Link href="/products?category=earrings" className="hover:text-[#1A1A1A] transition-colors">Earrings</Link></li>
-                <li><Link href="/products?category=necklaces" className="hover:text-[#1A1A1A] transition-colors">Necklaces</Link></li>
-                <li><Link href="/products?category=bangles" className="hover:text-[#1A1A1A] transition-colors">Bangles</Link></li>
+                {categories.map((cat) => (
+                  <li key={cat.id}>
+                    <Link href={`/products?category=${cat.slug}`} className="hover:text-[#1A1A1A] transition-colors">
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </AccordionSection>
 
@@ -121,7 +137,7 @@ export function Footer() {
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={180} height={65} className="object-contain" priority />
             </Link>
             <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of luxury jewellery with a curated collection inspired by the finest traditions.'}
+              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of high quality luxury jewellery crafted from brass and copper, with a curated collection inspired by the finest traditions.'}
             </p>
             <div className="flex gap-2">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
@@ -143,10 +159,13 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-6 text-sm tracking-widest uppercase text-[#1A1A1A]">Categories</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="/products?category=rings" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Rings</Link></li>
-              <li><Link href="/products?category=earrings" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Earrings</Link></li>
-              <li><Link href="/products?category=necklaces" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Necklaces</Link></li>
-              <li><Link href="/products?category=bangles" className="text-gray-600 hover:text-[#1A1A1A] transition-colors">Bangles</Link></li>
+              {categories.map((cat) => (
+                <li key={cat.id}>
+                  <Link href={`/products?category=${cat.slug}`} className="text-gray-600 hover:text-[#1A1A1A] transition-colors">
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

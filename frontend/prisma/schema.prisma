@@ -147,38 +147,42 @@ model notification {
 }
 
 model order {
-  id                String      @id @default(uuid())
-  orderNumber       String      @unique
-  userId            String
-  customerName      String
-  customerEmail     String?
-  customerPhone     String
-  shippingAddress   String      @db.LongText
-  billingAddress    String?     @db.LongText
-  subtotal          Float
-  discount          Float       @default(0)
-  shippingCharges   Float       @default(0)
-  tax               Float       @default(0)
-  total             Float
-  couponCode        String?
-  paymentMethod     String
-  paymentStatus     String      @default("pending")
-  razorpayOrderId   String?
-  razorpayPaymentId String?
-  orderStatus       String      @default("pending")
-  trackingNumber    String?
-  shippingProvider  String?
-  notes             String?     @db.Text
-  cancelReason      String?     @db.Text
-  isGift            Boolean     @default(false)
-  giftMessage       String?     @db.Text
-  giftWrap          Boolean     @default(false)
-  loyaltyPointsUsed Int         @default(0)
-  loyaltyPointsEarned Int       @default(0)
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
-  user              user        @relation(fields: [userId], references: [id])
-  orderitem         orderitem[]
+  id                  String          @id @default(uuid())
+  orderNumber         String          @unique
+  userId              String
+  customerName        String
+  customerEmail       String?
+  customerPhone       String
+  shippingAddress     String          @db.LongText
+  billingAddress      String?         @db.LongText
+  subtotal            Float
+  discount            Float           @default(0)
+  shippingCharges     Float           @default(0)
+  tax                 Float           @default(0)
+  total               Float
+  walletAmountUsed    Float           @default(0)
+  couponCode          String?
+  paymentMethod       String
+  paymentStatus       String          @default("pending")
+  razorpayOrderId     String?
+  razorpayPaymentId   String?
+  orderStatus         String          @default("pending")
+  shiprocketOrderId   String?
+  shipmentId          String?
+  trackingNumber      String?
+  shippingProvider    String?
+  notes               String?         @db.Text
+  cancelReason        String?         @db.Text
+  isGift              Boolean         @default(false)
+  giftMessage         String?         @db.Text
+  giftWrap            Boolean         @default(false)
+  loyaltyPointsUsed   Int             @default(0)
+  loyaltyPointsEarned Int             @default(0)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  user                user            @relation(fields: [userId], references: [id])
+  orderitem           orderitem[]
+  returnrequest       returnrequest[]
 
   @@index([orderNumber])
   @@index([orderStatus])
@@ -306,7 +310,7 @@ model showcase {
   id        String   @id @default(uuid())
   title     String
   subtitle  String?
-  image     String   @db.Text
+  image     String   @db.LongText
   link      String?  @db.Text
   isActive  Boolean  @default(true)
   order     Int      @default(0)
@@ -336,23 +340,26 @@ model subcategory {
 }
 
 model user {
-  id           String         @id @default(uuid())
-  firebaseUid  String?        @unique
-  email        String?        @unique
-  phoneNumber  String?        @unique
-  displayName  String?
-  photoURL     String?        @db.Text
-  role         String         @default("customer")
-  isActive     Boolean        @default(true)
-  loyaltyPoints Int           @default(0)
-  savedAddresses String?      @db.LongText
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  cart         cart[]
-  notification notification[]
-  order        order[]
-  review       review[]
-  wishlist     wishlist[]
+  id                String              @id @default(uuid())
+  firebaseUid       String?             @unique
+  email             String?             @unique
+  phoneNumber       String?             @unique
+  displayName       String?
+  photoURL          String?             @db.Text
+  role              String              @default("customer")
+  isActive          Boolean             @default(true)
+  loyaltyPoints     Int                 @default(0)
+  walletBalance     Float               @default(0)
+  savedAddresses    String?             @db.LongText
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  cart              cart[]
+  notification      notification[]
+  order             order[]
+  review            review[]
+  wishlist          wishlist[]
+  wallettransaction wallettransaction[]
+  returnrequest     returnrequest[]
 
   @@index([email])
   @@index([firebaseUid])
@@ -386,4 +393,78 @@ model wishlist {
   @@unique([userId, productId])
   @@index([productId])
   @@index([userId])
+}
+
+model marqueeitem {
+  id          String   @id @default(uuid())
+  text        String
+  categoryId  String?
+  filterSlug  String?
+  hoverImage  String?  @db.LongText
+  row         Int      @default(1)
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([row])
+  @@index([order])
+}
+
+model section {
+  id              String   @id @default(uuid())
+  location        String   @unique
+  title           String?
+  subtitle        String?
+  description     String?  @db.Text
+  image           String?  @db.LongText
+  buttonText      String?
+  buttonLink      String?
+  backgroundColor String?  @default("#1A1A1A")
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([location])
+  @@index([isActive])
+}
+
+model wallettransaction {
+  id            String   @id @default(uuid())
+  userId        String
+  type          String   // "credit" | "debit"
+  amount        Float
+  balance       Float    // balance AFTER this transaction
+  description   String   @db.Text
+  referenceId   String?  // orderId or returnRequestId
+  referenceType String?  // "return_refund" | "order_payment" | "admin_credit" | "admin_debit"
+  createdAt     DateTime @default(now())
+  user          user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([type])
+}
+
+model returnrequest {
+  id            String   @id @default(uuid())
+  orderId       String
+  orderItemId   String
+  userId        String
+  productName   String
+  productImage  String?  @db.Text
+  quantity      Int      @default(1)
+  reason        String   @db.Text
+  status        String   @default("pending") // "pending" | "approved" | "rejected" | "refunded"
+  refundAmount  Float
+  adminNotes    String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  order         order    @relation(fields: [orderId], references: [id])
+  user          user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([orderId])
+  @@index([status])
 }
