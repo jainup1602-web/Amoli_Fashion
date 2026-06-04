@@ -26,6 +26,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     price: '',
     specialPrice: '',
     stock: '',
+    weight: '',
+    size: '',
+    color: '',
     isActive: true,
     isFeatured: false,
   });
@@ -64,6 +67,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
             price: String(product.originalPrice || ''),
             specialPrice: String(product.specialPrice || ''),
             stock: String(product.stock || ''),
+            weight: String(product.weight || ''),
+            size: product.size || '',
+            color: product.color || '',
             isActive: product.isActive ?? true,
             isFeatured: product.isFeatured ?? false,
           });
@@ -125,6 +131,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         price: parseFloat(formData.price),
         specialPrice: formData.specialPrice ? parseFloat(formData.specialPrice) : undefined,
         stock: parseInt(formData.stock),
+        weight: formData.weight ? parseFloat(formData.weight) : undefined,
+        size: formData.size || undefined,
+        color: formData.color || undefined,
         images,
         isActive: formData.isActive,
         isFeatured: formData.isFeatured,
@@ -247,6 +256,43 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           <div>
             <label className="block text-sm font-medium mb-1">Stock Quantity *</label>
             <input type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} className="w-full px-3 py-2 border rounded-md w-48" min="0" required />
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Physical Attributes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Weight (g)</label>
+                <input
+                  type="number"
+                  value={formData.weight}
+                  onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Size / Dimensions</label>
+                <input
+                  type="text"
+                  value={formData.size}
+                  onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="e.g. 15 cm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Color</label>
+                <input
+                  type="text"
+                  value={formData.color}
+                  onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="e.g. Gold"
+                />
+              </div>
+            </div>
           </div>
 
           <div>

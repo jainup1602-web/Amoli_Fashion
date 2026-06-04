@@ -170,8 +170,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
 
           {/* Product Info */}
           <div className="px-2 sm:px-3 pt-2 pb-2.5 text-center relative z-20" style={{ backgroundColor: '#FDFCF0' }}>
-            {/* Product Name */}
-            <h3 className="font-playfair text-sm sm:text-[15px] line-clamp-1 leading-snug text-[#1C1C1C] group-hover:text-[#1A1A1A] transition-colors duration-200 mb-1">
+            <h3 className="font-sans text-sm sm:text-[15px] line-clamp-1 leading-snug text-[#1C1C1C] group-hover:text-[#1A1A1A] transition-colors duration-200 mb-1">
               {product.name}
             </h3>
 
@@ -186,7 +185,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
                     {formatPrice(product.originalPrice)}
                   </span>
                   <span
-                    className="font-elegant italic font-bold"
+                    className="font-sans italic font-bold"
                     style={{ color: '#1A1A1A', fontSize: '12px', letterSpacing: '0.03em' }}
                   >
                     ({discountPercent}%)
@@ -197,9 +196,9 @@ function ProductCardComponent({ product }: ProductCardProps) {
 
             {/* Only show Waitlist / Limited — no "Available" */}
             {product.stock === 0 ? (
-              <p className="text-[9px] text-red-600 font-elegant uppercase tracking-[0.15em] mt-1">Waitlist</p>
+              <p className="text-[9px] text-red-600 font-sans uppercase tracking-[0.15em] mt-1">Waitlist</p>
             ) : product.stock < 10 ? (
-              <p className="text-[9px] font-elegant uppercase tracking-[0.15em] mt-1" style={{ color: '#1A1A1A' }}>Only {product.stock} left</p>
+              <p className="text-[9px] font-sans uppercase tracking-[0.15em] mt-1" style={{ color: '#1A1A1A' }}>Only {product.stock} left</p>
             ) : null}
           </div>
         </div>

@@ -7,7 +7,6 @@ import { Footer } from './Footer';
 import { MobileBottomNav } from './MobileBottomNav';
 import { AppInitializer } from '@/components/providers/AppInitializer';
 import { CookieConsent } from '@/components/common/CookieConsent';
-import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { ScrollToTopButton } from '@/components/common/ScrollToTopButton';
 import { PageTransition } from '@/components/common/PageTransition';
 import { PageLoader } from '@/components/common/LoadingSpinner';
@@ -57,7 +56,6 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <Footer />
       <MobileBottomNav />
       <CookieConsent />
-      <WhatsAppButton />
       <ScrollToTopButton />
     </AppInitializer>
   );

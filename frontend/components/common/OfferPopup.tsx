@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Star } from 'lucide-react';
 
 interface PopupData {
@@ -78,9 +79,9 @@ export function OfferPopup() {
     }
   };
 
-  if (!isVisible || !popupData) return null;
+  if (!isVisible || !popupData || typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
       <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col md:flex-row min-h-[450px]">
         {/* Close Button */}
@@ -157,6 +158,7 @@ export function OfferPopup() {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

@@ -242,6 +242,8 @@ model product {
   purity             String?
   occasion           String?
   gender             String?
+  size               String?
+  color              String?
   tags               String?      @db.LongText
   isFeatured         Boolean      @default(false)
   isActive           Boolean      @default(true)

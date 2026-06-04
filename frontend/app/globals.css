@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lora:wght@300;400;500;600;700&display=swap');
+/* Removed Google Fonts Import (now using next/font/google with Lato) */
 
 @layer base {
   :root {
@@ -47,26 +46,26 @@
   body {
     background-color: #FDFCF0;
     color: #1A1A1A;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: var(--font-lato), 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-lato), 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     color: #1A1A1A;
   }
   
   .font-serif {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-lato), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   
   .font-elegant {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-lato), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   
   .font-playfair {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-lato), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 }
 
@@ -307,12 +306,12 @@ select:focus {
 .category-nav-item:hover {
   color: #1A1A1A;
 }
-/* Elegant Minimal Headings with Playfair Display */
+/* Elegant Minimal Headings with Lato */
 .elegant-heading {
-  font-family: 'Playfair Display', serif;
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 1px;
+  font-family: var(--font-lato), sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: #1A1A1A;
   margin-bottom: 16px;
@@ -332,13 +331,13 @@ select:focus {
 }
 
 .elegant-heading-large {
-  font-family: 'Playfair Display', serif;
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 1.5px;
+  font-family: var(--font-lato), sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: #1A1A1A;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   text-align: center;
   position: relative;
 }
@@ -355,10 +354,10 @@ select:focus {
 }
 
 .elegant-subheading {
-  font-family: 'Playfair Display', serif;
-  font-weight: 300;
-  font-size: 12px;
-  letter-spacing: 0.8px;
+  font-family: var(--font-lato), sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: #6B7280;
   margin-bottom: 12px;
@@ -534,7 +533,7 @@ header,
 
 /* Search bar elegant placeholder */
 .search-input::placeholder {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: var(--font-lato), sans-serif;
   font-style: italic;
   font-weight: 400;
   color: #9CA3AF;

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Upload, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,7 +94,9 @@ export function SubmitVideoReviewModal({ isOpen, onClose }: SubmitVideoReviewMod
     }
   };
 
-  return (
+  if (!isOpen || typeof document === 'undefined') return null;
+
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
       <div className="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-300">
         
@@ -200,6 +203,7 @@ export function SubmitVideoReviewModal({ isOpen, onClose }: SubmitVideoReviewMod
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

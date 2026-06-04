@@ -1,13 +1,46 @@
 'use client';
 
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
-import { Menu } from 'lucide-react';
+import { Menu, AlertCircle } from 'lucide-react';
+import { useAppSelector } from '@/store/hooks';
+import { useState, useEffect } from 'react';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { user, isAuthenticated, loading } = useAppSelector((state) => state.auth);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  if (!isAuthenticated || (user && user.role !== 'admin')) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-gray-50">
+        <div className="w-16 h-16 bg-[#B76E79]/10 rounded-full flex items-center justify-center mb-4">
+          <AlertCircle className="h-8 w-8 text-[#B76E79]" />
+        </div>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-2">Access Denied</h2>
+        <p className="text-gray-500 max-w-sm mb-6">
+          {!isAuthenticated 
+            ? 'Please login with your admin credentials to access the Atelier Dashboard.' 
+            : 'Your account does not have administrator privileges.'}
+        </p>
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('openLoginModal'))} 
+          className="px-6 py-2.5 bg-[#B76E79] text-white rounded-lg font-medium shadow-sm hover:opacity-90 transition-opacity"
+        >
+          {isAuthenticated ? 'Switch Account' : 'Login to Admin'}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex bg-gray-50/30 overflow-x-hidden w-full">
       {/* Sidebar - fixed left, full height */}

@@ -98,7 +98,7 @@ router.post('/', verifyAdmin, async (req, res) => {
       specialPrice: body.specialPrice, stock: body.stock,
       images: JSON.stringify(body.images || []),
       material: body.material, purity: body.purity, occasion: body.occasion,
-      gender: body.gender, weight: body.weight,
+      gender: body.gender, weight: body.weight, size: body.size, color: body.color,
       tags: JSON.stringify(body.tags || []),
       isFeatured: body.isFeatured || false, isActive: body.isActive !== false,
     };
@@ -127,6 +127,9 @@ router.put('/', verifyAdmin, async (req, res) => {
     if (body.specialPrice !== undefined) mapped.specialPrice = body.specialPrice;
     if (body.stock !== undefined) mapped.stock = body.stock;
     if (body.images) mapped.images = JSON.stringify(body.images);
+    if (body.weight !== undefined) mapped.weight = body.weight;
+    if (body.size !== undefined) mapped.size = body.size;
+    if (body.color !== undefined) mapped.color = body.color;
     if (body.isFeatured !== undefined) mapped.isFeatured = body.isFeatured;
     if (body.isActive !== undefined) mapped.isActive = body.isActive;
     const product = await prisma.product.update({ where: { id }, data: mapped });

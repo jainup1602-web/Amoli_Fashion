@@ -17,9 +17,12 @@ router.get('/profile', verifyToken, async (req, res) => {
 });
 
 // POST register / sync user from Firebase
-router.post('/register', async (req, res) => {
+router.post('/register', verifyToken, async (req, res) => {
   try {
-    const { firebaseUid, email, displayName, photoURL, phoneNumber } = req.body;
+    const { email, displayName, photoURL, phoneNumber } = req.body;
+    // Extract UID securely from token, NOT from user input
+    const firebaseUid = req.firebaseUser?.uid || req.user?.firebaseUid;
+    
     if (!firebaseUid) return res.status(400).json({ success: false, message: 'firebaseUid required' });
 
     const user = await prisma.user.upsert({

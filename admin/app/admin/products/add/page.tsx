@@ -25,6 +25,9 @@ export default function AddProductPage() {
     specialPrice: '',
     stock: '',
     lowStockAlert: '10',
+    weight: '',
+    size: '',
+    color: '',
     isActive: true,
     isFeatured: false,
   });
@@ -153,6 +156,9 @@ export default function AddProductPage() {
         specialPrice: formData.specialPrice ? parseFloat(formData.specialPrice) : undefined,
         stock: parseInt(formData.stock),
         lowStockAlert: parseInt(formData.lowStockAlert),
+        weight: formData.weight ? parseFloat(formData.weight) : undefined,
+        size: formData.size || undefined,
+        color: formData.color || undefined,
         images,
         specifications: specs,
         isActive: formData.isActive,
@@ -362,6 +368,44 @@ export default function AddProductPage() {
                   onChange={(e) => setFormData({ ...formData, lowStockAlert: e.target.value })}
                   className="w-full px-3 py-2 border rounded-md"
                   min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Physical Attributes */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Physical Attributes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Weight (g)</label>
+                <input
+                  type="number"
+                  value={formData.weight}
+                  onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Size / Dimensions</label>
+                <input
+                  type="text"
+                  value={formData.size}
+                  onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="e.g. 15 cm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Color</label>
+                <input
+                  type="text"
+                  value={formData.color}
+                  onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="e.g. Gold"
                 />
               </div>
             </div>

@@ -55,11 +55,11 @@ const config: Config = {
         sm: "0.25rem",
       },
       fontFamily: {
-        sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
-        serif: ["Playfair Display", "serif"],
-        elegant: ["Cormorant Garamond", "serif"],
-        playfair: ["Playfair Display", "serif"],
-        lora: ["Lora", "serif"],
+        sans: ["var(--font-lato)", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        serif: ["var(--font-lato)", "sans-serif"],
+        elegant: ["var(--font-lato)", "sans-serif"],
+        playfair: ["var(--font-lato)", "sans-serif"],
+        lora: ["var(--font-lato)", "sans-serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",

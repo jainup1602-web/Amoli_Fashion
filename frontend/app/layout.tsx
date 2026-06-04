@@ -1,9 +1,17 @@
 import type { Metadata, Viewport } from "next";
+import { Lato } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ReduxProvider } from "@/store/providers/ReduxProvider";
 import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 import { AlertProvider } from "@/components/providers/AlertProvider";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+  variable: "--font-lato",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Amoli Fashion Jewellery - Premium Demi-Fine Jewellery",
@@ -30,7 +38,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans overflow-x-hidden" suppressHydrationWarning>
+      <body className={`${lato.variable} font-sans overflow-x-hidden`} suppressHydrationWarning>
         <ReduxProvider>
           <AlertProvider>
             <LayoutWrapper>{children}</LayoutWrapper>
