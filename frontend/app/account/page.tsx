@@ -17,13 +17,13 @@ const AddressesPage = dynamic(() => import('./addresses/page'), { ssr: false });
 const WishlistPage = dynamic(() => import('./wishlist/page'), { ssr: false });
 const NotificationsPage = dynamic(() => import('./notifications/page'), { ssr: false });
 const SettingsPage = dynamic(() => import('./settings/page'), { ssr: false });
-const WalletPage = dynamic(() => import('./wallet/page'), { ssr: false });
+
 
 const NAV_ITEMS = [
   { id: 'profile', label: 'Profile', icon: User },
   { id: 'orders', label: 'My Orders', icon: Package },
   { id: 'addresses', label: 'Addresses', icon: MapPin },
-  { id: 'wallet', label: 'My Wallet', icon: CreditCard },
+
   { id: 'loyalty', label: 'Loyalty Points', icon: Star },
   { id: 'wishlist', label: 'Wishlist', icon: Heart },
   { id: 'notifications', label: 'Notifications', icon: Bell },
@@ -85,7 +85,7 @@ export default function AccountPage() {
           </div>
         </div>
       );
-      case 'wallet': return <WalletPage />;
+
       case 'wishlist': return <WishlistPage />;
       case 'notifications': return <NotificationsPage />;
       case 'settings': return <SettingsPage />;

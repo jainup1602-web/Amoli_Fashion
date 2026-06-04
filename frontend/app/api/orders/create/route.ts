@@ -12,16 +12,8 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { shippingAddress, couponCode, paymentMethod: reqPaymentMethod, walletAmountToUse = 0 } = await request.json();
+    const { shippingAddress, couponCode, paymentMethod: reqPaymentMethod } = await request.json();
     const isCOD = reqPaymentMethod === 'cod';
-
-    // Verify wallet amount is valid
-    const userWallet = await prisma.user.findUnique({ where: { id: authResult.user.id }, select: { walletBalance: true } });
-    const availableWallet = userWallet?.walletBalance || 0;
-    
-    if (walletAmountToUse > availableWallet) {
-      return NextResponse.json({ error: 'Insufficient wallet balance' }, { status: 400 });
-    }
 
     const cartItems = await prisma.cart.findMany({
       where: { userId: authResult.user.id },
@@ -101,97 +93,8 @@ export async function POST(request: NextRequest) {
 
     const total = taxableAmount + shippingCharges + tax;
     const orderNumber = generateOrderId();
-    
-    // Calculate final payable amount after wallet deduction
-    const walletUsed = Math.min(Number(walletAmountToUse), total);
-    const payableAmount = total - walletUsed;
-    const isFullyPaidByWallet = walletUsed > 0 && payableAmount <= 0;
 
-    // Helper function to handle wallet deduction
-    const handleWalletDeduction = async (tx: any, orderId: string) => {
-      if (walletUsed > 0) {
-        const updatedUser = await tx.user.update({
-          where: { id: authResult.user.id },
-          data: { walletBalance: { decrement: walletUsed } },
-        });
-        await tx.wallettransaction.create({
-          data: {
-            userId: authResult.user.id,
-            type: 'debit',
-            amount: walletUsed,
-            balance: updatedUser.walletBalance,
-            description: `Used for order ${orderNumber}`,
-            referenceId: orderId,
-            referenceType: 'order_payment',
-          },
-        });
-      }
-    };
 
-    // Fully paid by wallet (No Razorpay/COD needed)
-    if (isFullyPaidByWallet) {
-      const result = await prisma.$transaction(async (tx) => {
-        const order = await tx.order.create({
-          data: {
-            orderNumber,
-            userId: authResult.user.id,
-            customerName: shippingAddress.name,
-            customerEmail: authResult.user.email || '',
-            customerPhone: shippingAddress.phone,
-            shippingAddress: JSON.stringify(shippingAddress),
-            subtotal,
-            discount,
-            shippingCharges,
-            tax,
-            total,
-            walletAmountUsed: walletUsed,
-            couponCode: couponCode?.toUpperCase(),
-            paymentMethod: 'wallet',
-            paymentStatus: 'completed', // Fully paid
-            orderStatus: 'confirmed',
-            orderitem: { create: orderItems },
-          },
-          include: { orderitem: true },
-        });
-
-        await handleWalletDeduction(tx, order.id);
-
-        for (const item of orderItems) {
-          await tx.product.update({
-            where: { id: item.productId },
-            data: { stock: { decrement: item.quantity }, salesCount: { increment: item.quantity } },
-          });
-        }
-
-        if (couponCode) {
-          await tx.coupon.updateMany({
-            where: { code: couponCode.toUpperCase() },
-            data: { usedCount: { increment: 1 } },
-          });
-        }
-        
-        await tx.cart.deleteMany({ where: { userId: authResult.user.id } });
-        return order;
-      });
-      
-      // Auto-push Wallet-paid order to Shiprocket
-      try {
-        const { createShiprocketOrder } = await import('@/lib/shiprocket');
-        const shiprocketResult = await createShiprocketOrder(result);
-        
-        await (prisma.order.update as any)({
-          where: { id: result.id },
-          data: {
-            shiprocketOrderId: shiprocketResult.order_id?.toString(),
-            shipmentId: shiprocketResult.shipment_id?.toString()
-          }
-        });
-      } catch (shipError: any) {
-        console.error('❌ Shiprocket push failed:', shipError.message);
-      }
-
-      return NextResponse.json({ order: result, message: 'Order placed successfully using wallet' });
-    }
 
     // COD — no Razorpay needed
     if (isCOD) {
@@ -209,7 +112,6 @@ export async function POST(request: NextRequest) {
             shippingCharges,
             tax,
             total,
-            walletAmountUsed: walletUsed,
             couponCode: couponCode?.toUpperCase(),
             paymentMethod: 'cod',
             paymentStatus: 'pending',
@@ -219,7 +121,7 @@ export async function POST(request: NextRequest) {
           include: { orderitem: true },
         });
 
-        await handleWalletDeduction(tx, order.id);
+
 
         for (const item of orderItems) {
           await tx.product.update({
@@ -292,7 +194,6 @@ export async function POST(request: NextRequest) {
         shippingCharges,
         tax,
         total,
-        walletAmountUsed: walletUsed,
         couponCode: couponCode?.toUpperCase(),
         paymentMethod: 'razorpay',
         razorpayOrderId: razorpayOrder.id,

@@ -1,8 +1,9 @@
 interface ProfileIconProps {
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function ProfileIcon({ className = "w-6 h-6" }: ProfileIconProps) {
+export function ProfileIcon({ className = "w-6 h-6", style }: ProfileIconProps) {
   return (
     <svg 
       width="24" 
@@ -11,6 +12,7 @@ export function ProfileIcon({ className = "w-6 h-6" }: ProfileIconProps) {
       fill="none" 
       xmlns="http://www.w3.org/2000/svg" 
       className={className}
+      style={style}
     >
       <path 
         d="M22.9129 12.935L13.7571 23.0474C13.5348 23.2929 13.1284 23.1084 13.1669 22.7794L14.0816 14.9731H10.6991C10.4034 14.9731 10.2484 14.6219 10.4478 14.4035L20.3133 3.59739C20.5589 3.32834 20.9984 3.58134 20.8891 3.92887L18.2354 12.3664H22.6607C22.9557 12.3664 23.1109 12.7163 22.9129 12.935Z" 

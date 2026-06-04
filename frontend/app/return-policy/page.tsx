@@ -15,36 +15,18 @@ import Link from 'next/link';
 export default function ReturnPolicyPage() {
   const policies = [
     {
-      title: 'General Guidelines',
-      icon: <RotateCcw className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
-      content: (
-        <div className="space-y-3 text-gray-600 leading-relaxed font-light">
-          <p>
-            You can raise a return request from here within <strong className="font-medium text-gray-900">2 days</strong> of the delivery of the order.
-          </p>
-          <p>
-            For product returns, please ensure that all freebies received with the order are returned along with the product.
-          </p>
-          <ul className="space-y-2 mt-2">
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#1A1A1A' }} />
-              <span>Return of Products purchased under Buy 1 Get 1 or other related offers would be eligible for refund to Amoli&apos;s Wallet.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#1A1A1A' }} />
-              <span>Items sold at a strike-through or discounted price (without applying a coupon) are eligible for return.</span>
-            </li>
-          </ul>
-        </div>
-      )
-    },
-    {
       title: 'Return Conditions',
       icon: <Package className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
-        <div className="space-y-3 text-gray-600 leading-relaxed font-light">
+        <div className="space-y-4 text-gray-600 leading-relaxed font-light">
           <p>
-            Items must be unused, with original packaging and tags intact.
+            Please be sure that all items that are to be returned or exchanged, must be unworn and in their original condition with all original tags and packaging intact.
+          </p>
+          <p>
+            Any items that were damaged during transit must also bear the tag for us to process the return. Items that are damaged or altered once the tags are removed, may not be accepted and will be sent back to the customer.
+          </p>
+          <p className="font-medium text-gray-900">
+            Shipping amount is non-refundable.
           </p>
           <div className="flex items-start gap-3 mt-4 p-4 border rounded-sm bg-gray-50/50" style={{ borderColor: 'rgba(183, 110, 121, 0.2)' }}>
             <Video className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#1A1A1A' }} />
@@ -56,62 +38,43 @@ export default function ReturnPolicyPage() {
       )
     },
     {
-      title: 'How to Return or Exchange',
+      title: 'How to Schedule a Return or Exchange',
       icon: <MousePointer2 className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
-        <ol className="space-y-4 text-gray-600 font-light list-decimal list-inside ml-2">
-          <li>
-            Go to the Return/Exchange section on the Amoli website or app menu, or follow this link: <Link href="/account/orders" className="text-[#1A1A1A] hover:underline font-medium">My Orders</Link>.
-          </li>
-          <li>
-            Enter your Amoli Order ID and Contact Number. Ensure the Order ID is correctly entered.
-          </li>
-          <li>
-            Choose the items you wish to return.
-          </li>
-          <li>
-            Provide necessary details: select a return reason, upload a minimum of two images, specify the pickup address and date, and choose your refund method.
-          </li>
-          <li>
-            Review your information and confirm the return request.
-          </li>
-        </ol>
-      )
-    },
-    {
-      title: 'Refunds',
-      icon: <CreditCard className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
-      content: (
-        <div className="space-y-3 text-gray-600 leading-relaxed font-light">
+        <div className="space-y-4 text-gray-600 font-light">
           <p>
-            Refunds are processed in <strong className="font-medium text-gray-900">7–10 working days</strong> as per RBI guidelines, following item pickup and verification.
+            WhatsApp us on: <a href="https://wa.me/919982470002" className="text-[#1A1A1A] font-medium hover:underline">+91-9982470002</a> with images of the products with packaging and tags to schedule a return pick up.
           </p>
-          <ul className="space-y-3 mt-4">
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
-              <span><strong className="font-medium text-gray-900">Prepaid orders:</strong> Refunded to original payment method.</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
-              <span><strong className="font-medium text-gray-900">COD orders:</strong> Refunded to UPI or bank account provided by you.</span>
-            </li>
-          </ul>
+          <p>
+            Subsequent to this, your package will be picked up by our courier partner at no extra cost to you within <strong className="font-medium text-gray-900">3-5 business days</strong>.
+          </p>
+          <p>
+            You can exchange an item purchased on www.amolijewels.com with the same item or another one, however, all exchanges are subject to stock availability.
+          </p>
         </div>
       )
     },
     {
-      title: 'LGD Orders (Lab-Grown Diamonds)',
-      icon: <Gem className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
+      title: 'Refunds & Store Credit',
+      icon: <CreditCard className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
       content: (
         <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p>
-            LGD products can only be exchanged for other LGD items.
+            Once the item is picked up, we will credit the amount of that item as <strong className="font-medium text-gray-900">STORE CREDIT</strong> in your account.
           </p>
           <p>
-            If a customer wishes to exchange an LGD item for a Demifine product, the total value of the selected Demifine items must be equal to or greater than the value of the LGD item.
+            You can use this store credit for your future purchases on our website.
           </p>
+        </div>
+      )
+    },
+    {
+      title: 'Order Cancellations',
+      icon: <RotateCcw className="w-6 h-6" style={{ color: '#1A1A1A' }} />,
+      content: (
+        <div className="space-y-3 text-gray-600 leading-relaxed font-light">
           <p>
-            If the value is lower, the remaining balance will be issued as store credit, which can be redeemed at checkout.
+            To cancel an order, please send us a WhatsApp on: <a href="https://wa.me/919982470002" className="text-[#1A1A1A] font-medium hover:underline">+91-9982470002</a> with your order number within <strong className="font-medium text-gray-900">24 hours</strong> from the time the order is placed.
           </p>
         </div>
       )
@@ -195,7 +158,7 @@ export default function ReturnPolicyPage() {
             <div className="hidden sm:block w-[1px] h-12 bg-gray-200" />
             <div>
               <p className="text-[10px] tracking-widest uppercase text-gray-400 mb-2">Call Us</p>
-              <a href="tel:+911234567890" className="text-gray-900 font-medium hover:text-[#1A1A1A] transition-colors">+91 123 456 7890</a>
+              <a href="tel:+919982470002" className="text-gray-900 font-medium hover:text-[#1A1A1A] transition-colors">+91 99824 70002</a>
             </div>
           </div>
         </div>

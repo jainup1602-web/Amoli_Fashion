@@ -15,7 +15,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const returnRequest = await prisma.returnrequest.findUnique({
       where: { id: params.id },
       include: {
-        user: { select: { displayName: true, email: true, phoneNumber: true, walletBalance: true } },
+        user: { select: { displayName: true, email: true, phoneNumber: true } },
         order: true,
       },
     });
@@ -88,24 +88,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         },
       });
 
-      // 2. Add funds to user's wallet
-      const updatedUser = await tx.user.update({
-        where: { id: returnRequest.userId },
-        data: { walletBalance: { increment: finalRefundAmount } },
-      });
 
-      // 3. Create wallet transaction record
-      await tx.wallettransaction.create({
-        data: {
-          userId: returnRequest.userId,
-          type: 'credit',
-          amount: finalRefundAmount,
-          balance: updatedUser.walletBalance,
-          description: `Refund for return request #${returnRequest.id.substring(0, 8)} (Order: ${returnRequest.order.orderNumber})`,
-          referenceId: returnRequest.id,
-          referenceType: 'return_refund',
-        },
-      });
 
       // 4. Update order status to "returned" if all items are returned? 
       // Simplified: Just mark the order status as "returned"
@@ -135,7 +118,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     return NextResponse.json({
       success: true,
       returnRequest: result,
-      message: `Return request approved. ₹${finalRefundAmount} credited to wallet.`,
+      message: `Return request approved and marked as refunded.`,
     });
   } catch (error: any) {
     console.error('Approve/Reject return error:', error);

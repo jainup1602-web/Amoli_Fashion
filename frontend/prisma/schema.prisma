@@ -160,7 +160,6 @@ model order {
   shippingCharges     Float           @default(0)
   tax                 Float           @default(0)
   total               Float
-  walletAmountUsed    Float           @default(0)
   couponCode          String?
   paymentMethod       String
   paymentStatus       String          @default("pending")
@@ -349,7 +348,6 @@ model user {
   role              String              @default("customer")
   isActive          Boolean             @default(true)
   loyaltyPoints     Int                 @default(0)
-  walletBalance     Float               @default(0)
   savedAddresses    String?             @db.LongText
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
@@ -358,41 +356,11 @@ model user {
   order             order[]
   review            review[]
   wishlist          wishlist[]
-  wallettransaction wallettransaction[]
   returnrequest     returnrequest[]
 
   @@index([email])
   @@index([firebaseUid])
   @@index([phoneNumber])
-}
-
-model videoreview {
-  id               String   @id @default(uuid())
-  customerName     String
-  customerLocation String? 
-  rating           Int
-  videoUrl         String   @db.LongText
-  thumbnailUrl     String?  @db.LongText
-  isActive         Boolean  @default(true)
-  order            Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  @@index([isActive])
-  @@index([order])
-}
-
-model wishlist {
-  id        String   @id @default(uuid())
-  userId    String
-  productId String
-  createdAt DateTime @default(now())
-  product   product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, productId])
-  @@index([productId])
-  @@index([userId])
 }
 
 model marqueeitem {
@@ -410,6 +378,39 @@ model marqueeitem {
   @@index([isActive])
   @@index([row])
   @@index([order])
+}
+
+model videoreview {
+  id               String   @id @default(uuid())
+  customerName     String
+  customerLocation String? 
+  rating           Int
+  videoUrl         String   @db.LongText
+  thumbnailUrl     String?  @db.LongText
+  status           String   @default("pending") // "pending" | "approved" | "rejected"
+  userId           String?
+  isActive         Boolean  @default(true)
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+  @@index([status])
+  @@index([userId])
+}
+
+model wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  product   product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([userId])
 }
 
 model section {
@@ -430,22 +431,7 @@ model section {
   @@index([isActive])
 }
 
-model wallettransaction {
-  id            String   @id @default(uuid())
-  userId        String
-  type          String   // "credit" | "debit"
-  amount        Float
-  balance       Float    // balance AFTER this transaction
-  description   String   @db.Text
-  referenceId   String?  // orderId or returnRequestId
-  referenceType String?  // "return_refund" | "order_payment" | "admin_credit" | "admin_debit"
-  createdAt     DateTime @default(now())
-  user          user     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
-  @@index([createdAt])
-  @@index([type])
-}
 
 model returnrequest {
   id            String   @id @default(uuid())

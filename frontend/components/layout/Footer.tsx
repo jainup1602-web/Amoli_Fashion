@@ -36,8 +36,9 @@ export function Footer() {
       .then(r => r.json())
       .then(data => {
         if (data.categories) {
-          // The API should already return them in order.
-          setCategories(data.categories);
+          // Explicitly sort categories by order to ensure sequence is maintained
+          const sortedCategories = [...data.categories].sort((a, b) => (a.order || 0) - (b.order || 0));
+          setCategories(sortedCategories);
         }
       })
       .catch(() => {});

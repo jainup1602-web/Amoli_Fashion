@@ -221,7 +221,12 @@ export function Header() {
   useEffect(() => {
     fetch('/api/categories?limit=100')
       .then(r => r.json())
-      .then(data => { if (data.categories) setCategories(data.categories); })
+      .then(data => { 
+        if (data.categories) {
+          const sortedCategories = [...data.categories].sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+          setCategories(sortedCategories);
+        }
+      })
       .catch(() => {});
   }, []);
 
@@ -502,10 +507,6 @@ export function Header() {
                       <Link href="/account/addresses" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setProfileMenuOpen(false)}>
                         <MapPin className="h-4 w-4 mr-3 text-gray-400" />
                         Addresses
-                      </Link>
-                      <Link href="/account/wallet" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setProfileMenuOpen(false)}>
-                        <CreditCard className="h-4 w-4 mr-3 text-gray-400" />
-                        My Wallet
                       </Link>
                       <Link href="/account/wishlist" className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setProfileMenuOpen(false)}>
                         <Heart className="h-4 w-4 mr-3 text-gray-400" />

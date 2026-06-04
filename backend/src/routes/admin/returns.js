@@ -54,27 +54,7 @@ router.put('/:id', verifyAdmin, async (req, res) => {
         data: { status, adminNotes }
       });
 
-      if (status === 'approved') {
-        const user = await tx.user.findUnique({ where: { id: returnReq.userId } });
-        const newBalance = (user.walletBalance || 0) + returnReq.refundAmount;
 
-        await tx.user.update({
-          where: { id: returnReq.userId },
-          data: { walletBalance: newBalance }
-        });
-
-        await tx.wallettransaction.create({
-          data: {
-            userId: returnReq.userId,
-            type: 'credit',
-            amount: returnReq.refundAmount,
-            balance: newBalance,
-            description: `Refund for returned item (${returnReq.productName})`,
-            referenceId: returnReq.id,
-            referenceType: 'return_refund'
-          }
-        });
-      }
       
       return updatedReq;
     });

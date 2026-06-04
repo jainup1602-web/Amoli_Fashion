@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Package, Search, CheckCircle, XCircle, AlertCircle, Eye } from 'lucide-react';
-import { formatCurrency } from '@/lib/utils';
+import { formatPrice } from '@/lib/utils';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 
 export default function AdminReturnsPage() {
@@ -173,7 +173,7 @@ export default function AdminReturnsPage() {
                       <div className="text-xs text-gray-600 truncate max-w-[200px]" title={ret.reason}>{ret.reason}</div>
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900">
-                      {formatCurrency(ret.refundAmount)}
+                      {formatPrice(ret.refundAmount)}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${statusColors[ret.status] || 'bg-gray-100'}`}>

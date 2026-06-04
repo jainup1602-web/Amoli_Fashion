@@ -55,7 +55,7 @@ const config: Config = {
         sm: "0.25rem",
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
         serif: ["Playfair Display", "serif"],
         elegant: ["Cormorant Garamond", "serif"],
         playfair: ["Playfair Display", "serif"],

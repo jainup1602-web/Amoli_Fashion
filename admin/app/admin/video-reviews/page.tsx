@@ -15,6 +15,7 @@ interface VideoReview {
   videoUrl: string;
   thumbnailUrl?: string;
   isActive: boolean;
+  status: string;
   order: number;
   createdAt: string;
 }
@@ -25,7 +26,9 @@ const emptyForm = {
   rating: 5,
   videoUrl: '',
   thumbnailUrl: '',
+  thumbnailUrl: '',
   isActive: true,
+  status: 'approved',
   order: 0,
 };
 
@@ -40,6 +43,7 @@ export default function VideoReviewsPage() {
   // Upload mode: 'url' or 'file'
   const [videoInputMode, setVideoInputMode] = useState<'url' | 'file'>('url');
   const [thumbInputMode, setThumbInputMode] = useState<'url' | 'file'>('url');
+  const [activeTab, setActiveTab] = useState<'pending' | 'approved' | 'rejected'>('pending');
   const videoFileRef = useRef<HTMLInputElement>(null);
   const thumbFileRef = useRef<HTMLInputElement>(null);
 
@@ -66,27 +70,54 @@ export default function VideoReviewsPage() {
     }
   };
 
-  const readFileAsBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
+  const uploadFile = async (file: File): Promise<string | null> => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        return data.url;
+      } else {
+        alertError(data.error || 'Upload failed');
+        return null;
+      }
+    } catch (e) {
+      console.error(e);
+      alertError('Upload failed');
+      return null;
+    }
+  };
 
   const handleVideoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 50 * 1024 * 1024) { alertError('Video file must be under 50MB'); return; }
-    const b64 = await readFileAsBase64(file);
-    setFormData(f => ({ ...f, videoUrl: b64 }));
+    
+    setSaving(true);
+    const url = await uploadFile(file);
+    setSaving(false);
+    
+    if (url) {
+      setFormData(f => ({ ...f, videoUrl: url }));
+    }
   };
 
   const handleThumbFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const b64 = await readFileAsBase64(file);
-    setFormData(f => ({ ...f, thumbnailUrl: b64 }));
+    
+    setSaving(true);
+    const url = await uploadFile(file);
+    setSaving(false);
+    
+    if (url) {
+      setFormData(f => ({ ...f, thumbnailUrl: url }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -132,11 +163,11 @@ export default function VideoReviewsPage() {
       videoUrl: review.videoUrl,
       thumbnailUrl: review.thumbnailUrl || '',
       isActive: review.isActive,
+      status: review.status || 'approved',
       order: review.order,
     });
-    // Detect if stored value is base64 or URL
-    setVideoInputMode(review.videoUrl?.startsWith('data:') ? 'file' : 'url');
-    setThumbInputMode(review.thumbnailUrl?.startsWith('data:') ? 'file' : 'url');
+    setVideoInputMode(review.videoUrl?.startsWith('/uploads') || review.videoUrl?.startsWith('http') ? 'url' : 'file');
+    setThumbInputMode(review.thumbnailUrl?.startsWith('/uploads') || review.thumbnailUrl?.startsWith('http') ? 'url' : 'file');
     setShowForm(true);
   };
 
@@ -153,6 +184,23 @@ export default function VideoReviewsPage() {
       const data = await res.json();
       if (data.success) { await fetchVideoReviews(); }
       else alertError(data.message || 'Failed to delete');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleStatusUpdate = async (id: string, status: 'approved' | 'rejected') => {
+    try {
+      const token = await getToken();
+      if (!token) return;
+      const res = await fetch('/api/admin/video-reviews', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ id, status, isActive: status === 'approved' }),
+      });
+      const data = await res.json();
+      if (data.success) { await fetchVideoReviews(); }
+      else alertError(data.message || 'Failed to update status');
     } catch (e) {
       console.error(e);
     }
@@ -223,14 +271,15 @@ export default function VideoReviewsPage() {
 
                 {videoInputMode === 'url' ? (
                   <Input
-                    value={formData.videoUrl.startsWith('data:') ? '' : formData.videoUrl}
+                    value={formData.videoUrl}
                     onChange={e => setFormData(f => ({ ...f, videoUrl: e.target.value }))}
-                    placeholder="https://example.com/video.mp4"
+                    placeholder="/uploads/videos/xyz.mp4 or https://..."
+                    required={!editingReview}
                   />
                 ) : (
                   <div>
                     <input ref={videoFileRef} type="file" accept="video/*" onChange={handleVideoFileChange} className="w-full text-sm border rounded-md p-2" />
-                    <p className="text-xs text-gray-400 mt-1">Max 50MB. Stored as base64.</p>
+                    <p className="text-xs text-gray-400 mt-1">Max 50MB.</p>
                   </div>
                 )}
 
@@ -259,9 +308,9 @@ export default function VideoReviewsPage() {
 
                 {thumbInputMode === 'url' ? (
                   <Input
-                    value={formData.thumbnailUrl.startsWith('data:') ? '' : formData.thumbnailUrl}
+                    value={formData.thumbnailUrl || ''}
                     onChange={e => setFormData(f => ({ ...f, thumbnailUrl: e.target.value }))}
-                    placeholder="https://example.com/thumb.jpg"
+                    placeholder="/uploads/videos/thumb.jpg or https://..."
                   />
                 ) : (
                   <input ref={thumbFileRef} type="file" accept="image/*" onChange={handleThumbFileChange} className="w-full text-sm border rounded-md p-2" />
@@ -278,11 +327,20 @@ export default function VideoReviewsPage() {
                 <Input type="number" value={formData.order} onChange={e => setFormData(f => ({ ...f, order: parseInt(e.target.value) || 0 }))} min={0} />
               </div>
 
-              {/* Active */}
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={formData.isActive} onChange={e => setFormData(f => ({ ...f, isActive: e.target.checked }))} className="w-4 h-4" />
-                <span className="text-sm font-medium">Active (show on homepage)</span>
-              </label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={formData.isActive} onChange={e => setFormData(f => ({ ...f, isActive: e.target.checked }))} className="w-4 h-4" />
+                  <span className="text-sm font-medium">Active (show on homepage)</span>
+                </label>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">Status:</span>
+                  <select value={formData.status} onChange={e => setFormData(f => ({ ...f, status: e.target.value }))} className="p-1 border rounded text-sm">
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </div>
+              </div>
 
               <div className="flex gap-2 pt-2">
                 <Button type="submit" disabled={saving} className="flex-1" style={{ backgroundColor: '#B76E79', color: '#fff' }}>
@@ -298,16 +356,29 @@ export default function VideoReviewsPage() {
       {/* List */}
       <div className="bg-white rounded-lg shadow">
         <div className="p-4 border-b">
-          <h2 className="text-lg font-semibold">Video Reviews ({videoReviews.length})</h2>
+          <div className="flex gap-4">
+            {['pending', 'approved', 'rejected'].map(tab => {
+              const count = videoReviews.filter(r => (r.status || 'approved') === tab).length;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab as any)}
+                  className={`pb-2 px-1 border-b-2 font-medium text-sm capitalize ${activeTab === tab ? 'border-[#1A1A1A] text-[#1A1A1A]' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                >
+                  {tab} ({count})
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {loading ? (
           <div className="p-8 text-center text-gray-400">Loading...</div>
-        ) : videoReviews.length === 0 ? (
-          <div className="p-8 text-center text-gray-400">No video reviews yet.</div>
+        ) : videoReviews.filter(r => (r.status || 'approved') === activeTab).length === 0 ? (
+          <div className="p-8 text-center text-gray-400">No {activeTab} video reviews.</div>
         ) : (
           <div className="divide-y">
-            {videoReviews.map(review => (
+            {videoReviews.filter(r => (r.status || 'approved') === activeTab).map(review => (
               <div key={review.id} className="p-4 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                   {/* Thumbnail preview */}
@@ -333,13 +404,24 @@ export default function VideoReviewsPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-2 flex-shrink-0">
-                  <Button variant="outline" size="sm" onClick={() => handleEdit(review)}>
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => handleDelete(review.id)} className="text-red-500 hover:text-red-600 hover:border-red-300">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  {activeTab === 'pending' && (
+                    <div className="flex gap-2">
+                      <Button size="sm" onClick={() => handleStatusUpdate(review.id, 'approved')} className="bg-green-600 hover:bg-green-700 text-white">Approve</Button>
+                      <Button size="sm" variant="destructive" onClick={() => handleStatusUpdate(review.id, 'rejected')}>Reject</Button>
+                    </div>
+                  )}
+                  {activeTab === 'rejected' && (
+                     <Button size="sm" variant="outline" onClick={() => handleStatusUpdate(review.id, 'approved')} className="text-green-600 hover:text-green-700 border-green-200">Re-Approve</Button>
+                  )}
+                  <div className="flex gap-2 border-l pl-4 ml-2">
+                    <Button variant="outline" size="sm" onClick={() => handleEdit(review)}>
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => handleDelete(review.id)} className="text-red-500 hover:text-red-600 hover:border-red-300">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}

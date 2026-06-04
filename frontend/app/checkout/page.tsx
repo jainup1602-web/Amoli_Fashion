@@ -66,11 +66,9 @@ export default function CheckoutPage() {
   const [isGift, setIsGift] = useState(false);
   const [giftWrap, setGiftWrap] = useState(false);
   const [giftMessage, setGiftMessage] = useState('');
-  // Loyalty points & Wallet
+  // Loyalty points
   const [redeemPoints, setRedeemPoints] = useState(0);
   const userLoyaltyPoints = (user as any)?.loyaltyPoints || 0;
-  const [walletBalance, setWalletBalance] = useState(0);
-  const [useWallet, setUseWallet] = useState(false);
 
   const subtotal = checkoutItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const freeShippingThreshold = settings?.freeShippingThreshold || 999;
@@ -82,13 +80,7 @@ export default function CheckoutPage() {
   const taxRate = (settings as any)?.taxRate ?? 0;
   const taxLabel = (settings as any)?.taxLabel || 'GST';
   const tax = taxEnabled ? Math.round(((subtotal - discount) * taxRate) / 100 * 100) / 100 : 0;
-  const preWalletTotal = subtotal - discount - loyaltyDiscount + shipping + tax;
-  const maxWalletUsable = Math.min(walletBalance, preWalletTotal);
-  const walletUsed = useWallet ? maxWalletUsable : 0;
-  const finalTotal = preWalletTotal - walletUsed;
-  
-  // If wallet covers entire amount, auto-select a dummy payment method
-  const effectivePaymentMethod = finalTotal <= 0 ? 'wallet' : paymentMethod;
+  const finalTotal = subtotal - discount - loyaltyDiscount + shipping + tax;
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -118,14 +110,7 @@ export default function CheckoutPage() {
         email: (user as any).email || '',
       }));
 
-      // Fetch wallet balance
-      const token = localStorage.getItem('token');
-      if (token) {
-        fetch('/api/wallet', { headers: { Authorization: `Bearer ${token}` } })
-          .then(res => res.json())
-          .then(data => { if (data.success) setWalletBalance(data.walletBalance || 0); })
-          .catch(() => {});
-      }
+
     }
   }, [isAuthenticated, user]);
 
@@ -317,11 +302,11 @@ export default function CheckoutPage() {
         addressLine1: formData.addressLine1, addressLine2: formData.addressLine2,
         city: formData.city, state: formData.state, pincode: formData.pincode, country: formData.country,
       };
-      if (effectivePaymentMethod === 'cod' || effectivePaymentMethod === 'wallet') {
+      if (paymentMethod === 'cod') {
         const res = await fetch('/api/orders/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: effectivePaymentMethod, buyNowItems: isBuyNow ? checkoutItems : null, isGift, giftWrap, giftMessage, loyaltyPointsUsed: redeemPoints, walletAmountToUse: walletUsed }),
+          body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod, buyNowItems: isBuyNow ? checkoutItems : null, isGift, giftWrap, giftMessage, loyaltyPointsUsed: redeemPoints }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed to create order');
@@ -336,7 +321,7 @@ export default function CheckoutPage() {
       const res = await fetch('/api/orders/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'razorpay', buyNowItems: isBuyNow ? checkoutItems : null, isGift, giftWrap, giftMessage, loyaltyPointsUsed: redeemPoints, walletAmountToUse: walletUsed }),
+        body: JSON.stringify({ shippingAddress, couponCode: appliedCoupon?.code, paymentMethod: 'razorpay', buyNowItems: isBuyNow ? checkoutItems : null, isGift, giftWrap, giftMessage, loyaltyPointsUsed: redeemPoints }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to create order');
@@ -620,7 +605,7 @@ export default function CheckoutPage() {
                         <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod('razorpay')} className="accent-[#1A1A1A]" />
                         <div>
                           <p className="text-sm font-medium text-[#1C1C1C]">Pay Online</p>
-                          <p className="text-xs text-gray-400 mt-0.5">UPI, Card, Net Banking, Wallets</p>
+                          <p className="text-xs text-gray-400 mt-0.5">UPI, Card, Net Banking</p>
                         </div>
                         <div className="ml-auto flex gap-2">
                           <span className="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 font-medium">UPI</span>
@@ -718,23 +703,6 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
-                {/* Wallet Use */}
-                {walletBalance > 0 && (
-                  <div className="mb-5 pb-5 border-b border-gray-100">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        checked={useWallet} 
-                        onChange={(e) => setUseWallet(e.target.checked)}
-                        className="w-4 h-4 text-[#1A1A1A] focus:ring-[#1A1A1A] border-gray-300 rounded"
-                      />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-[#1C1C1C]">Use Wallet Balance</p>
-                        <p className="text-xs text-gray-500">Available: {formatPrice(walletBalance)}</p>
-                      </div>
-                    </label>
-                  </div>
-                )}
 
                 {/* Price breakdown */}
                 <div className="space-y-2.5 text-sm">
@@ -761,12 +729,7 @@ export default function CheckoutPage() {
                       <span>{formatPrice(tax)}</span>
                     </div>
                   )}
-                  {useWallet && walletUsed > 0 && (
-                    <div className="flex justify-between text-[#1A1A1A]">
-                      <span className="font-medium">Wallet Used</span>
-                      <span className="font-medium">-{formatPrice(walletUsed)}</span>
-                    </div>
-                  )}
+
                   <div className="flex justify-between text-base font-medium text-[#1C1C1C] pt-3 border-t border-gray-100">
                     <span className="font-playfair">Amount Payable</span>
                     <span>{formatPrice(finalTotal)}</span>
@@ -785,7 +748,7 @@ export default function CheckoutPage() {
                           Processing...
                         </span>
                       ) : (
-                        <>{effectivePaymentMethod === 'cod' ? 'Place Order' : effectivePaymentMethod === 'wallet' ? 'Pay with Wallet' : `Pay ${formatPrice(finalTotal)}`}</>
+                        <>{paymentMethod === 'cod' ? 'Place Order' : `Pay ${formatPrice(finalTotal)}`}</>
                       )}
                     </Button>
                     <p className="text-[10px] text-gray-400 font-light text-center mt-3 leading-relaxed">

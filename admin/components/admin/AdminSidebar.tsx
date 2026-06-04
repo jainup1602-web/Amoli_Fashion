@@ -30,7 +30,7 @@ const menuGroups = [
       { title: 'Orders', href: '/admin/orders', icon: ShoppingCart },
       { title: 'Returns', href: '/admin/returns', icon: Package },
       { title: 'Users', href: '/admin/users', icon: User },
-      { title: 'Wallets', href: '/admin/wallet', icon: CreditCard },
+
       { title: 'Categories', href: '/admin/categories', icon: Grid },
     ]
   },

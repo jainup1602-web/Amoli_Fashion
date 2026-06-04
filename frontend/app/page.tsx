@@ -11,6 +11,7 @@ import { OfferPopup } from '@/components/common/OfferPopup';
 import { DualMarquee } from '@/components/home/DualMarquee';
 import { BirthstoneSection } from '@/components/home/BirthstoneSection';
 import { ServicesSection } from '@/components/home/ServicesSection';
+import { SubmitVideoReviewModal } from '@/components/home/SubmitVideoReviewModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Product {
@@ -360,6 +361,7 @@ export default function HomePage() {
   const [modelGallery, setModelGallery] = useState<any[]>([]);
   const [marqueeItems, setMarqueeItems] = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -708,7 +710,7 @@ export default function HomePage() {
               >
                 <div 
                   className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden transition-all duration-300 shadow-md group-hover:shadow-lg"
-                  style={{ border: '1.5px solid #B76E79' }}
+                  style={{ border: '1.5px solid #1A1A1A' }}
                 >
                   <Image
                     src={collection.image}
@@ -1072,11 +1074,23 @@ export default function HomePage() {
           <div className="text-center mb-12 px-4">
             <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[#1A1A1A] mb-4 font-elegant drop-shadow-sm">Client Diaries</p>
             <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Customer Reviews</h2>
-            <div className="w-16 h-[1px] mx-auto mt-6" style={{ backgroundColor: '#1A1A1A' }} />
           </div>
           <VideoReviewCarousel reviews={videoReviews} />
+          <div className="flex justify-center mt-10">
+            <Button 
+              onClick={() => setIsReviewModalOpen(true)}
+              className="bg-[#1A1A1A] hover:bg-black text-white px-8 py-3 tracking-widest uppercase text-xs"
+            >
+              Share Your Review
+            </Button>
+          </div>
         </div>
       </motion.section>
+
+      <SubmitVideoReviewModal 
+        isOpen={isReviewModalOpen} 
+        onClose={() => setIsReviewModalOpen(false)} 
+      />
 
       {/* Security / Trust Badges */}
       <div className="w-full">

@@ -18,7 +18,7 @@ export async function GET(
     // Check in-memory cache first
     const cached = imageCache.get(id);
     if (cached && Date.now() - cached.cachedAt < CACHE_TTL) {
-      return new NextResponse(cached.buffer, {
+      return new NextResponse(cached.buffer as any, {
         status: 200,
         headers: {
           'Content-Type': cached.mimeType,
@@ -56,7 +56,7 @@ export async function GET(
     // Store in cache
     imageCache.set(id, { buffer, mimeType, cachedAt: Date.now() });
 
-    return new NextResponse(buffer, {
+    return new NextResponse(buffer as any, {
       status: 200,
       headers: {
         'Content-Type': mimeType,
