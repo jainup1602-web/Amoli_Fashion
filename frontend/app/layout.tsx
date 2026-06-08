@@ -15,8 +15,8 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: "Amoli Fashion Jewellery - Premium Demi-Fine Jewellery",
-  description: "Premium demi-fine copper and stainless steel jewellery. Nickel-free, skin-friendly, and crafted with care in Rajasthan.",
-  keywords: "jewellery, demi-fine jewellery, fashion jewellery, copper jewellery, stainless steel jewellery, nickel-free jewellery, Rajasthan jewellery, Amoli",
+  description: "Premium demi-fine stainless steel or brass jewellery. Nickel-free, skin-friendly, and crafted with care in Rajasthan.",
+  keywords: "jewellery, demi-fine jewellery, fashion jewellery, brass jewellery, stainless steel jewellery, nickel-free jewellery, Rajasthan jewellery, Amoli",
   authors: [{ name: "Amoli Fashion Jewellery" }],
   manifest: "/manifest.json",
   openGraph: {

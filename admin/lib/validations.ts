@@ -33,7 +33,7 @@ export const addressSchema = z.object({
 export const couponSchema = z.object({
   code: z.string().min(3, 'Code must be at least 3 characters').toUpperCase(),
   description: z.string().min(5, 'Description is required'),
-  discountType: z.enum(['percentage', 'fixed']),
+  discountType: z.enum(['percentage', 'fixed', 'flat']),
   discountValue: z.number().min(0, 'Discount value must be positive'),
   minOrderValue: z.number().min(0),
   maxDiscount: z.number().min(0).optional(),

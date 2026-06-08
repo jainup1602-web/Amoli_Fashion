@@ -74,13 +74,13 @@ export function AlertDialog({
       />
 
       {/* Dialog */}
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md animate-slide-up">
-        <div className={`bg-gray-50 rounded-lg shadow-2xl border-l-4 ${getBorderColor()} mx-4`}>
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md animate-slide-up font-serif">
+        <div className={`bg-[#F8F6F2] rounded-lg shadow-2xl border-l-4 ${getBorderColor()} mx-4`}>
           {/* Header */}
-          <div className="flex items-start justify-between p-4 border-b border-gray-100">
+          <div className="flex items-start justify-between p-4 border-b border-gray-200">
             <div className="flex items-center space-x-3">
               {getIcon()}
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-xl font-bold text-gray-900 tracking-wide font-elegant">
                 {title || (type === 'success' ? 'Success' : type === 'error' ? 'Error' : type === 'warning' ? 'Warning' : 'Information')}
               </h3>
             </div>
@@ -93,15 +93,15 @@ export function AlertDialog({
           </div>
 
           {/* Content */}
-          <div className="p-4">
-            <p className="text-gray-700 leading-relaxed">{message}</p>
+          <div className="p-5">
+            <p className="text-gray-800 leading-relaxed font-sans font-medium text-sm">{message}</p>
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end p-4 border-t border-gray-100">
+          <div className="flex justify-end p-4 border-t border-gray-200">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-gray-900 hover:bg-black text-white rounded-lg transition font-medium"
+              className="px-6 py-2 bg-[#B76E79] hover:bg-[#a05e68] text-white rounded-lg transition font-medium text-sm tracking-wider"
             >
               OK
             </button>

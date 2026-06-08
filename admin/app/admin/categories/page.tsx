@@ -323,30 +323,49 @@ export default function CategoriesPage() {
             {subcategories.length === 0 ? (
               <div className="p-4 text-center text-gray-500">No subcategories found</div>
             ) : (
-              subcategories.map((sub) => (
-                <div key={sub.id} className="p-4 flex justify-between items-center hover:bg-gray-50">
-                  <div>
-                    <p className="font-medium">{sub.name}</p>
-                    <p className="text-sm text-gray-600">
-                      Parent: {sub.categoryId?.name || 'N/A'}
-                    </p>
+              (() => {
+                // Group subcategories by parent category name
+                const grouped = subcategories.reduce((acc, sub) => {
+                  const catName = sub.categoryId?.name || 'Uncategorized';
+                  if (!acc[catName]) acc[catName] = [];
+                  acc[catName].push(sub);
+                  return acc;
+                }, {} as Record<string, any[]>);
+
+                return Object.entries(grouped).map(([catName, subs]) => (
+                  <div key={catName} className="border-b last:border-b-0">
+                    <div className="bg-gray-200 px-4 py-2 text-sm font-bold text-gray-700">
+                      {catName}
+                    </div>
+                    <div className="divide-y">
+                      {(subs as any[]).map((sub: any) => (
+                        <div key={sub.id} className="p-4 flex justify-between items-center hover:bg-gray-50 bg-white">
+                          <div>
+                            <p className="font-medium">{sub.name}</p>
+                            <p className="text-xs text-gray-500">
+                              Group: {sub.description || 'None'} | Slug: {sub.slug}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => openEditSubcategory(sub)}
+                              className="text-blue-600 hover:underline text-sm"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteSubcategory(sub.id)}
+                              className="text-red-600 hover:underline text-sm"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => openEditSubcategory(sub)}
-                      className="text-blue-600 hover:underline text-sm"
-                    >
-                      <Edit className="h-4 w-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteSubcategory(sub.id)}
-                      className="text-red-600 hover:underline text-sm"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              ))
+                ));
+              })()
             )}
           </div>
         </div>

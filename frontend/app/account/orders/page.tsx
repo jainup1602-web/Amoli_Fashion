@@ -319,6 +319,11 @@ export default function OrdersPage() {
                     <span>Payment Status: <span className={`font-medium capitalize ${order.paymentStatus === 'paid' ? 'text-green-600' : 'text-yellow-600'}`}>{order.paymentStatus}</span></span>
                     {order.discount > 0 && <span>Discount: <span className="font-medium text-green-600">-{formatPrice(order.discount)}</span></span>}
                     {order.shippingCharges > 0 && <span>Shipping: <span className="font-medium text-[#1C1C1C]">{formatPrice(order.shippingCharges)}</span></span>}
+                    {(order.trackingNumber || order.shippingProvider) && (
+                      <span className="w-full sm:w-auto mt-2 sm:mt-0 text-[#B76E79]">
+                        Tracking: <span className="font-medium">{order.trackingNumber || 'N/A'}</span> {order.shippingProvider ? `via ${order.shippingProvider}` : ''}
+                      </span>
+                    )}
                   </div>
                 )}
               </div>

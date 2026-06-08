@@ -20,7 +20,7 @@ export function Header() {
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{ name: string; slug: string } | null>(null);
-  const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
+  const [categories, setCategories] = useState<{ id: string; name: string; slug: string; subcategory?: { id: string; name: string; slug: string; description: string | null }[] }[]>([]);
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: string]: boolean }>({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -205,7 +205,7 @@ export function Header() {
 
   // Fetch ALL categories for search dropdown
   useEffect(() => {
-    fetch('/api/categories?limit=100')
+    fetch(`/api/categories?t=${Date.now()}`)
       .then(r => r.json())
       .then(data => { if (data.categories) setCategories(data.categories); })
       .catch(() => {});
@@ -597,7 +597,7 @@ export function Header() {
                               {categories.map((cat) => {
                                 const groups: { [key: string]: any[] } = {};
                                 if (cat.subcategory) {
-                                  cat.subcategory.forEach(sub => {
+                                  cat.subcategory.forEach((sub: any) => {
                                     const groupName = sub.description || 'Others';
                                     if (!groups[groupName]) groups[groupName] = [];
                                     groups[groupName].push(sub);
@@ -900,6 +900,7 @@ export function Header() {
                   onClick={() => setCategoryMenuOpen(false)}
                 >
                   <span className="font-medium text-sm">All Products</span>
+                </Link>
                        {/* Categories Section */}
                 <div className="mx-3 mt-3 mb-1 px-3">
                   <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Categories</p>
@@ -916,7 +917,7 @@ export function Header() {
                   {categories.map((cat) => {
                     const groups: { [key: string]: any[] } = {};
                     if (cat.subcategory) {
-                      cat.subcategory.forEach(sub => {
+                      cat.subcategory.forEach((sub: any) => {
                         const groupName = sub.description || 'Others';
                         if (!groups[groupName]) groups[groupName] = [];
                         groups[groupName].push(sub);
@@ -989,7 +990,7 @@ export function Header() {
                       </motion.div>
                     );
                   })}
-                </motion.div>               </div>
+                </motion.div>
               </div>
             </div>
             </motion.div>

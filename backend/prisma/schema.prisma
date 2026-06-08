@@ -245,6 +245,8 @@ model product {
   size               String?
   color              String?
   tags               String?      @db.LongText
+  specifications     String?      @db.LongText
+  variants           String?      @db.LongText
   isFeatured         Boolean      @default(false)
   isActive           Boolean      @default(true)
   views              Int          @default(0)

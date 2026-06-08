@@ -4,6 +4,8 @@ const prisma = require('../lib/prisma');
 const { verifyToken } = require('../middleware/auth');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+const emailService = require('../lib/email');
+const whatsappService = require('../lib/whatsapp');
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -101,6 +103,11 @@ router.post('/verify', verifyToken, async (req, res) => {
       // We don't fail the request here, as the order is already paid/saved
     }
 
+    // Trigger Notifications asynchronously
+    emailService.sendOrderConfirmation(order).catch(e => console.error('Email error:', e));
+    whatsappService.notifyAdminNewOrder(order).catch(e => console.error('WA Admin error:', e));
+    whatsappService.notifyCustomerOrderStatus(order, 'confirmed').catch(e => console.error('WA Customer error:', e));
+
     res.json({ success: true, order });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -152,6 +159,11 @@ router.post('/cod', verifyToken, async (req, res) => {
     } catch (shipError) {
       console.error('❌ Shiprocket COD auto-push failed:', shipError.message);
     }
+
+    // Trigger Notifications asynchronously
+    emailService.sendOrderConfirmation(order).catch(e => console.error('Email error:', e));
+    whatsappService.notifyAdminNewOrder(order).catch(e => console.error('WA Admin error:', e));
+    whatsappService.notifyCustomerOrderStatus(order, 'confirmed').catch(e => console.error('WA Customer error:', e));
 
     res.json({ success: true, order });
   } catch (err) {

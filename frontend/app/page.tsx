@@ -672,7 +672,7 @@ export default function HomePage() {
           </div>
 
           {/* Categories Grid - Circular Style */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:flex sm:flex-wrap sm:justify-center sm:gap-8 md:gap-12 lg:gap-16">
             {[
               {
                 id: 'western',

@@ -22,20 +22,36 @@ router.post('/', async (req, res) => {
     // Map Shiprocket status to our OrderStatus
     let orderStatus = 'confirmed';
     if (current_status.toLowerCase().includes('shipped')) orderStatus = 'shipped';
+    if (current_status.toLowerCase().includes('out for delivery')) orderStatus = 'out_for_delivery';
     if (current_status.toLowerCase().includes('delivered')) orderStatus = 'delivered';
     if (current_status.toLowerCase().includes('canceled')) orderStatus = 'cancelled';
     if (current_status.toLowerCase().includes('returned')) orderStatus = 'returned';
 
     // Update order in database
-    await prisma.order.update({
+    const order = await prisma.order.update({
       where: { orderNumber: order_id.toString() },
       data: {
         orderStatus,
         trackingNumber: awb,
         shippingProvider: courier_name,
         // You could also save etd or other notes here
-      }
+      },
+      include: { user: true }
     });
+
+    // Trigger automatic notifications
+    const emailService = require('../../lib/email');
+    const whatsappService = require('../../lib/whatsapp');
+    
+    if (orderStatus === 'shipped') {
+      emailService.sendOrderShipped(order).catch(console.error);
+    }
+    if (orderStatus === 'delivered') {
+      emailService.sendOrderDelivered(order).catch(console.error);
+    }
+    if (['shipped', 'out_for_delivery', 'delivered'].includes(orderStatus)) {
+      whatsappService.notifyCustomerOrderStatus(order, orderStatus).catch(console.error);
+    }
 
     res.json({ success: true });
   } catch (err) {

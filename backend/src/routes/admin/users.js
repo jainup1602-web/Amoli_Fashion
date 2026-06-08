@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const prisma = require('../../lib/prisma');
 const { verifyAdmin } = require('../../middleware/auth');
+const { validate, schemas } = require('../../middleware/validation');
 
 router.get('/', verifyAdmin, async (req, res) => {
   try {
@@ -27,13 +28,13 @@ router.get('/:id', verifyAdmin, async (req, res) => {
   }
 });
 
-router.put('/:id', verifyAdmin, async (req, res) => {
+router.put('/:id', verifyAdmin, validate(schemas.updateUser), async (req, res) => {
   try {
     const { role, isActive, loyaltyPoints } = req.body;
     const data = {};
     if (role !== undefined) data.role = role;
     if (isActive !== undefined) data.isActive = isActive;
-    if (loyaltyPoints !== undefined) data.loyaltyPoints = parseInt(loyaltyPoints);
+    if (loyaltyPoints !== undefined) data.loyaltyPoints = loyaltyPoints; // Already parsed by zod
     const user = await prisma.user.update({ where: { id: req.params.id }, data });
     res.json({ success: true, user });
   } catch (err) {

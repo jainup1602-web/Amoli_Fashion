@@ -52,6 +52,8 @@ router.get('/', async (req, res) => {
     const parsed = products.map(p => ({
       ...p,
       images: (() => { try { return typeof p.images === 'string' ? JSON.parse(p.images) : p.images; } catch { return []; } })(),
+      specifications: (() => { try { return typeof p.specifications === 'string' ? JSON.parse(p.specifications) : p.specifications; } catch { return {}; } })(),
+      variants: (() => { try { return typeof p.variants === 'string' ? JSON.parse(p.variants) : p.variants; } catch { return []; } })(),
       averageRating: p.review?.length > 0 ? p.review.reduce((s, r) => s + r.rating, 0) / p.review.length : 0,
       totalReviews: p.review?.length || 0,
     }));
@@ -78,6 +80,8 @@ router.get('/:slug', async (req, res) => {
     const parsed = {
       ...product,
       images: (() => { try { return typeof product.images === 'string' ? JSON.parse(product.images) : product.images; } catch { return []; } })(),
+      specifications: (() => { try { return typeof product.specifications === 'string' ? JSON.parse(product.specifications) : product.specifications; } catch { return {}; } })(),
+      variants: (() => { try { return typeof product.variants === 'string' ? JSON.parse(product.variants) : product.variants; } catch { return []; } })(),
       averageRating: product.review?.length > 0 ? product.review.reduce((s, r) => s + r.rating, 0) / product.review.length : 0,
       totalReviews: product.review?.length || 0,
     };
@@ -100,6 +104,8 @@ router.post('/', verifyAdmin, async (req, res) => {
       material: body.material, purity: body.purity, occasion: body.occasion,
       gender: body.gender, weight: body.weight, size: body.size, color: body.color,
       tags: JSON.stringify(body.tags || []),
+      specifications: body.specifications ? JSON.stringify(body.specifications) : null,
+      variants: body.variants ? JSON.stringify(body.variants) : null,
       isFeatured: body.isFeatured || false, isActive: body.isActive !== false,
     };
     if (!data.name || !data.slug || !data.sku || !data.categoryId || !data.originalPrice) {
@@ -130,6 +136,8 @@ router.put('/', verifyAdmin, async (req, res) => {
     if (body.weight !== undefined) mapped.weight = body.weight;
     if (body.size !== undefined) mapped.size = body.size;
     if (body.color !== undefined) mapped.color = body.color;
+    if (body.specifications !== undefined) mapped.specifications = JSON.stringify(body.specifications);
+    if (body.variants !== undefined) mapped.variants = JSON.stringify(body.variants);
     if (body.isFeatured !== undefined) mapped.isFeatured = body.isFeatured;
     if (body.isActive !== undefined) mapped.isActive = body.isActive;
     const product = await prisma.product.update({ where: { id }, data: mapped });

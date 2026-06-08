@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const prisma = require('../../lib/prisma');
 const { verifyAdmin } = require('../../middleware/auth');
+const { validate, schemas } = require('../../middleware/validation');
+const emailService = require('../../lib/email');
 
 router.get('/', verifyAdmin, async (req, res) => {
   try {
@@ -31,13 +33,14 @@ router.get('/', verifyAdmin, async (req, res) => {
   }
 });
 
-router.put('/:id', verifyAdmin, async (req, res) => {
+router.put('/:id', verifyAdmin, validate(schemas.updateReturnRequest), async (req, res) => {
   try {
     const { id } = req.params;
     const { status, adminNotes } = req.body;
 
     const returnReq = await prisma.returnrequest.findUnique({
-      where: { id }
+      where: { id },
+      include: { order: { include: { user: true } } }
     });
 
     if (!returnReq) {
@@ -58,6 +61,13 @@ router.put('/:id', verifyAdmin, async (req, res) => {
       
       return updatedReq;
     });
+    
+    // Trigger notification if approved
+    if (status === 'approved') {
+      emailService.sendReturnApproved(updated, returnReq.order).catch(console.error);
+    } else if (status === 'refunded') {
+      emailService.sendRefundProcessed(returnReq.order, returnReq.refundAmount).catch(console.error);
+    }
 
     res.json({ success: true, returnRequest: updated });
   } catch (err) {

@@ -22,6 +22,7 @@ export function Header() {
   const [selectedCategory, setSelectedCategory] = useState<{ name: string; slug: string } | null>(null);
   const [categories, setCategories] = useState<{ id: string; name: string; slug: string; subcategory?: { id: string; name: string; slug: string; description: string | null }[] }[]>([]);
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: string]: boolean }>({});
+  const [activeHoverCategory, setActiveHoverCategory] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -219,7 +220,7 @@ export function Header() {
 
   // Fetch ALL categories for search dropdown
   useEffect(() => {
-    fetch('/api/categories?limit=100')
+    fetch(`/api/categories?t=${Date.now()}`)
       .then(r => r.json())
       .then(data => { 
         if (data.categories) {
@@ -917,7 +918,10 @@ export function Header() {
               </div>
 
               {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto overscroll-contain py-2">
+              <div 
+                className="flex-1 overflow-y-auto overscroll-contain py-2 relative"
+                onMouseLeave={() => setActiveHoverCategory(null)}
+              >
 
                 {/* All Products */}
                 <Link
@@ -952,10 +956,11 @@ export function Header() {
                       });
                     }
                     const hasSubcategories = cat.subcategory && cat.subcategory.length > 0;
-                    
                     return (
                       <motion.div
                         key={cat.id}
+                        className="relative"
+                        onMouseEnter={() => setActiveHoverCategory(cat.id)}
                         variants={{
                           hidden: { opacity: 0, x: -30 },
                           visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } }
@@ -963,13 +968,26 @@ export function Header() {
                       >
                         {hasSubcategories ? (
                           <>
+                            {/* Mobile Accordion Toggle */}
                             <button
                               onClick={() => toggleDropdown(`mobile-cat-${cat.id}`)}
-                              className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
+                              className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors lg:hidden"
                             >
-                              <span className="text-sm text-gray-700 font-medium group-hover:text-[#1A1A1A] transition-colors">{cat.name}</span>
+                              <span className="text-sm text-gray-700 font-medium transition-colors">{cat.name}</span>
                               <ChevronRight className={`h-3.5 w-3.5 text-gray-300 transition-transform duration-200 ${openDropdowns[`mobile-cat-${cat.id}`] ? 'rotate-90' : ''}`} />
                             </button>
+                            
+                            {/* Desktop Hover Link */}
+                            <Link
+                              href={`/products?category=${cat.slug}`}
+                              onClick={() => setCategoryMenuOpen(false)}
+                              className="hidden lg:flex w-full items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors"
+                            >
+                              <span className="text-sm text-gray-700 font-medium transition-colors">{cat.name}</span>
+                              <ChevronRight className="h-3.5 w-3.5 text-gray-300 transition-colors" />
+                            </Link>
+
+                            {/* Mobile Accordion Content */}
                             <AnimatePresence>
                               {openDropdowns[`mobile-cat-${cat.id}`] && (
                                 <motion.div
@@ -977,7 +995,7 @@ export function Header() {
                                   animate={{ height: 'auto', opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
                                   transition={{ duration: 0.2 }}
-                                  className="overflow-hidden pl-4 pr-2"
+                                  className="overflow-hidden pl-4 pr-2 lg:hidden"
                                 >
                                   <Link
                                     href={`/products?category=${cat.slug}`}
@@ -1009,10 +1027,10 @@ export function Header() {
                           <Link
                             href={`/products?category=${cat.slug}`}
                             onClick={() => setCategoryMenuOpen(false)}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors group"
+                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white transition-colors"
                           >
-                            <span className="text-sm text-gray-700 font-medium group-hover:text-[#1A1A1A] transition-colors">{cat.name}</span>
-                            <ChevronRight className="h-3.5 w-3.5 text-gray-300 group-hover:text-[#1A1A1A] transition-colors" />
+                            <span className="text-sm text-gray-700 font-medium transition-colors">{cat.name}</span>
+                            <ChevronRight className="h-3.5 w-3.5 text-gray-300 transition-colors" />
                           </Link>
                         )}
                       </motion.div>
@@ -1020,9 +1038,65 @@ export function Header() {
                   })}
                 </motion.div>
 
-
                 {/* Bottom padding for safe area */}
                 <div className="h-6" />
+              </div>
+
+              {/* Desktop Hover Flyout Menu Container (Rendered outside the scrollable area) */}
+              <div 
+                className="hidden lg:block fixed top-0 h-screen pointer-events-none" 
+                style={{ left: '300px' /* Same as sidebar maxWidth */, zIndex: 60 }}
+              >
+                <AnimatePresence>
+                  {activeHoverCategory && (() => {
+                    const activeCat = categories.find(c => c.id === activeHoverCategory);
+                    if (!activeCat || !activeCat.subcategory || activeCat.subcategory.length === 0) return null;
+                    
+                    const groups: { [key: string]: any[] } = {};
+                    activeCat.subcategory.forEach(sub => {
+                      const groupName = sub.description || 'Others';
+                      if (!groups[groupName]) groups[groupName] = [];
+                      groups[groupName].push(sub);
+                    });
+
+                    return (
+                      <motion.div
+                        key={activeCat.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-0 left-0 h-screen w-[600px] bg-white border-r border-gray-100 shadow-2xl overflow-y-auto pointer-events-auto"
+                        onMouseEnter={() => setActiveHoverCategory(activeCat.id)}
+                        onMouseLeave={() => setActiveHoverCategory(null)}
+                      >
+                         <div className="p-8">
+                           <h3 className="text-2xl font-playfair mb-6 text-[#1A1A1A] border-b border-gray-100 pb-3">{activeCat.name}</h3>
+                           <div className="flex flex-wrap gap-x-10 gap-y-8">
+                             {Object.entries(groups).map(([groupName, subs]) => (
+                                <div key={groupName} className="min-w-[160px] flex-1">
+                                  <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-gray-400 mb-4">{groupName}</h4>
+                                  <ul className="space-y-3">
+                                    {subs.map(sub => (
+                                      <li key={sub.id}>
+                                        <Link
+                                          href={`/products?category=${activeCat.slug}&subcategory=${sub.slug}`}
+                                          onClick={() => { setCategoryMenuOpen(false); setActiveHoverCategory(null); }}
+                                          className="text-sm text-gray-600 hover:text-[#1A1A1A] hover:underline transition-all block"
+                                        >
+                                          {sub.name}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                             ))}
+                           </div>
+                         </div>
+                      </motion.div>
+                    );
+                  })()}
+                </AnimatePresence>
               </div>
             </motion.div>
           </>

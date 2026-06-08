@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const prisma = require('../../lib/prisma');
 const { verifyAdmin } = require('../../middleware/auth');
+const { validate, schemas } = require('../../middleware/validation');
+const emailService = require('../../lib/email');
+const whatsappService = require('../../lib/whatsapp');
 
 router.get('/', verifyAdmin, async (req, res) => {
   try {
@@ -31,10 +34,25 @@ router.get('/:id', verifyAdmin, async (req, res) => {
   }
 });
 
-router.put('/:id', verifyAdmin, async (req, res) => {
+router.put('/:id', verifyAdmin, validate(schemas.updateOrderStatus), async (req, res) => {
   try {
     const { orderStatus, trackingNumber, shippingProvider, notes } = req.body;
+    
+    // Get existing order to check if status changed
+    const existingOrder = await prisma.order.findUnique({ where: { id: req.params.id }, include: { user: true } });
+    
     const order = await prisma.order.update({ where: { id: req.params.id }, data: { orderStatus, trackingNumber, shippingProvider, notes } });
+    
+    // Trigger notifications if status changed to shipped or delivered
+    if (existingOrder && existingOrder.orderStatus !== orderStatus) {
+      if (orderStatus === 'shipped') {
+        emailService.sendOrderShipped(order).catch(console.error);
+      }
+      if (['shipped', 'delivered'].includes(orderStatus)) {
+        whatsappService.notifyCustomerOrderStatus(order, orderStatus).catch(console.error);
+      }
+    }
+    
     res.json({ success: true, order });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

@@ -8,11 +8,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Security imports
+const { sanitizeBody } = require('./middleware/validation');
+const { logFailedAuth, errorHandler, logger } = require('./lib/logger');
+
+// Try to load helmet (optional dependency)
+let helmet;
+try { helmet = require('helmet'); } catch { helmet = null; }
+
 // Middleware
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'http://localhost:3000',
   process.env.ADMIN_URL || 'http://localhost:3001'
 ];
+
+// Security headers via helmet
+if (helmet) {
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: false, // Handled by Next.js
+  }));
+}
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -28,6 +44,12 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Input sanitization for all POST/PUT/PATCH requests
+app.use(sanitizeBody);
+
+// Log failed auth attempts
+app.use(logFailedAuth);
 
 // Rate Limiting
 const limiter = rateLimit({
@@ -87,9 +109,13 @@ app.use('/api/admin/sections',     require('./routes/admin/sections'));
 app.use('/api/admin/reports',      require('./routes/admin/reports'));
 
 app.use('/api/admin/returns',      require('./routes/admin/returns'));
+app.use('/api/admin/inventory',    require('./routes/admin/inventory'));
 
 // Webhooks
 app.use('/api/webhooks/shiprocket', require('./routes/webhooks/shiprocket'));
+
+// Global error handler (must be after all routes)
+app.use(errorHandler);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 

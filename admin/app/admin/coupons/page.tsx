@@ -293,7 +293,7 @@ export default function AdminCouponsPage() {
                     className="w-full px-3 py-2 border rounded-md"
                   >
                     <option value="percentage">Percentage</option>
-                    <option value="fixed">Fixed Amount</option>
+                    <option value="flat">Flat Discount</option>
                   </select>
                 </div>
               </div>
