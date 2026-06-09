@@ -21,7 +21,7 @@ export async function GET() {
     if (settingsRecords.length === 0) {
       const defaults = {
         siteName: 'Amoli Fashion Jewellery',
-        contactEmail: 'support@amolifashionjewellery.com',
+        contactEmail: 'support@amolijewelry.com',
         freeShippingThreshold: 500,
         shippingCharge: 50,
         returnPolicyDays: 7,

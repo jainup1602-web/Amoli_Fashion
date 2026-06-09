@@ -75,7 +75,7 @@ export default function AdminLayout({
               <a href="/admin" className="hover:text-[#B76E79] transition-colors">Dashboard</a>
               <a href="/admin/settings" className="hover:text-[#B76E79] transition-colors">System Status</a>
               <a href="/admin/reports" className="hover:text-[#B76E79] transition-colors">Analytics</a>
-              <a href="mailto:support@amoli.com" className="hover:text-[#B76E79] transition-colors">Technical Support</a>
+              <a href="mailto:support@amolijewelry.com" className="hover:text-[#B76E79] transition-colors">Technical Support</a>
             </div>
           </div>
         </footer>

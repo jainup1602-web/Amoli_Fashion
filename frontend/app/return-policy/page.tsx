@@ -153,7 +153,7 @@ export default function ReturnPolicyPage() {
           <div className="flex flex-col sm:flex-row justify-center gap-8">
             <div>
               <p className="text-[10px] tracking-widest uppercase text-gray-400 mb-2">Email Us</p>
-              <a href="mailto:support@amoli.com" className="text-gray-900 font-medium hover:text-[#1A1A1A] transition-colors">support@amoli.com</a>
+              <a href="mailto:support@amolijewelry.com" className="text-gray-900 font-medium hover:text-[#1A1A1A] transition-colors">support@amolijewelry.com</a>
             </div>
             <div className="hidden sm:block w-[1px] h-12 bg-gray-200" />
             <div>

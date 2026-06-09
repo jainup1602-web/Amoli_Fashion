@@ -57,8 +57,8 @@ export function Footer() {
             <Link href="/" className="inline-block mb-4">
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={160} height={55} className="object-contain" priority />
             </Link>
-            <p className="text-sm text-gray-600 leading-relaxed max-w-[90%]">
-              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of high quality luxury jewellery crafted from brass and copper, with a curated collection inspired by the finest traditions.'}
+            <p className="text-sm text-gray-600 leading-relaxed max-w-[90%] whitespace-pre-line">
+              {settings?.siteDescription || 'Premium Jewellery That Stays as Precious as You.\nFrom timeless traditional designs to contemporary demi-fine pieces, our collection is crafted with anti-tarnish technology and skin-friendly materials for beauty that lasts beyond trends.'}
             </p>
             <div className="flex gap-2 mt-4">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
@@ -137,8 +137,8 @@ export function Footer() {
             <Link href="/" className="inline-block mb-6">
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={180} height={65} className="object-contain" priority />
             </Link>
-            <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-              {settings?.siteDescription || 'Amoli Fashion brings you the artistry of high quality luxury jewellery crafted from brass and copper, with a curated collection inspired by the finest traditions.'}
+            <p className="text-sm text-gray-600 mb-6 leading-relaxed whitespace-pre-line">
+              {settings?.siteDescription || 'Premium Jewellery That Stays as Precious as You.\nFrom timeless traditional designs to contemporary demi-fine pieces, our collection is crafted with anti-tarnish technology and skin-friendly materials for beauty that lasts beyond trends.'}
             </p>
             <div className="flex gap-2">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>

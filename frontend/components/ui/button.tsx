@@ -7,11 +7,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "text-white hover:opacity-90",
-        destructive: "bg-red-600 text-white hover:bg-red-700",
-        outline: "border hover:opacity-90",
-        secondary: "text-gray-900 hover:opacity-90",
-        ghost: "hover:bg-gray-100",
+        default: "bg-primary text-primary-foreground hover:opacity-90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:opacity-90",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "underline-offset-4 hover:underline",
       },
       size: {
@@ -32,18 +32,15 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
-  style?: React.CSSProperties
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, style, ...props }, ref) => {
-    const defaultStyle = variant === 'default' ? { backgroundColor: '#1A1A1A', ...style } : style;
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
     
     if (asChild) {
       return (
         <span 
           className={cn(buttonVariants({ variant, size, className }))}
-          style={defaultStyle}
         >
           {props.children}
         </span>
@@ -52,7 +49,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(buttonVariants({ variant, size, className }))}
-        style={defaultStyle}
         ref={ref}
         {...props}
       />

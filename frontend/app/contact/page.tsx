@@ -153,7 +153,7 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <FadeInSection direction="up" delay={0.1} className="lg:col-span-2">
+            <div className="lg:col-span-2">
               <Card className="p-4 sm:p-6 lg:p-8">
                 <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Send us a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -205,7 +205,7 @@ export default function ContactPage() {
                   </Button>
                 </form>
               </Card>
-            </FadeInSection>
+            </div>
           </div>
         </div>
       </div>

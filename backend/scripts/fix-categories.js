@@ -6,36 +6,36 @@ const desiredSequence = [
     name: "Necklace",
     groups: [
       {
-        name: "Shop by type",
+        name: "Shop By Type",
         items: [
-          "pendent set & chain",
+          "Pendant Set & Chain",
           "Short Necklace",
           "Long Necklace",
-          "CHOKER",
+          "Choker",
           "Layered Necklace",
-          "Mangal Sutra"
+          "Mangalsutra"
         ]
       },
       {
-        name: "shop by look",
+        name: "Shop By Look",
         items: [
-          "kundan",
-          "gold plated",
-          "cubic Zirconia /AD",
-          "Stainless steal",
-          "Tmple",
-          "crystal",
-          "oxidised",
-          "pearl"
+          "Kundan",
+          "Gold Plated",
+          "Cubic Zirconia / AD",
+          "Stainless Steel",
+          "Temple",
+          "Crystal",
+          "Oxidised",
+          "Pearl"
         ]
       },
       {
-        name: "shop by occassion",
+        name: "Shop By Occasion",
         items: [
-          "traditional wear",
-          "office wear",
-          "modern wear",
-          "casual wear"
+          "Traditional Wear",
+          "Office Wear",
+          "Modern Wear",
+          "Casual Wear"
         ]
       }
     ]
@@ -44,35 +44,35 @@ const desiredSequence = [
     name: "Earrings",
     groups: [
       {
-        name: "shop by type",
+        name: "Shop By Type",
         items: [
-          "studs",
-          "hoops & huggies",
-          "drop & danglers",
-          "jhumka",
-          "chand balis"
+          "Studs",
+          "Hoops & Huggies",
+          "Drop & Danglers",
+          "Jhumka",
+          "Chand Balis"
         ]
       },
       {
-        name: "shop by look",
+        name: "Shop By Look",
         items: [
-          "kundan",
-          "gold plated",
-          "cubic zirconia/AD",
-          "stainless steal",
-          "temple",
-          "crystal",
-          "oxidised",
-          "pearl"
+          "Kundan",
+          "Gold Plated",
+          "Cubic Zirconia / AD",
+          "Stainless Steel",
+          "Temple",
+          "Crystal",
+          "Oxidised",
+          "Pearl"
         ]
       },
       {
-        name: "shop by occssion",
+        name: "Shop By Occasion",
         items: [
-          "traditional",
-          "office wear",
-          "modern wear",
-          "casual wear"
+          "Traditional Wear",
+          "Office Wear",
+          "Modern Wear",
+          "Casual Wear"
         ]
       }
     ]
@@ -81,34 +81,34 @@ const desiredSequence = [
     name: "Bangles",
     groups: [
       {
-        name: "shop by type",
+        name: "Shop By Type",
         items: [
-          "kadas",
-          "bangles",
-          "bracelate",
-          "watch"
+          "Kadas",
+          "Bangles",
+          "Bracelet",
+          "Watch"
         ]
       },
       {
-        name: "shop by look",
+        name: "Shop By Look",
         items: [
-          "kundan",
-          "gold plated",
-          "cubic zirconia/AD",
-          "stainless steal",
-          "temple",
-          "crystal",
-          "pearl",
-          "oxidised"
+          "Kundan",
+          "Gold Plated",
+          "Cubic Zirconia / AD",
+          "Stainless Steel",
+          "Temple",
+          "Crystal",
+          "Pearl",
+          "Oxidised"
         ]
       },
       {
-        name: "shop by occssion",
+        name: "Shop By Occasion",
         items: [
-          "traditional",
-          "office wear",
-          "modern wear",
-          "casual wear"
+          "Traditional Wear",
+          "Office Wear",
+          "Modern Wear",
+          "Casual Wear"
         ]
       }
     ]
@@ -117,60 +117,60 @@ const desiredSequence = [
     name: "Rings",
     groups: [
       {
-        name: "shop by type",
+        name: "Shop By Type",
         items: [
-          "single rings",
-          "double rings",
-          "palm cuffs"
+          "Single Rings",
+          "Double Rings",
+          "Palm Cuffs"
         ]
       },
       {
-        name: "shop by look",
+        name: "Shop By Look",
         items: [
-          "kundan",
-          "gold plated",
-          "cubic zirconia/AD",
-          "stainless steal",
-          "temple",
-          "crystal",
-          "pearl",
-          "oxidised"
+          "Kundan",
+          "Gold Plated",
+          "Cubic Zirconia / AD",
+          "Stainless Steel",
+          "Temple",
+          "Crystal",
+          "Pearl",
+          "Oxidised"
         ]
       },
       {
-        name: "shop by occssion",
+        name: "Shop By Occasion",
         items: [
-          "traditional",
-          "office wear",
-          "modern wear",
-          "casual wear"
+          "Traditional Wear",
+          "Office Wear",
+          "Modern Wear",
+          "Casual Wear"
         ]
       }
     ]
   },
   {
-    name: "jewellery accessories",
+    name: "Jewellery Accessories",
     groups: [
       {
         name: "Head Accessories",
         items: [
           "Maang Tikka",
-          "sheeshphool/matha patti",
-          "hail brooch"
+          "Sheeshphool / Matha Patti",
+          "Hair Brooch"
         ]
       },
       {
         name: "Hand Accessories",
         items: [
-          "Hath phool/palm bracelet",
+          "Hathphool / Palm Bracelet",
           "Baju Band / Armlet"
         ]
       },
       {
-        name: "others",
+        name: "Others",
         items: [
-          "Nath /nose pin",
-          "Waist Belt /kamar Band",
+          "Nath / Nose Pin",
+          "Waist Belt / Kamar Bandh",
           "Anklet",
           "Saree Brooch"
         ]
@@ -196,9 +196,8 @@ const desiredSequence = [
 const slugify = (str) => str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 async function main() {
-  console.log('Starting category structural fix...');
+  console.log('Starting category fix — capitalisation & spelling corrections...');
 
-  // Fallback image
   const defaultImage = "https://images.unsplash.com/photo-1599643478524-fb66f7ca065b?w=800";
 
   let catOrder = 1;
@@ -208,7 +207,6 @@ async function main() {
   for (const cat of desiredSequence) {
     const catSlug = slugify(cat.name);
     
-    // Find or create category
     let category = await prisma.category.findUnique({ where: { slug: catSlug } });
     if (!category) {
       category = await prisma.category.create({
@@ -225,7 +223,7 @@ async function main() {
     } else {
       category = await prisma.category.update({
         where: { id: category.id },
-        data: { name: cat.name, order: catOrder }
+        data: { name: cat.name, order: catOrder, isActive: true }
       });
       console.log(`Updated category: ${cat.name}`);
     }
@@ -239,10 +237,6 @@ async function main() {
         
         let subcategory = await prisma.subcategory.findUnique({ where: { slug: subSlug } });
         if (!subcategory) {
-          // Check if an old spelling exists under the same category to rename it instead of creating new
-          // e.g. "pendent set & chain" -> "pendant set & chain"
-          // We can do a fuzzy match, or just let it recreate.
-          // Let's just create new, and leave the old one alone for a moment.
           subcategory = await prisma.subcategory.create({
             data: {
               name: item,
@@ -254,7 +248,7 @@ async function main() {
               isActive: true
             }
           });
-          console.log(`Created subcategory: ${item} (${group.name})`);
+          console.log(`  Created: ${item} (${group.name})`);
         } else {
           subcategory = await prisma.subcategory.update({
             where: { id: subcategory.id },
@@ -262,10 +256,11 @@ async function main() {
               name: item,
               description: group.name,
               order: subOrder,
-              categoryId: category.id
+              categoryId: category.id,
+              isActive: true
             }
           });
-          console.log(`Updated subcategory: ${item}`);
+          console.log(`  Updated: ${item} (${group.name})`);
         }
         validSubcategoryIds.push(subcategory.id);
         subOrder++;
@@ -274,13 +269,12 @@ async function main() {
     catOrder++;
   }
 
-  // Hide/deactivate any categories or subcategories that are not in our exact valid list
-  // so they don't show up in the UI, but we don't delete them, keeping old products intact.
+  // Deactivate anything NOT in our valid list
   const hiddenCats = await prisma.category.updateMany({
     where: { id: { notIn: validCategoryIds } },
     data: { isActive: false }
   });
-  console.log(`Deactivated ${hiddenCats.count} old categories.`);
+  console.log(`\nDeactivated ${hiddenCats.count} old categories.`);
 
   const hiddenSubs = await prisma.subcategory.updateMany({
     where: { id: { notIn: validSubcategoryIds } },
@@ -288,7 +282,7 @@ async function main() {
   });
   console.log(`Deactivated ${hiddenSubs.count} old subcategories.`);
 
-  console.log('Category structural fix complete!');
+  console.log('\n✅ Category fix complete — all names capitalised, spellings corrected!');
 }
 
 main()
