@@ -166,19 +166,19 @@ model order {
   razorpayOrderId     String?
   razorpayPaymentId   String?
   orderStatus         String          @default("pending")
-  shiprocketOrderId   String?
-  shipmentId          String?
   trackingNumber      String?
   shippingProvider    String?
   notes               String?         @db.Text
   cancelReason        String?         @db.Text
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
   isGift              Boolean         @default(false)
   giftMessage         String?         @db.Text
   giftWrap            Boolean         @default(false)
   loyaltyPointsUsed   Int             @default(0)
   loyaltyPointsEarned Int             @default(0)
-  createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt
+  shipmentId          String?
+  shiprocketOrderId   String?
   user                user            @relation(fields: [userId], references: [id])
   orderitem           orderitem[]
   returnrequest       returnrequest[]
@@ -242,17 +242,17 @@ model product {
   purity             String?
   occasion           String?
   gender             String?
-  size               String?
-  color              String?
   tags               String?      @db.LongText
-  specifications     String?      @db.LongText
-  variants           String?      @db.LongText
   isFeatured         Boolean      @default(false)
   isActive           Boolean      @default(true)
   views              Int          @default(0)
   salesCount         Int          @default(0)
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
+  color              String?
+  size               String?
+  specifications     String?      @db.LongText
+  variants           String?      @db.LongText
   cart               cart[]
   orderitem          orderitem[]
   category           category     @relation(fields: [categoryId], references: [id])
@@ -343,24 +343,24 @@ model subcategory {
 }
 
 model user {
-  id                String              @id @default(uuid())
-  firebaseUid       String?             @unique
-  email             String?             @unique
-  phoneNumber       String?             @unique
-  displayName       String?
-  photoURL          String?             @db.Text
-  role              String              @default("customer")
-  isActive          Boolean             @default(true)
-  loyaltyPoints     Int                 @default(0)
-  savedAddresses    String?             @db.LongText
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  cart              cart[]
-  notification      notification[]
-  order             order[]
-  review            review[]
-  wishlist          wishlist[]
-  returnrequest     returnrequest[]
+  id             String          @id @default(uuid())
+  firebaseUid    String?         @unique
+  email          String?         @unique
+  phoneNumber    String?         @unique
+  displayName    String?
+  photoURL       String?         @db.Text
+  role           String          @default("customer")
+  isActive       Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  loyaltyPoints  Int             @default(0)
+  savedAddresses String?         @db.LongText
+  cart           cart[]
+  notification   notification[]
+  order          order[]
+  returnrequest  returnrequest[]
+  review         review[]
+  wishlist       wishlist[]
 
   @@index([email])
   @@index([firebaseUid])
@@ -368,16 +368,16 @@ model user {
 }
 
 model marqueeitem {
-  id          String   @id @default(uuid())
-  text        String
-  categoryId  String?
-  filterSlug  String?
-  hoverImage  String?  @db.LongText
-  row         Int      @default(1)
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  text       String
+  categoryId String?
+  filterSlug String?
+  hoverImage String?  @db.LongText
+  row        Int      @default(1)
+  order      Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([isActive])
   @@index([row])
@@ -387,16 +387,16 @@ model marqueeitem {
 model videoreview {
   id               String   @id @default(uuid())
   customerName     String
-  customerLocation String? 
+  customerLocation String?
   rating           Int
   videoUrl         String   @db.LongText
   thumbnailUrl     String?  @db.LongText
-  status           String   @default("pending") // "pending" | "approved" | "rejected"
-  userId           String?
   isActive         Boolean  @default(true)
   order            Int      @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  status           String   @default("pending")
+  userId           String?
 
   @@index([isActive])
   @@index([order])
@@ -435,24 +435,22 @@ model section {
   @@index([isActive])
 }
 
-
-
 model returnrequest {
-  id            String   @id @default(uuid())
-  orderId       String
-  orderItemId   String
-  userId        String
-  productName   String
-  productImage  String?  @db.Text
-  quantity      Int      @default(1)
-  reason        String   @db.Text
-  status        String   @default("pending") // "pending" | "approved" | "rejected" | "refunded"
-  refundAmount  Float
-  adminNotes    String?  @db.Text
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  order         order    @relation(fields: [orderId], references: [id])
-  user          user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(uuid())
+  orderId      String
+  orderItemId  String
+  userId       String
+  productName  String
+  productImage String?  @db.Text
+  quantity     Int      @default(1)
+  reason       String   @db.Text
+  status       String   @default("pending")
+  refundAmount Float
+  adminNotes   String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  order        order    @relation(fields: [orderId], references: [id])
+  user         user     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([orderId])

@@ -86,6 +86,48 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     setQuantity(1);
   }, [params.slug]);
 
+  // Inject Product JSON-LD for SEO (client-side fallback for crawlers that execute JS)
+  useEffect(() => {
+    if (!product) return;
+    const price = product.specialPrice || product.originalPrice;
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      description: product.shortDescription || product.description?.substring(0, 200),
+      image: product.images,
+      sku: product.sku || product.id,
+      brand: { '@type': 'Brand', name: 'Amoli Fashion Jewellery' },
+      category: product.category?.name,
+      material: product.material || undefined,
+      offers: {
+        '@type': 'Offer',
+        url: window.location.href,
+        priceCurrency: 'INR',
+        price,
+        availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        seller: { '@type': 'Organization', name: 'Amoli Fashion Jewellery' },
+      },
+      ...(product.averageRating > 0 && {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: product.averageRating.toFixed(1),
+          reviewCount: product.totalReviews,
+          bestRating: 5,
+          worstRating: 1,
+        },
+      }),
+    };
+    const existingScript = document.getElementById('product-jsonld');
+    if (existingScript) existingScript.remove();
+    const script = document.createElement('script');
+    script.id = 'product-jsonld';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+    return () => { script.remove(); };
+  }, [product]);
+
   const fetchProduct = async () => {
     try {
       setLoading(true);

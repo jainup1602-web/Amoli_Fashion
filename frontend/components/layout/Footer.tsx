@@ -57,9 +57,21 @@ export function Footer() {
             <Link href="/" className="inline-block mb-4">
               <Image src="/image/Amoli_2.png" alt="Amoli Fashion Jewellery" width={160} height={55} className="object-contain" priority />
             </Link>
-            <p className="text-sm text-gray-600 leading-relaxed max-w-[90%] whitespace-pre-line">
+            <p className="text-sm text-gray-600 leading-relaxed max-w-[90%] whitespace-pre-line mb-4">
               {settings?.siteDescription || 'Premium Jewellery That Stays as Precious as You.\nFrom timeless traditional designs to contemporary demi-fine pieces, our collection is crafted with anti-tarnish technology and skin-friendly materials for beauty that lasts beyond trends.'}
             </p>
+
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-start gap-2 text-sm text-gray-600">
+                <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <p>{settings?.address || 'Pratap Colony, Beawar, Rajasthan - 305901'}</p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Phone className="h-4 w-4 flex-shrink-0" />
+                <p>{settings?.contactPhone || '+91 9982470002'}</p>
+              </div>
+            </div>
+
             <div className="flex gap-2 mt-4">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -140,6 +152,18 @@ export function Footer() {
             <p className="text-sm text-gray-600 mb-6 leading-relaxed whitespace-pre-line">
               {settings?.siteDescription || 'Premium Jewellery That Stays as Precious as You.\nFrom timeless traditional designs to contemporary demi-fine pieces, our collection is crafted with anti-tarnish technology and skin-friendly materials for beauty that lasts beyond trends.'}
             </p>
+
+            <div className="flex flex-col gap-3 mb-6">
+              <div className="flex items-start gap-2 text-sm text-gray-600">
+                <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <p>{settings?.address || 'Pratap Colony, Beawar, Rajasthan - 305901'}</p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Phone className="h-4 w-4 flex-shrink-0" />
+                <p>{settings?.contactPhone || '+91 9982470002'}</p>
+              </div>
+            </div>
+
             <div className="flex gap-2">
               <a href={settings?.socialLinks?.instagram || '#'} target="_blank" rel="noopener noreferrer" className={socialIconCls}>
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>

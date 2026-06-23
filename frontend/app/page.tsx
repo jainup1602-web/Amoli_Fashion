@@ -599,35 +599,52 @@ export default function HomePage() {
             >
               {/* Banner Image Background */}
               <div className="absolute inset-0 bg-[#1A1A1A]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={banner.image || '/image/Amoli_1.png'}
-                  alt={banner.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    if (!target.src.endsWith('/image/Amoli_1.png')) {
-                      target.src = '/image/Amoli_1.png';
-                    }
-                  }}
-                />
+                {banner.link ? (
+                  <Link href={banner.link} className="block w-full h-full">
+                    <img
+                      src={banner.image || '/image/Amoli_1.png'}
+                      alt={banner.title || 'Banner'}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (!target.src.endsWith('/image/Amoli_1.png')) {
+                          target.src = '/image/Amoli_1.png';
+                        }
+                      }}
+                    />
+                  </Link>
+                ) : (
+                  <img
+                    src={banner.image || '/image/Amoli_1.png'}
+                    alt={banner.title || 'Banner'}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.src.endsWith('/image/Amoli_1.png')) {
+                        target.src = '/image/Amoli_1.png';
+                      }
+                    }}
+                  />
+                )}
               </div>
 
-              <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
                 <div className="flex items-center h-full">
-                  <div className="w-full lg:w-1/2 text-white space-y-8">
+                  <div className="w-full lg:w-1/2 text-white space-y-8 pointer-events-auto">
                     <div className="space-y-4">
-                      {banner.subtitle && (
+                      {banner.subtitle && banner.subtitle.trim() !== '' && (
                         <p className="text-sm md:text-lg font-elegant tracking-[0.3em] text-white uppercase">{banner.subtitle}</p>
                       )}
-                      <h1 className="text-5xl lg:text-7xl font-playfair leading-tight text-white drop-shadow-md">
-                        {banner.title}
-                      </h1>
-                      {banner.description && (
+                      {banner.title && banner.title.trim() !== '' && (
+                        <h1 className="text-5xl lg:text-7xl font-playfair leading-tight text-white drop-shadow-md">
+                          {banner.title}
+                        </h1>
+                      )}
+                      {banner.description && banner.description.trim() !== '' && (
                         <p className="text-lg md:text-xl text-white/90 font-light max-w-2xl">{banner.description}</p>
                       )}
                     </div>
-                    {banner.link && (
+                    {banner.link && (banner.title || banner.subtitle || banner.description) && (
                       <Link href={banner.link} className="inline-block mt-8">
                         <Button size="lg" className="text-white border-none rounded-none tracking-[0.2em] uppercase text-sm px-10 py-7 transition-luxury" style={{ backgroundColor: '#1A1A1A' }}>
                           Discover More

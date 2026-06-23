@@ -337,10 +337,10 @@ export default function BannersPage() {
                 <div className="grid grid-cols-2 gap-4">
 
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium mb-1">Title *</label>
+                    <label className="block text-sm font-medium mb-1">Title</label>
                     <input type="text" value={formData.title} onChange={e => set('title', e.target.value)}
                       className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#B76E79]/30"
-                      placeholder="Main banner heading" required />
+                      placeholder="Main banner heading (Optional)" />
                   </div>
 
                   <ColorPicker label="Title Color" value={formData.titleColor} onChange={v => set('titleColor', v)} />
