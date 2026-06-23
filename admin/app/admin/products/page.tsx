@@ -9,8 +9,22 @@ import { Plus, Search, Edit, Trash2, Package } from 'lucide-react';
 import { confirmDelete } from '@/lib/confirm';
 import { alertSuccess, alertError } from '@/lib/alert';
 
+export interface AdminProduct {
+  id: string;
+  name: string;
+  slug: string;
+  sku: string;
+  price: number;
+  originalPrice: number;
+  specialPrice?: number;
+  stock: number;
+  isActive: boolean;
+  categoryId?: { name: string; slug: string };
+  images: string[];
+}
+
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<AdminProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -20,7 +34,7 @@ export default function AdminProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch('/api/products?limit=1000');
       const data = await res.json();
       if (data.success) {
         setProducts(data.products);

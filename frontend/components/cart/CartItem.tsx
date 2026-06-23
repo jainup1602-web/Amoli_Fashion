@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { updateQuantity, removeFromCart } from '@/store/slices/cartSlice';
 import { showConfirm } from '@/lib/confirm';
 import { alertSuccess } from '@/lib/alert';
+import { trackRemoveFromCart } from '@/lib/analytics';
 
 interface CartItemProps {
   item: {
@@ -44,6 +45,7 @@ export function CartItem({ item }: CartItemProps) {
     });
     if (confirmed) {
       dispatch(removeFromCart(item.productId));
+      trackRemoveFromCart({ id: item.productId, name: item.name, originalPrice: item.originalPrice, specialPrice: item.price }, item.quantity);
       alertSuccess('Item removed from cart');
     }
   };

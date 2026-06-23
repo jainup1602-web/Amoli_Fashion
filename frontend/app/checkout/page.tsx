@@ -16,6 +16,7 @@ import { PincodeCheck } from '@/components/common/PincodeCheck';
 import { GiftOptions } from '@/components/checkout/GiftOptions';
 import { LoyaltyPoints } from '@/components/account/LoyaltyPoints';
 import { SavedAddresses } from '@/components/account/SavedAddresses';
+import { trackBeginCheckout, trackPurchase } from '@/lib/analytics';
 
 declare global {
   interface Window { Razorpay: any; recaptchaVerifier: any; }
@@ -83,6 +84,14 @@ export default function CheckoutPage() {
   const finalTotal = subtotal - discount - loyaltyDiscount + shipping + tax;
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Track Begin Checkout
+  useEffect(() => {
+    if (mounted && checkoutItems.length > 0) {
+      trackBeginCheckout(checkoutItems, finalTotal);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, checkoutItems.length]);
 
   // Load buyNow item from sessionStorage
   useEffect(() => {
@@ -312,6 +321,7 @@ export default function CheckoutPage() {
         if (!res.ok) throw new Error(data.error || 'Failed to create order');
         if (!isBuyNow) dispatch(clearCart());
         else sessionStorage.removeItem('buyNowItem');
+        trackPurchase(data.order);
         toast.success('Order placed successfully!');
         router.push(`/order-success?orderId=${data.order.orderNumber}`);
         return;
@@ -342,6 +352,7 @@ export default function CheckoutPage() {
             if (vData.success) {
               if (!isBuyNow) dispatch(clearCart());
               else sessionStorage.removeItem('buyNowItem');
+              trackPurchase(vData.order);
               toast.success('Payment successful!');
               router.push(`/order-success?orderId=${vData.order.orderNumber}`);
             }

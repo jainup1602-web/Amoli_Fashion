@@ -11,6 +11,10 @@ import { OfferPopup } from '@/components/common/OfferPopup';
 import { DualMarquee } from '@/components/home/DualMarquee';
 import { BirthstoneSection } from '@/components/home/BirthstoneSection';
 import { ServicesSection } from '@/components/home/ServicesSection';
+import { FeaturedSection } from '@/components/products/FeaturedSection';
+import { ShowcaseCard } from '@/components/home/ShowcaseCard';
+import { VideoReviewCarousel } from '@/components/home/VideoReviewCarousel';
+import { ModelGallerySlider } from '@/components/home/ModelGallerySlider';
 import { SubmitVideoReviewModal } from '@/components/home/SubmitVideoReviewModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -72,283 +76,6 @@ const features = [
     description: 'Dedicated customer service',
   },
 ];
-
-// Showcase Card — Premium Bento Layout
-function ShowcaseCard({ showcase, tall, index = 0 }: { showcase: any; tall?: boolean, index?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="h-full w-full"
-    >
-      <Link
-        href={showcase.link || '/products'}
-        className={`group relative overflow-hidden block w-full h-full rounded-[14px] shadow-sm ${tall ? 'min-h-[220px] sm:min-h-[320px] md:min-h-[420px]' : 'min-h-[160px] sm:min-h-[200px] md:min-h-[240px]'}`}
-      >
-        {/* Image with slow elegant zoom */}
-        <div className="absolute inset-0 bg-[#FDFCF0]">
-          <Image
-            src={showcase.image || '/placeholder.svg'}
-            alt={showcase.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-contain transition-transform duration-[2s] ease-out group-hover:scale-[1.03]"
-            unoptimized={showcase.image?.startsWith('data:') || showcase.image?.startsWith('http')}
-          />
-        </div>
-
-        {/* Elegant Bottom Gradient (No full dark overlay) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-700" />
-
-        {/* Content - Bottom Left Aligned */}
-        <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8 z-10 w-full max-w-lg">
-          {showcase.subtitle && (
-            <p className="text-[10px] sm:text-[11px] tracking-[0.35em] uppercase font-elegant text-white/85 mb-3 transform transition-transform duration-500 group-hover:-translate-y-1">
-              {showcase.subtitle}
-            </p>
-          )}
-          
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-playfair text-white leading-[1.1] mb-2 drop-shadow-sm transform transition-transform duration-500 group-hover:-translate-y-1">
-            {showcase.title}
-          </h3>
-
-          {/* CTA — slides right on hover */}
-          <div className="flex items-center gap-3 overflow-hidden mt-4 h-6">
-             <div className="flex items-center gap-3 transform -translate-x-6 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-[0.25,0.46,0.45,0.94]">
-               <div className="w-8 h-[1px] bg-white/70" />
-               <span className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase font-elegant text-white font-medium">Explore Collection</span>
-               <ArrowRight className="h-3.5 w-3.5 text-white" />
-             </div>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
-
-// Single video card — autoplay, muted, with overlay info
-function VideoCard({ review }: { review: any }) {
-  return (
-    <div
-      className="flex-shrink-0 relative overflow-hidden select-none group"
-      style={{
-        width: 'clamp(160px, 55vw, 240px)',
-        height: 'clamp(260px, 48vw, 420px)',
-        borderRadius: '12px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-      }}
-    >
-      <video
-        src={review.videoUrl}
-        poster={review.thumbnailUrl || undefined}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="w-full h-full object-cover"
-      />
-      {/* Gradient overlay at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pt-16 pb-4 px-4">
-        {review.customerName && (
-          <p className="text-white text-sm font-semibold leading-tight">{review.customerName}</p>
-        )}
-        {review.title && (
-          <p className="text-white/75 text-xs mt-0.5 leading-tight">{review.title}</p>
-        )}
-        {/* Rose gold dot accent */}
-        <div className="flex items-center gap-1 mt-2">
-          {[1,2,3,4,5].map(s => (
-            <div key={s} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1A1A1A' }} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Video Review Carousel — snap scroll on mobile, drag on desktop
-function VideoReviewCarousel({ reviews }: { reviews: any[] }) {
-  const [dragging, setDragging] = useState(false);
-
-  if (reviews.length === 0) return null;
-
-  const cardW = typeof window !== 'undefined' ? Math.min(window.innerWidth * 0.8, 300) : 300;
-  const gap = 12;
-  const totalW = reviews.length * (cardW + gap) - gap;
-  const viewW = typeof window !== 'undefined' ? window.innerWidth : 1200;
-
-  return (
-    <div className="w-full overflow-hidden">
-      <motion.div
-        className="flex"
-        style={{
-          gap,
-          paddingLeft: 16,
-          paddingRight: 16,
-          cursor: dragging ? 'grabbing' : 'grab',
-        }}
-        drag="x"
-        dragConstraints={{ right: 0, left: -(totalW - viewW + 32) }}
-        dragElastic={0.08}
-        onDragStart={() => setDragging(true)}
-        onDragEnd={() => setTimeout(() => setDragging(false), 100)}
-        transition={{ type: 'spring', stiffness: 300, damping: 40 }}
-      >
-        {reviews.map((review) => (
-          <VideoCard key={review.id} review={review} />
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
-// Model Gallery Slider — Premium 3D coverflow with 5 visible cards
-function ModelGallerySlider({ models }: { models: any[] }) {
-  const [active, setActive] = useState(0);
-  const total = models.length;
-  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-
-  const startAuto = () => {
-    if (autoRef.current) clearInterval(autoRef.current);
-    autoRef.current = setInterval(() => setActive(p => (p + 1) % total), 3500);
-  };
-
-  useEffect(() => {
-    startAuto();
-    return () => { if (autoRef.current) clearInterval(autoRef.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [total]);
-
-  const prev = () => { setActive(p => (p - 1 + total) % total); startAuto(); };
-  const next = () => { setActive(p => (p + 1) % total); startAuto(); };
-
-  // Compute each card's visual position relative to active
-  const getStyle = (index: number): React.CSSProperties => {
-    const diff = ((index - active) % total + total) % total;
-    const d = diff > total / 2 ? diff - total : diff; // -2 -1 0 1 2
-
-    // Using percentages for translateX ensures perfect scaling across devices
-    if (d === 0) return {
-      transform: 'translateX(0%) translateZ(80px) rotateY(0deg) scale(1.1)',
-      zIndex: 10, opacity: 1,
-      boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.4)'
-    };
-    if (Math.abs(d) === 1) return {
-      transform: `translateX(${d * 75}%) translateZ(-80px) rotateY(${d * -20}deg) scale(0.85)`,
-      zIndex: 7, opacity: 0.95,
-      boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.3)',
-      filter: 'brightness(0.8)'
-    };
-    if (Math.abs(d) === 2) return {
-      transform: `translateX(${d * 135}%) translateZ(-200px) rotateY(${d * -35}deg) scale(0.65)`,
-      zIndex: 4, opacity: 0.8,
-      boxShadow: '0 10px 25px -15px rgba(0, 0, 0, 0.2)',
-      filter: 'brightness(0.5)'
-    };
-    return { transform: `translateX(${d * 200}%) translateZ(-400px) scale(0.4)`, zIndex: 0, opacity: 0 };
-  };
-
-  if (total === 0) return null;
-
-  return (
-    <div className="w-full py-20 overflow-hidden relative" style={{ backgroundColor: '#F9F8F6' }}>
-      
-      {/* Decorative Background Skew Element */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[65%] bg-[#f1ede8] -skew-y-2 z-0 opacity-70" />
-
-      <div className="relative z-10">
-        <div className="text-center mb-16">
-          <p className="text-xs sm:text-sm tracking-[0.4em] uppercase text-[#1A1A1A] font-elegant drop-shadow-sm mb-4">The Signature Edit</p>
-          <h2 className="text-3xl md:text-4xl font-playfair text-[#1C1C1C] tracking-wide">Curated Masterpieces</h2>
-        </div>
-
-        {/* Stage */}
-        <div 
-          className="relative flex items-center justify-center w-full max-w-[1600px] mx-auto h-[400px] md:h-[500px] lg:h-[650px]" 
-          style={{ perspective: '1600px' }}
-          onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; }}
-          onTouchMove={(e) => { touchEndX.current = e.targetTouches[0].clientX; }}
-          onTouchEnd={() => {
-            if (!touchStartX.current || !touchEndX.current) return;
-            const distance = touchStartX.current - touchEndX.current;
-            if (distance > 50) next();
-            if (distance < -50) prev();
-            touchStartX.current = 0;
-            touchEndX.current = 0;
-          }}
-        >
-          
-          {/* Left Arrow */}
-          <button onClick={prev} className="absolute left-2 sm:left-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#1A1A1A] shadow-lg hover:scale-110">
-            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
-
-          {/* Cards */}
-          {models.map((model, index) => {
-            const diff = ((index - active) % total + total) % total;
-            const d = diff > total / 2 ? diff - total : diff;
-            if (Math.abs(d) > 2) return null; // Show 5 cards
-            return (
-              <div
-                key={model.id}
-                onClick={() => { if (d !== 0) { setActive(index); startAuto(); } }}
-                className="absolute top-0 bottom-0 flex items-center justify-center"
-                style={{
-                  width: 'clamp(220px, 30vw, 400px)',
-                  transition: 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                  cursor: d !== 0 ? 'pointer' : 'default',
-                  transformStyle: 'preserve-3d',
-                  ...getStyle(index),
-                }}
-              >
-                <div className="w-full h-full relative overflow-hidden group bg-white shadow-2xl transition-all duration-700" style={{ borderRadius: '0px' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={model.image}
-                    alt={model.modelName}
-                    className="w-full h-full object-cover object-center transition-transform duration-[1.5s] group-hover:scale-105"
-                    draggable={false}
-                    loading="lazy"
-                  />
-                  {/* Bottom Gradient for Text Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
-                  
-                  {/* Unique Title Tag */}
-                  <div className="absolute bottom-8 left-0 right-0 px-4 text-center">
-                    <p className="text-white text-[10px] sm:text-[11px] md:text-xs tracking-[0.35em] uppercase font-elegant drop-shadow-lg transition-transform duration-500 group-hover:-translate-y-1">
-                      {model.category || model.modelName}
-                    </p>
-                    <div className="w-0 h-[1px] bg-white mx-auto mt-3 transition-all duration-700 group-hover:w-12 opacity-80" />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Right Arrow */}
-          <button onClick={next} className="absolute right-2 sm:right-10 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white/90 hover:bg-white flex items-center justify-center transition-all text-[#1A1A1A] shadow-lg hover:scale-110">
-            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
-        </div>
-
-        {/* Dots */}
-        <div className="flex justify-center mt-12 gap-3">
-          {models.map((_, i) => (
-            <button key={i} onClick={() => { setActive(i); startAuto(); }}
-              className="h-1.5 rounded-full transition-all duration-500 shadow-sm"
-              style={{ width: active === i ? '36px' : '8px', backgroundColor: active === i ? '#1A1A1A' : '#d1d5db' }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -690,39 +417,10 @@ export default function HomePage() {
 
           {/* Categories Grid - Circular Style */}
           <div className="grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:flex sm:flex-wrap sm:justify-center sm:gap-8 md:gap-12 lg:gap-16">
-            {[
-              {
-                id: 'western',
-                name: 'Western',
-                slug: 'western',
-                href: '/products?occasion=Casual',
-                image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800'
-              },
-              {
-                id: 'ethnic',
-                name: 'Ethnic',
-                slug: 'ethnic',
-                href: '/products?occasion=Wedding',
-                image: 'https://images.unsplash.com/photo-1599643478524-fb66f7ca065b?w=800'
-              },
-              {
-                id: 'whats-new',
-                name: 'Whats New',
-                slug: 'whats-new',
-                href: '/products?sortBy=newest',
-                image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800'
-              },
-              {
-                id: 'best-seller',
-                name: 'Best Seller',
-                slug: 'best-seller',
-                href: '/products?sortBy=price-desc',
-                image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800'
-              }
-            ].map((collection) => (
+            {categories.slice(0, 4).map((collection) => (
               <Link
                 key={collection.id}
-                href={collection.href}
+                href={`/products?category=${collection.slug}`}
                 className="group flex flex-col items-center"
               >
                 <div 
@@ -730,7 +428,7 @@ export default function HomePage() {
                   style={{ border: '1.5px solid #1A1A1A' }}
                 >
                   <Image
-                    src={collection.image}
+                    src={collection.image || '/image/Amoli_2.png'}
                     alt={collection.name}
                     fill
                     sizes="(max-width: 768px) 96px, 128px"

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, ChevronDown } from 'lucide-react';
 import { useAppSelector } from '@/store/hooks';
+import toast from 'react-hot-toast';
 
 function AccordionSection({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -43,6 +44,36 @@ export function Footer() {
       })
       .catch(() => {});
   }, []);
+
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success('Successfully subscribed to newsletter!');
+        setEmail('');
+      } else {
+        toast.error(data.error || 'Failed to subscribe');
+      }
+    } catch {
+      toast.error('Failed to subscribe to newsletter');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const socialIconCls = "w-8 h-8 flex items-center justify-center rounded-md text-gray-600 hover:text-[#1A1A1A] transition-all duration-200";
 
@@ -124,10 +155,12 @@ export function Footer() {
             <AccordionSection title="Newsletter Signup">
               <div className="pt-2">
                 <p className="text-sm text-gray-600 mb-3">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
-                <div className="flex w-full">
-                  <input type="email" placeholder="Enter your email" className="w-full bg-transparent border-b border-gray-400 py-2 text-sm focus:outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A]" />
-                  <button className="border-b border-gray-400 py-2 px-3 text-sm font-medium hover:text-[#D4AF37] transition-colors">SUBSCRIBE</button>
-                </div>
+                <form onSubmit={handleSubscribe} className="flex w-full">
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="w-full bg-transparent border-b border-gray-400 py-2 text-sm focus:outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A]" />
+                  <button type="submit" disabled={loading} className="border-b border-gray-400 py-2 px-3 text-sm font-medium hover:text-[#D4AF37] transition-colors disabled:opacity-50">
+                    {loading ? '...' : 'SUBSCRIBE'}
+                  </button>
+                </form>
               </div>
             </AccordionSection>
           </div>
@@ -223,10 +256,12 @@ export function Footer() {
             <p className="text-sm text-gray-600 mb-4 leading-relaxed">
               Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
             </p>
-            <div className="flex w-full mt-4">
-              <input type="email" placeholder="Enter your email" className="w-full bg-transparent border-b border-gray-400 py-2 text-sm focus:outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A]" />
-              <button className="border-b border-gray-400 py-2 px-3 text-sm font-medium hover:text-[#D4AF37] transition-colors">SUBSCRIBE</button>
-            </div>
+            <form onSubmit={handleSubscribe} className="flex w-full mt-4">
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="w-full bg-transparent border-b border-gray-400 py-2 text-sm focus:outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A]" />
+              <button type="submit" disabled={loading} className="border-b border-gray-400 py-2 px-3 text-sm font-medium hover:text-[#D4AF37] transition-colors disabled:opacity-50">
+                {loading ? '...' : 'SUBSCRIBE'}
+              </button>
+            </form>
           </div>
         </div>
       </div>

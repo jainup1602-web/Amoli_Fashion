@@ -22,6 +22,11 @@ export const metadata: Metadata = {
     default: "Amoli Fashion Jewellery | Premium Demi-Fine Jewellery Online – Jaipur, Rajasthan",
     template: "%s | Amoli Fashion Jewellery",
   },
+  icons: {
+    icon: "/fav-icon.png",
+    shortcut: "/fav-icon.png",
+    apple: "/fav-icon.png",
+  },
   description:
     "Shop premium demi-fine fashion jewellery online at Amoli. Handcrafted brass & stainless steel jewellery — necklaces, earrings, bracelets, rings & bangles. Nickel-free, skin-friendly, anti-tarnish. Free shipping across India. Based in Jaipur, Rajasthan.",
   keywords: [

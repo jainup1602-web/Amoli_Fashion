@@ -18,6 +18,7 @@ import { AuthModal } from '@/components/auth/AuthModal';
 import { ProductCard } from '@/components/products/ProductCard';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import { trackViewItem, trackAddToCart } from '@/lib/analytics';
 
 interface Review {
   id: string;
@@ -135,6 +136,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       const data = await res.json();
       if (res.ok && data.product) {
         setProduct(data.product);
+        trackViewItem(data.product);
         fetchReviews(data.product.id);
         fetchRelated(data.product.category?.id || data.product.categoryId, data.product.id);
       } else {
@@ -192,6 +194,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       stock: product.stock,
     };
     dispatch(addToCart(cartItem));
+    trackAddToCart(product, quantity);
     toast.success('Added to cart!');
 
     // Sync with server if logged in

@@ -12,7 +12,6 @@ import {
   Menu, X, CreditCard, Image as ImageIcon, File, ChevronDown, FileText,
   Plus, LogOut, ExternalLink, TrendingUp, Layout
 } from 'lucide-react';
-import { AuthModal } from '@/components/auth/AuthModal';
 
 const menuGroups = [
   {
@@ -202,7 +201,6 @@ export function AdminSidebar() {
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   useEffect(() => {
     const handleOpen = () => setIsMobileOpen(true);
@@ -234,7 +232,7 @@ export function AdminSidebar() {
     toggleSubmenu,
     isAuthenticated,
     user,
-    onLoginClick: () => setAuthModalOpen(true),
+    onLoginClick: () => window.dispatchEvent(new CustomEvent('openLoginModal')),
     onLogout: handleLogout,
   };
 
@@ -282,8 +280,6 @@ export function AdminSidebar() {
           </motion.aside>
         )}
       </AnimatePresence>
-
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} initialMode="login" />
     </>
   );
 }

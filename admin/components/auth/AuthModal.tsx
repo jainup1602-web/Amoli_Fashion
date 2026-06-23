@@ -252,36 +252,10 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
               </p>
             </div>
 
-            {/* Mode Toggle */}
-            <div className="flex gap-0 mb-6 border border-gray-200 rounded-none overflow-hidden">
-              <button
-                onClick={() => { setMode('login'); setStep('input'); setName(''); setOtp(''); }}
-                className="flex-1 py-2.5 text-xs font-medium tracking-widest uppercase transition-all"
-                style={mode === 'login' ? { backgroundColor: '#B76E79', color: 'white' } : { backgroundColor: 'white', color: '#B76E79' }}
-              >
-                Login
-              </button>
-              <button
-                onClick={() => { setMode('register'); setStep('input'); setOtp(''); }}
-                className="flex-1 py-2.5 text-xs font-medium tracking-widest uppercase transition-all"
-                style={mode === 'register' ? { backgroundColor: '#B76E79', color: 'white' } : { backgroundColor: 'white', color: '#B76E79' }}
-              >
-                Register
-              </button>
-            </div>
+            {/* Mode Toggle removed - Admins can only login, not register */}
 
             {step === 'input' ? (
               <form onSubmit={handleSendOTP} className="space-y-3">
-                {mode === 'register' && (
-                  <Input
-                    type="text"
-                    placeholder="Your full name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className="rounded-none border-gray-200 bg-white focus:border-[#B76E79] focus:ring-0 text-sm"
-                  />
-                )}
 
                 <div className="flex items-center border border-gray-200 bg-white focus-within:border-[#B76E79] transition-colors">
                   <span className="px-3 text-xs font-medium text-gray-500 border-r border-gray-200 h-10 flex items-center bg-gray-50 flex-shrink-0">+91</span>
@@ -294,13 +268,6 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                     className="flex-1 px-3 h-10 bg-transparent outline-none text-sm text-gray-800 placeholder-gray-400"
                   />
                 </div>
-
-                {mode === 'register' && (
-                  <label className="flex items-start gap-2 text-xs text-gray-500 cursor-pointer">
-                    <input type="checkbox" required className="mt-0.5 accent-[#B76E79]" />
-                    <span>I accept the Privacy Policy and Terms & Conditions</span>
-                  </label>
-                )}
 
                 <button
                   type="submit"

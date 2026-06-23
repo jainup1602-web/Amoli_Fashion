@@ -85,7 +85,7 @@ app.use('/api/video-reviews', require('./routes/videoReviews'));
 app.use('/api/marquee',      require('./routes/marquee'));
 app.use('/api/popup',       require('./routes/popup'));
 app.use('/api/sections',    require('./routes/sections'));
-app.use('/api/make-admin',  require('./routes/makeAdmin'));
+// make-admin route removed for security — use Prisma Studio or direct DB to set admin role
 
 // Admin routes
 app.use('/api/admin/dashboard',    require('./routes/admin/dashboard'));

@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update order
-    const updatedOrderDetails = await prisma.$transaction(async (tx) => {
+    // Update order, stock, coupon, and cart atomically
+    const updatedOrder = await prisma.$transaction(async (tx) => {
       const updated = await tx.order.update({
         where: { id: order.id },
         data: {
@@ -55,44 +55,43 @@ export async function POST(request: NextRequest) {
         },
       });
 
+      // Decrement stock and increment sales count
+      for (const item of order.orderitem) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: {
+            stock: { decrement: item.quantity },
+            salesCount: { increment: item.quantity },
+          },
+        });
+      }
+
+      // Update coupon usage
+      if (order.couponCode) {
+        await tx.coupon.updateMany({
+          where: { code: order.couponCode },
+          data: { usedCount: { increment: 1 } },
+        });
+      }
+
+      // Clear cart
+      await tx.cart.deleteMany({
+        where: { userId: authResult.user.id },
+      });
 
       return updated;
     });
 
-    // Update product stock
-    for (const item of order.orderitem) {
-      await prisma.product.update({
-        where: { id: item.productId },
-        data: {
-          stock: { decrement: item.quantity },
-          salesCount: { increment: item.quantity },
-        },
-      });
-    }
-
-    // Update coupon usage
-    if (order.couponCode) {
-      await prisma.coupon.updateMany({
-        where: { code: order.couponCode },
-        data: { usedCount: { increment: 1 } },
-      });
-    }
-
-    // Clear cart
-    await prisma.cart.deleteMany({
-      where: { userId: authResult.user.id },
-    });
-
-    const updatedOrder = await prisma.order.findUnique({
+    const finalOrder = await prisma.order.findUnique({
       where: { id: order.id },
       include: { orderitem: true },
     });
 
     // Auto-push Prepaid order to Shiprocket
-    if (updatedOrder) {
+    if (finalOrder) {
       try {
         const { createShiprocketOrder } = await import('@/lib/shiprocket');
-        const shiprocketResult = await createShiprocketOrder(updatedOrder);
+        const shiprocketResult = await createShiprocketOrder(finalOrder);
         
         await (prisma.order.update as any)({
           where: { id: order.id },
@@ -109,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      order: updatedOrder,
+      order: finalOrder,
       message: 'Payment verified and order confirmed',
     });
   } catch (error: any) {
