@@ -143,7 +143,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
             {/* Wishlist - bottom left */}
             <button
               onClick={handleToggleWishlist}
-              className="absolute bottom-1.5 left-1.5 z-10 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-105 w-7 h-7 sm:w-8 sm:h-8"
+              className="absolute bottom-1.5 left-1.5 z-10 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-105 w-6 h-6 sm:w-7 sm:h-7"
               style={{ backgroundColor: isInWishlist ? '#1A1A1A' : 'rgba(255,255,255,0.92)' }}
               aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
             >
@@ -157,7 +157,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0 || isAddingToCart}
-              className="absolute bottom-1.5 right-1.5 z-10 rounded-full flex items-center justify-center gap-1 shadow-md disabled:opacity-50 disabled:cursor-not-allowed px-2 py-1 sm:px-3 sm:py-1.5"
+              className="absolute bottom-1.5 right-1.5 z-10 rounded-none flex items-center justify-center gap-1 shadow-md disabled:opacity-50 disabled:cursor-not-allowed px-1.5 sm:px-2 h-6 sm:h-7"
               style={{ backgroundColor: '#1A1A1A' }}
               aria-label={product.stock === 0 ? 'Out of stock' : 'Add to cart'}
             >
