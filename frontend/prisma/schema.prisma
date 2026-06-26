@@ -235,6 +235,7 @@ model product {
   specialPrice       Float?
   discountPercentage Float?
   stock              Int          @default(0)
+  trackStock         Boolean      @default(true)
   sku                String?      @unique
   weight             Float?
   dimensions         String?      @db.LongText

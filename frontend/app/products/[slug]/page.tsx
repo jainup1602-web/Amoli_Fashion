@@ -38,6 +38,7 @@ interface Product {
   specialPrice?: number;
   discountPercentage?: number;
   stock: number;
+  trackStock?: boolean;
   averageRating: number;
   totalReviews: number;
   description: string;
@@ -106,7 +107,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         url: window.location.href,
         priceCurrency: 'INR',
         price,
-        availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        availability: product.trackStock !== false && product.stock <= 0 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
         seller: { '@type': 'Organization', name: 'Amoli Fashion Jewellery' },
       },
       ...(product.averageRating > 0 && {
@@ -194,7 +195,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       stock: product.stock,
     };
     dispatch(addToCart(cartItem));
-    trackAddToCart(product, quantity);
+    trackAddToCart(product as any, quantity);
     toast.success('Added to cart!');
 
     // Sync with server if logged in
@@ -397,11 +398,11 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
             {/* Stock */}
             <div>
-              {product.stock > 0 ? (
+              {product.trackStock === false || product.stock > 0 ? (
                 <p className="text-xs font-elegant tracking-widest uppercase flex items-center gap-2" style={{ color: '#1A1A1A' }}>
                   <CheckCircle className="h-4 w-4" />
                   In Stock
-                  {product.stock <= 10 && <span className="text-orange-500 normal-case tracking-normal font-light">— Only {product.stock} left</span>}
+                  {product.trackStock !== false && product.stock <= 10 && <span className="text-orange-500 normal-case tracking-normal font-light">— Only {product.stock} left</span>}
                 </p>
               ) : (
                 <p className="text-xs font-elegant tracking-widest uppercase text-red-600">Out of Stock</p>
@@ -409,7 +410,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             </div>
 
             {/* Quantity */}
-            {product.stock > 0 && (
+            {(product.trackStock === false || product.stock > 0) && (
               <div>
                 <label className="block text-xs font-elegant tracking-widest uppercase text-gray-500 mb-2">Quantity</label>
                 <div className="flex items-center w-32 border border-gold/30">
@@ -418,7 +419,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                     <Minus className="h-4 w-4" />
                   </button>
                   <span className="flex-1 text-center text-sm font-medium">{quantity}</span>
-                  <button onClick={() => setQuantity(q => Math.min(product.stock, q + 1))} disabled={quantity >= product.stock}
+                  <button onClick={() => setQuantity(q => Math.min(product.trackStock === false ? 99 : product.stock, q + 1))} disabled={product.trackStock !== false && quantity >= product.stock}
                     className="px-3 py-2 text-gray-600 hover:bg-[#1A1A1A] hover:text-white transition-colors disabled:opacity-40">
                     <Plus className="h-4 w-4" />
                   </button>
@@ -431,7 +432,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               {/* Buy Now — direct checkout without adding to cart */}
               <Button
                 onClick={() => {
-                  if (product.stock === 0) return;
+                  if (product.trackStock !== false && product.stock === 0) return;
                   // Store buy-now item in sessionStorage — cart mein add NAHI karna
                   const buyNowItem = {
                     productId: product.id,
@@ -441,16 +442,17 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                     price: product.specialPrice || product.originalPrice,
                     originalPrice: product.originalPrice,
                     quantity,
-                    stock: product.stock,
+                    stock: product.trackStock === false ? 99 : product.stock,
+                    trackStock: product.trackStock !== false
                   };
                   sessionStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
                   router.push('/checkout?mode=buynow');
                 }}
-                disabled={product.stock === 0}
+                disabled={product.trackStock !== false && product.stock === 0}
                 className="w-full h-12 text-white rounded-none border-none uppercase text-xs font-medium relative overflow-hidden flex items-center justify-between px-4 group transition-all"
-                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#1C1C1C' }}
+                style={{ backgroundColor: product.trackStock !== false && product.stock === 0 ? '#9ca3af' : '#1C1C1C' }}
               >
-                {product.stock === 0 ? (
+                {product.trackStock !== false && product.stock === 0 ? (
                   <span className="w-full text-center tracking-[0.15em]">Out of Stock</span>
                 ) : (
                   <>
@@ -487,12 +489,12 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               </Button>
               <Button
                 onClick={handleAddToCart}
-                disabled={product.stock === 0}
+                disabled={product.trackStock !== false && product.stock === 0}
                 className="w-full h-11 text-white rounded-none border-none tracking-[0.15em] uppercase text-xs font-medium transition-colors"
-                style={{ backgroundColor: product.stock === 0 ? '#9ca3af' : '#1A1A1A' }}
+                style={{ backgroundColor: product.trackStock !== false && product.stock === 0 ? '#9ca3af' : '#1A1A1A' }}
               >
                 <ShoppingCart className="mr-2 h-4 w-4" />
-                {product.stock === 0 ? 'Out of Stock' : 'Add to Bag'}
+                {product.trackStock !== false && product.stock === 0 ? 'Out of Stock' : 'Add to Bag'}
               </Button>
               <div className="grid grid-cols-2 gap-3">
                 <Button

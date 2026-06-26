@@ -11,7 +11,6 @@ import { OfferPopup } from '@/components/common/OfferPopup';
 import { DualMarquee } from '@/components/home/DualMarquee';
 import { BirthstoneSection } from '@/components/home/BirthstoneSection';
 import { ServicesSection } from '@/components/home/ServicesSection';
-import { FeaturedSection } from '@/components/products/FeaturedSection';
 import { ShowcaseCard } from '@/components/home/ShowcaseCard';
 import { VideoReviewCarousel } from '@/components/home/VideoReviewCarousel';
 import { ModelGallerySlider } from '@/components/home/ModelGallerySlider';

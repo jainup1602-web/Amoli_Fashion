@@ -117,6 +117,7 @@ if (zod) {
     minOrderValue: z.union([z.string(), z.number()]).transform(v => v ? parseFloat(String(v)) : null).optional().nullable(),
     maxDiscount: z.union([z.string(), z.number()]).transform(v => v ? parseFloat(String(v)) : null).optional().nullable(),
     usageLimit: z.union([z.string(), z.number()]).transform(v => v ? parseInt(String(v)) : null).optional().nullable(),
+    validFrom: z.string().optional(),
     validUntil: z.string().optional(),
     isActive: z.boolean().optional().default(true),
   });

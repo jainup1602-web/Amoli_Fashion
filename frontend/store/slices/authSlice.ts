@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth';
 
 interface User {
-  _id: string;
+  id: string;
   firebaseUid: string;
   email?: string;
   phoneNumber?: string;

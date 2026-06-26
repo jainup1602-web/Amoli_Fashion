@@ -54,7 +54,7 @@ export const trackRemoveFromCart = (product: Partial<Product>, quantity: number 
       price: product.specialPrice || product.originalPrice,
       quantity: quantity
     }],
-    value: (product.specialPrice || product.originalPrice) * quantity,
+    value: (product.specialPrice || product.originalPrice || 0) * quantity,
     currency: 'INR'
   });
 };

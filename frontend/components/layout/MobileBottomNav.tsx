@@ -227,7 +227,7 @@ export function MobileBottomNav() {
                 {/* Admin Panel — only for admins */}
                 {user?.role === 'admin' && (
                   <a
-                    href="http://localhost:3001/admin"
+                    href={process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001/admin'}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setAccountOpen(false)}

@@ -212,7 +212,7 @@ export default function CheckoutPage() {
       // Register/login user in our DB
       await fetch('/api/auth/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
         body: JSON.stringify({
           firebaseUid: firebaseUser.uid,
           phoneNumber: firebaseUser.phoneNumber,
@@ -229,7 +229,7 @@ export default function CheckoutPage() {
       const { store } = await import('@/store/store');
       store.dispatch(setUser({
         user: {
-          _id: firebaseUser.uid,
+          id: firebaseUser.uid,
           firebaseUid: firebaseUser.uid,
           email: firebaseUser.email || '',
           displayName: firebaseUser.displayName || '',
@@ -346,7 +346,7 @@ export default function CheckoutPage() {
             const vRes = await fetch('/api/orders/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-              body: JSON.stringify({ razorpayOrderId: response.razorpay_order_id, razorpayPaymentId: response.razorpay_payment_id, razorpaySignature: response.razorpay_signature }),
+              body: JSON.stringify({ razorpayOrderId: response.razorpay_order_id, razorpayPaymentId: response.razorpay_payment_id, razorpaySignature: response.razorpay_signature, isBuyNow }),
             });
             const vData = await vRes.json();
             if (vData.success) {

@@ -29,6 +29,8 @@ interface Order {
   subtotal: number;
   discount: number;
   shippingCharges: number;
+  trackingNumber?: string;
+  shippingProvider?: string;
   createdAt: string;
   orderitem: OrderItem[];
 }

@@ -26,7 +26,6 @@ const emptyForm = {
   rating: 5,
   videoUrl: '',
   thumbnailUrl: '',
-  thumbnailUrl: '',
   isActive: true,
   status: 'approved',
   order: 0,

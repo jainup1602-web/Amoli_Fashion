@@ -53,8 +53,8 @@ app.use(logFailedAuth);
 
 // Rate Limiting
 const limiter = rateLimit({
-  windowMs: process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000, // 15 minutes
-  max: process.env.RATE_LIMIT_MAX || 100, // Limit each IP to 100 requests per windowMs
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10), // 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX || '100', 10), // Limit each IP to 100 requests per windowMs
   message: { success: false, message: 'Too many requests from this IP, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -114,9 +114,9 @@ app.use('/api/admin/inventory',    require('./routes/admin/inventory'));
 // Webhooks
 app.use('/api/webhooks/shiprocket', require('./routes/webhooks/shiprocket'));
 
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
 // Global error handler (must be after all routes)
 app.use(errorHandler);
-
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

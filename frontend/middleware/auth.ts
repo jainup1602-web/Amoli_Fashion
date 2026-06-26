@@ -30,6 +30,11 @@ export async function verifyAuth(request: NextRequest) {
       }
     } else {
       // Firebase Admin not configured - extract UID from token (unsafe but works for dev)
+      if (process.env.NODE_ENV === 'production') {
+        console.error('Firebase Admin not configured in production environment!');
+        return { error: 'Authentication service unavailable', status: 500 };
+      }
+      
       console.warn('⚠️ Firebase Admin not configured. Using client-side auth only.');
       try {
         // Decode JWT without verification (development only!)

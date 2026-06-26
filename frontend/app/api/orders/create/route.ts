@@ -12,13 +12,23 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { shippingAddress, couponCode, paymentMethod: reqPaymentMethod } = await request.json();
+    const { shippingAddress, couponCode, paymentMethod: reqPaymentMethod, buyNowItems } = await request.json();
     const isCOD = reqPaymentMethod === 'cod';
 
-    const cartItems = await prisma.cart.findMany({
-      where: { userId: authResult.user.id },
-      include: { product: true },
-    });
+    let cartItems = [];
+    if (buyNowItems && buyNowItems.length > 0) {
+      for (const item of buyNowItems) {
+        const product = await prisma.product.findUnique({ where: { id: item.productId || item.id } });
+        if (product) {
+          cartItems.push({ product, quantity: item.quantity, productId: product.id, userId: authResult.user.id });
+        }
+      }
+    } else {
+      cartItems = await prisma.cart.findMany({
+        where: { userId: authResult.user.id },
+        include: { product: true },
+      });
+    }
 
     if (cartItems.length === 0) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
@@ -92,6 +102,7 @@ export async function POST(request: NextRequest) {
     const tax = taxEnabled ? Math.round((taxableAmount * taxRate) / 100 * 100) / 100 : 0;
 
     const total = taxableAmount + shippingCharges + tax;
+    const payableAmount = total;
     const orderNumber = generateOrderId();
 
 
@@ -137,7 +148,9 @@ export async function POST(request: NextRequest) {
           });
         }
 
-        await tx.cart.deleteMany({ where: { userId: authResult.user.id } });
+        if (!buyNowItems || buyNowItems.length === 0) {
+          await tx.cart.deleteMany({ where: { userId: authResult.user.id } });
+        }
         return order;
       });
 

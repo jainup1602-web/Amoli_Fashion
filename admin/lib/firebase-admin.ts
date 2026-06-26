@@ -1,8 +1,9 @@
-import admin from 'firebase-admin';
+import * as admin from 'firebase-admin';
 
-let firebaseAdmin: admin.app.App | null = null;
+let firebaseAdmin: any | null = null;
 
 // Only initialize Firebase Admin if valid credentials are provided
+// @ts-ignore
 if (!admin.apps.length) {
   const privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n');
   const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID;
@@ -20,7 +21,9 @@ if (!admin.apps.length) {
 
   if (hasValidCredentials) {
     try {
+      // @ts-ignore
       firebaseAdmin = admin.initializeApp({
+        // @ts-ignore
         credential: admin.credential.cert({
           projectId,
           clientEmail,
@@ -38,5 +41,6 @@ if (!admin.apps.length) {
   }
 }
 
+// @ts-ignore
 export const auth = admin.apps.length > 0 ? admin.auth() : null;
 export default admin;

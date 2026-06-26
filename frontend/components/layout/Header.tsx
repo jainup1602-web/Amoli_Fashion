@@ -523,7 +523,7 @@ export function Header() {
                         Settings
                       </Link>
                       {user?.role === 'admin' && (
-                        <a href="http://localhost:3001/admin" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style={{ color: '#1A1A1A' }} onClick={() => setProfileMenuOpen(false)}>
+                        <a href={process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001/admin'} target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style={{ color: '#1A1A1A' }} onClick={() => setProfileMenuOpen(false)}>
                           <Settings className="h-4 w-4 mr-3" style={{ color: '#1A1A1A' }} />
                           Admin Panel
                         </a>

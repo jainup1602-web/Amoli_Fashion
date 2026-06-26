@@ -22,6 +22,7 @@ interface ProductCardProps {
     averageRating: number;
     totalReviews: number;
     stock: number;
+    trackStock?: boolean;
   };
 }
 
@@ -52,11 +53,11 @@ function ProductCardComponent({ product }: ProductCardProps) {
       productId: product.id,
       name: product.name,
       slug: product.slug,
-      image: product.images?.[0] || '/placeholder.svg',
+      image: product.images[0] || '/placeholder.svg',
       price: product.specialPrice || product.originalPrice,
       originalPrice: product.originalPrice,
       quantity: 1,
-      stock: product.stock,
+      stock: product.trackStock === false ? 99 : product.stock,
     };
 
     dispatch(addToCart(cartItem));
@@ -82,7 +83,7 @@ function ProductCardComponent({ product }: ProductCardProps) {
       hoverImage: product.images?.[1] || undefined,
       price: product.specialPrice || product.originalPrice,
       originalPrice: product.originalPrice,
-      stock: product.stock,
+      stock: product.trackStock === false ? 99 : product.stock,
     };
 
     if (isInWishlist) {
@@ -156,10 +157,10 @@ function ProductCardComponent({ product }: ProductCardProps) {
             {/* Add to Cart - bottom right */}
             <button
               onClick={handleAddToCart}
-              disabled={product.stock === 0 || isAddingToCart}
+              disabled={(product.trackStock !== false && product.stock === 0) || isAddingToCart}
               className="absolute bottom-1.5 right-1.5 z-10 rounded-none flex items-center justify-center gap-1 shadow-md disabled:opacity-50 disabled:cursor-not-allowed px-1.5 sm:px-2 h-6 sm:h-7"
               style={{ backgroundColor: '#1A1A1A' }}
-              aria-label={product.stock === 0 ? 'Out of stock' : 'Add to cart'}
+              aria-label={product.trackStock !== false && product.stock === 0 ? 'Out of stock' : 'Add to cart'}
             >
               <ShoppingCart className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 text-white flex-shrink-0" />
               <span className="text-white font-semibold tracking-wide whitespace-nowrap text-[7px] sm:text-[9px]">
@@ -194,10 +195,10 @@ function ProductCardComponent({ product }: ProductCardProps) {
               )}
             </div>
 
-            {/* Only show Waitlist / Limited — no "Available" */}
-            {product.stock === 0 ? (
+            {/* Only show Waitlist / Limited if stock is tracked */}
+            {product.trackStock !== false && product.stock === 0 ? (
               <p className="text-[9px] text-red-600 font-sans uppercase tracking-[0.15em] mt-1">Waitlist</p>
-            ) : product.stock < 10 ? (
+            ) : product.trackStock !== false && product.stock < 10 ? (
               <p className="text-[9px] font-sans uppercase tracking-[0.15em] mt-1" style={{ color: '#1A1A1A' }}>Only {product.stock} left</p>
             ) : null}
           </div>

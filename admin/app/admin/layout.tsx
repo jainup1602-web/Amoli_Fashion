@@ -19,6 +19,14 @@ export default function AdminLayout({
 
   if (!mounted) return null;
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B76E79]" />
+      </div>
+    );
+  }
+
   if (!isAuthenticated || (user && user.role !== 'admin')) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-gray-50">

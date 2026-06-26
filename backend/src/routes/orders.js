@@ -81,6 +81,17 @@ router.post('/verify', verifyToken, async (req, res) => {
       include: { orderitem: true } // Need this for Shiprocket order creation
     });
 
+    // Auto-decrement stock for tracked products
+    for (const item of orderData.items) {
+      const product = await prisma.product.findUnique({ where: { id: item.productId } });
+      if (product && product.trackStock && product.stock >= item.quantity) {
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: { stock: { decrement: item.quantity } }
+        });
+      }
+    }
+
     // Auto-push to Shiprocket
     try {
       const shiprocket = require('../lib/shiprocket');
@@ -139,6 +150,17 @@ router.post('/cod', verifyToken, async (req, res) => {
       },
       include: { orderitem: true }
     });
+
+    // Auto-decrement stock for tracked products
+    for (const item of orderData.items) {
+      const product = await prisma.product.findUnique({ where: { id: item.productId } });
+      if (product && product.trackStock && product.stock >= item.quantity) {
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: { stock: { decrement: item.quantity } }
+        });
+      }
+    }
 
     // Auto-push to Shiprocket as COD
     try {

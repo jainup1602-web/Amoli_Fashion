@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { razorpayOrderId, razorpayPaymentId, razorpaySignature } = await request.json();
+    const { razorpayOrderId, razorpayPaymentId, razorpaySignature, isBuyNow } = await request.json();
 
     // Verify payment signature
     const crypto = require('crypto');
@@ -75,9 +75,11 @@ export async function POST(request: NextRequest) {
       }
 
       // Clear cart
-      await tx.cart.deleteMany({
-        where: { userId: authResult.user.id },
-      });
+      if (!isBuyNow) {
+        await tx.cart.deleteMany({
+          where: { userId: authResult.user.id },
+        });
+      }
 
       return updated;
     });

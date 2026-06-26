@@ -218,14 +218,14 @@ const wishlistSlice = createSlice({
         state.loading = false;
         const serverItems = action.payload.items || [];
         state.items = serverItems.map((item: any) => ({
-          productId: item.productId || item.product?.id,
-          name: item.product?.name || item.productId?.name,
-          slug: item.product?.slug || item.productId?.slug,
-          image: item.product?.images?.[0] || item.productId?.images?.[0] || '',
-          hoverImage: item.product?.images?.[1] || item.productId?.images?.[1] || null,
-          price: item.product?.specialPrice || item.product?.originalPrice || item.productId?.specialPrice || item.productId?.originalPrice,
-          originalPrice: item.product?.originalPrice || item.productId?.originalPrice,
-          stock: item.product?.stock || item.productId?.stock,
+          productId: item.product?.id || item.productId,
+          name: item.product?.name || 'Unknown Product',
+          slug: item.product?.slug || '',
+          image: item.product?.images?.[0] || '',
+          hoverImage: item.product?.images?.[1] || null,
+          price: item.product?.specialPrice || item.product?.originalPrice || 0,
+          originalPrice: item.product?.originalPrice || 0,
+          stock: item.product?.stock || 0,
         }));
         state.synced = true;
         saveToLocalStorage(state.items);
@@ -244,13 +244,14 @@ const wishlistSlice = createSlice({
         state.loading = false;
         const serverItems = action.payload.items || [];
         state.items = serverItems.map((item: any) => ({
-          productId: item.productId._id || item.productId,
-          name: item.productId.name,
-          slug: item.productId.slug,
-          image: item.productId.images?.[0] || '',
-          price: item.productId.price,
-          originalPrice: item.productId.originalPrice,
-          stock: item.productId.stock,
+          productId: item.product?.id || item.productId,
+          name: item.product?.name || 'Unknown Product',
+          slug: item.product?.slug || '',
+          image: item.product?.images?.[0] || '',
+          hoverImage: item.product?.images?.[1] || null,
+          price: item.product?.specialPrice || item.product?.originalPrice || 0,
+          originalPrice: item.product?.originalPrice || 0,
+          stock: item.product?.stock || 0,
         }));
         state.synced = true;
         saveToLocalStorage(state.items);
@@ -270,14 +271,14 @@ const wishlistSlice = createSlice({
         state.loading = false;
         const serverItems = action.payload.items || [];
         state.items = serverItems.map((item: any) => ({
-          productId: item.productId || item.product?.id,
-          name: item.product?.name || item.productId?.name,
-          slug: item.product?.slug || item.productId?.slug,
-          image: item.product?.images?.[0] || item.productId?.images?.[0] || '',
-          hoverImage: item.product?.images?.[1] || item.productId?.images?.[1] || null,
-          price: item.product?.specialPrice || item.product?.originalPrice || item.productId?.specialPrice || item.productId?.originalPrice,
-          originalPrice: item.product?.originalPrice || item.productId?.originalPrice,
-          stock: item.product?.stock || item.productId?.stock,
+          productId: item.product?.id || item.productId,
+          name: item.product?.name || 'Unknown Product',
+          slug: item.product?.slug || '',
+          image: item.product?.images?.[0] || '',
+          hoverImage: item.product?.images?.[1] || null,
+          price: item.product?.specialPrice || item.product?.originalPrice || 0,
+          originalPrice: item.product?.originalPrice || 0,
+          stock: item.product?.stock || 0,
         }));
         saveToLocalStorage(state.items);
       })
@@ -296,14 +297,14 @@ const wishlistSlice = createSlice({
         state.loading = false;
         const serverItems = action.payload.items || [];
         state.items = serverItems.map((item: any) => ({
-          productId: item.productId || item.product?.id,
-          name: item.product?.name || item.productId?.name,
-          slug: item.product?.slug || item.productId?.slug,
-          image: item.product?.images?.[0] || item.productId?.images?.[0] || '',
-          hoverImage: item.product?.images?.[1] || item.productId?.images?.[1] || null,
-          price: item.product?.specialPrice || item.product?.originalPrice || item.productId?.specialPrice || item.productId?.originalPrice,
-          originalPrice: item.product?.originalPrice || item.productId?.originalPrice,
-          stock: item.product?.stock || item.productId?.stock,
+          productId: item.product?.id || item.productId,
+          name: item.product?.name || 'Unknown Product',
+          slug: item.product?.slug || '',
+          image: item.product?.images?.[0] || '',
+          hoverImage: item.product?.images?.[1] || null,
+          price: item.product?.specialPrice || item.product?.originalPrice || 0,
+          originalPrice: item.product?.originalPrice || 0,
+          stock: item.product?.stock || 0,
         }));
         saveToLocalStorage(state.items);
       })

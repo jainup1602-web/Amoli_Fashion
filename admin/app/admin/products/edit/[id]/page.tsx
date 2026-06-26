@@ -31,6 +31,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     color: '',
     isActive: true,
     isFeatured: false,
+    trackStock: true,
   });
 
   useEffect(() => {
@@ -72,6 +73,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
             color: product.color || '',
             isActive: product.isActive ?? true,
             isFeatured: product.isFeatured ?? false,
+            trackStock: product.trackStock ?? true,
           });
           setImages(Array.isArray(product.images) ? product.images : []);
           if (product.categoryId) fetchSubcategories(product.categoryId);
@@ -137,6 +139,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         images,
         isActive: formData.isActive,
         isFeatured: formData.isFeatured,
+        trackStock: formData.trackStock,
       };
 
       const res = await fetch(`/api/products`, {
@@ -254,8 +257,33 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Stock Quantity *</label>
-            <input type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} className="w-full px-3 py-2 border rounded-md w-48" min="0" required />
+            <h2 className="text-xl font-semibold mb-4">Inventory</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Stock Quantity *</label>
+                <input 
+                  type="number" 
+                  value={formData.stock} 
+                  onChange={(e) => setFormData({ ...formData, stock: e.target.value })} 
+                  className={`w-full px-3 py-2 border rounded-md ${!formData.trackStock ? 'bg-gray-100 text-gray-400' : ''}`}
+                  min="0" 
+                  required={formData.trackStock}
+                  disabled={!formData.trackStock}
+                />
+                {!formData.trackStock && <p className="text-xs text-gray-500 mt-1">Stock not tracked (Always Available)</p>}
+              </div>
+              <div>
+                <label className="flex items-center gap-2 mt-7">
+                  <input
+                    type="checkbox"
+                    checked={formData.trackStock}
+                    onChange={(e) => setFormData({ ...formData, trackStock: e.target.checked })}
+                    className="w-4 h-4"
+                  />
+                  <span className="text-sm font-medium">Track Inventory</span>
+                </label>
+              </div>
+            </div>
           </div>
 
           <div>

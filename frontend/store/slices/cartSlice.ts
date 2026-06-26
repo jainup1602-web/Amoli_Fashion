@@ -217,14 +217,14 @@ const cartSlice = createSlice({
       // Convert server cart format to local format
       const serverItems = action.payload.items || [];
       state.items = serverItems.map((item: any) => ({
-        productId: item.productId._id || item.productId,
-        name: item.productId.name,
-        slug: item.productId.slug,
-        image: item.productId.images?.[0] || '',
-        price: item.price,
-        originalPrice: item.productId.originalPrice,
+        productId: item.product?.id || item.productId,
+        name: item.product?.name || 'Unknown Product',
+        slug: item.product?.slug || '',
+        image: item.product?.images?.[0] || '',
+        price: item.product?.specialPrice || item.product?.originalPrice || 0,
+        originalPrice: item.product?.originalPrice || 0,
         quantity: item.quantity,
-        stock: item.productId.stock,
+        stock: item.product?.stock || 0,
       }));
       state.total = calculateTotal(state.items);
       state.itemCount = calculateItemCount(state.items);
@@ -243,14 +243,14 @@ const cartSlice = createSlice({
         state.loading = false;
         const serverItems = action.payload.items || [];
         state.items = serverItems.map((item: any) => ({
-          productId: item.productId._id || item.productId,
-          name: item.productId.name,
-          slug: item.productId.slug,
-          image: item.productId.images?.[0] || '',
-          price: item.price,
-          originalPrice: item.productId.originalPrice,
+          productId: item.product?.id || item.productId,
+          name: item.product?.name || 'Unknown Product',
+          slug: item.product?.slug || '',
+          image: item.product?.images?.[0] || '',
+          price: item.product?.specialPrice || item.product?.originalPrice || 0,
+          originalPrice: item.product?.originalPrice || 0,
           quantity: item.quantity,
-          stock: item.productId.stock,
+          stock: item.product?.stock || 0,
         }));
         state.total = calculateTotal(state.items);
         state.itemCount = calculateItemCount(state.items);
@@ -271,14 +271,14 @@ const cartSlice = createSlice({
         state.loading = false;
         const serverItems = action.payload.items || [];
         state.items = serverItems.map((item: any) => ({
-          productId: item.productId._id || item.productId,
-          name: item.productId.name,
-          slug: item.productId.slug,
-          image: item.productId.images?.[0] || '',
-          price: item.price,
-          originalPrice: item.productId.originalPrice,
+          productId: item.product?.id || item.productId,
+          name: item.product?.name || 'Unknown Product',
+          slug: item.product?.slug || '',
+          image: item.product?.images?.[0] || '',
+          price: item.product?.specialPrice || item.product?.originalPrice || 0,
+          originalPrice: item.product?.originalPrice || 0,
           quantity: item.quantity,
-          stock: item.productId.stock,
+          stock: item.product?.stock || 0,
         }));
         state.total = calculateTotal(state.items);
         state.itemCount = calculateItemCount(state.items);
@@ -302,14 +302,14 @@ const cartSlice = createSlice({
           // Server response - update from server data
           const serverItems = action.payload.items || [];
           state.items = serverItems.map((item: any) => ({
-            productId: item.productId._id || item.productId,
-            name: item.productId.name,
-            slug: item.productId.slug,
-            image: item.productId.images?.[0] || '',
-            price: item.price,
-            originalPrice: item.productId.originalPrice,
+            productId: item.product?.id || item.productId,
+            name: item.product?.name || 'Unknown Product',
+            slug: item.product?.slug || '',
+            image: item.product?.images?.[0] || '',
+            price: item.product?.specialPrice || item.product?.originalPrice || 0,
+            originalPrice: item.product?.originalPrice || 0,
             quantity: item.quantity,
-            stock: item.productId.stock,
+            stock: item.product?.stock || 0,
           }));
           state.total = calculateTotal(state.items);
           state.itemCount = calculateItemCount(state.items);

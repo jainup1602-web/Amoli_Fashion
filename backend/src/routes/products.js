@@ -107,6 +107,7 @@ router.post('/', verifyAdmin, async (req, res) => {
       specifications: body.specifications ? JSON.stringify(body.specifications) : null,
       variants: body.variants ? JSON.stringify(body.variants) : null,
       isFeatured: body.isFeatured || false, isActive: body.isActive !== false,
+      trackStock: body.trackStock !== false,
     };
     if (!data.name || !data.slug || !data.sku || !data.categoryId || !data.originalPrice) {
       return res.status(400).json({ success: false, message: 'Missing required fields' });
@@ -140,6 +141,14 @@ router.put('/', verifyAdmin, async (req, res) => {
     if (body.variants !== undefined) mapped.variants = JSON.stringify(body.variants);
     if (body.isFeatured !== undefined) mapped.isFeatured = body.isFeatured;
     if (body.isActive !== undefined) mapped.isActive = body.isActive;
+    if (body.trackStock !== undefined) mapped.trackStock = body.trackStock;
+    if (body.shortDescription !== undefined) mapped.shortDescription = body.shortDescription;
+    if (body.sku !== undefined) mapped.sku = body.sku;
+    if (body.material !== undefined) mapped.material = body.material;
+    if (body.purity !== undefined) mapped.purity = body.purity;
+    if (body.occasion !== undefined) mapped.occasion = body.occasion;
+    if (body.gender !== undefined) mapped.gender = body.gender;
+    if (body.tags !== undefined) mapped.tags = body.tags;
     const product = await prisma.product.update({ where: { id }, data: mapped });
     res.json({ success: true, product });
   } catch (err) {

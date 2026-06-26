@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 import { Breadcrumb } from '@/components/common/Breadcrumb';
 import { Card } from '@/components/ui/card';
 
@@ -68,7 +69,7 @@ export default function FaqPage() {
           <Card className="p-4 sm:p-8">
             <div 
               className="prose prose-lg max-w-none prose-headings:text-black prose-a:text-gray-900 hover:prose-a:text-black"
-              dangerouslySetInnerHTML={{ __html: pageContent.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pageContent.content) }}
             />
           </Card>
         </div>
