@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Plus, Edit, Trash2, Star, X, Upload } from 'lucide-react';
 import { confirmDelete } from '@/lib/confirm';
 import { alertSuccess, alertError } from '@/lib/alert';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 interface VideoReview {
   id: string;
@@ -46,7 +47,10 @@ export default function VideoReviewsPage() {
   const videoFileRef = useRef<HTMLInputElement>(null);
   const thumbFileRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => { fetchVideoReviews(); }, []);
+  useEffect(() => { 
+    fetchVideoReviews(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getToken = async () => {
     const { getAuthToken } = await import('@/lib/firebase-client');
@@ -69,22 +73,10 @@ export default function VideoReviewsPage() {
     }
   };
 
-  const uploadFile = async (file: File): Promise<string | null> => {
+  const uploadFile = async (file: File, resourceType: 'image' | 'video'): Promise<string | null> => {
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (data.success) {
-        return data.url;
-      } else {
-        alertError(data.error || 'Upload failed');
-        return null;
-      }
+      const url = await uploadToCloudinary(file, resourceType);
+      return url;
     } catch (e) {
       console.error(e);
       alertError('Upload failed');
@@ -98,7 +90,7 @@ export default function VideoReviewsPage() {
     if (file.size > 50 * 1024 * 1024) { alertError('Video file must be under 50MB'); return; }
     
     setSaving(true);
-    const url = await uploadFile(file);
+    const url = await uploadFile(file, 'video');
     setSaving(false);
     
     if (url) {
@@ -111,7 +103,7 @@ export default function VideoReviewsPage() {
     if (!file) return;
     
     setSaving(true);
-    const url = await uploadFile(file);
+    const url = await uploadFile(file, 'image');
     setSaving(false);
     
     if (url) {

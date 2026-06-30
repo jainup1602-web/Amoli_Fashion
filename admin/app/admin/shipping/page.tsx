@@ -42,7 +42,10 @@ export default function ShippingPage() {
     finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchZones(); }, []);
+  useEffect(() => { 
+    fetchZones(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openAdd = () => { setEditZone(null); setForm(EMPTY_FORM); setModalOpen(true); };
   const openEdit = (z: ShippingZone) => {

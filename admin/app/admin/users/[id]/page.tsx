@@ -17,6 +17,7 @@ export default function CustomerDetailPage() {
 
   useEffect(() => {
     if (params.id) fetchCustomer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   const fetchCustomer = async () => {

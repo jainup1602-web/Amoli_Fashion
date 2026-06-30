@@ -97,13 +97,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         data: { orderStatus: 'returned' },
       });
 
-      // 5. Restore stock
-      await tx.product.update({
-        where: { id: returnRequest.orderItemId }, // Note: orderItemId in returnRequest is actually the ID of the orderitem row. We need the productId!
-        data: { stock: { increment: returnRequest.quantity } },
-      }).catch(e => console.log('Could not restore stock directly by ID, finding productId first'));
-
-      // Let's actually get the correct productId to restore stock
+      // 5. Restore stock using the actual productId
       const orderItem = returnRequest.order.orderitem.find(i => i.id === returnRequest.orderItemId);
       if (orderItem) {
         await tx.product.update({

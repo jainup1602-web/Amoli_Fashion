@@ -5,7 +5,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
-    domains: ['localhost', 'firebasestorage.googleapis.com', 'images.unsplash.com'],
+    domains: ['localhost', 'firebasestorage.googleapis.com', 'images.unsplash.com', 'res.cloudinary.com'],
     remotePatterns: [
       { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },

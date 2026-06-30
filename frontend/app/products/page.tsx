@@ -200,7 +200,10 @@ export default function ProductsPage() {
     fetchCategories();
   }, []);
 
-  useEffect(() => { fetchProducts(); }, [currentPage, sortBy, perPage, selectedCategories, selectedSubcategories, selectedPriceRange, selectedMaterials, selectedGenders, selectedOccasions, inStockOnly]);
+  useEffect(() => { 
+    fetchProducts(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, sortBy, perPage, selectedCategories, selectedSubcategories, selectedPriceRange, selectedMaterials, selectedGenders, selectedOccasions, inStockOnly]);
 
   const fetchCategories = async () => {
     try {

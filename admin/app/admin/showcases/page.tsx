@@ -32,6 +32,7 @@ export default function ShowcasesAdmin() {
 
   useEffect(() => {
     fetchShowcases();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchShowcases = async () => {

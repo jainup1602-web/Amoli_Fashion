@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Package, Star, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Package, Truck, ArrowLeft, Star, X, Upload, ChevronDown, ChevronUp } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import { useAppSelector } from '@/store/hooks';
 import toast from 'react-hot-toast';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 interface OrderItem {
   id: string;
@@ -32,6 +33,10 @@ interface Order {
   trackingNumber?: string;
   shippingProvider?: string;
   createdAt: string;
+  razorpayOrderId?: string;
+  customerName?: string;
+  customerEmail?: string;
+  customerPhone?: string;
   orderitem: OrderItem[];
 }
 
@@ -57,11 +62,95 @@ export default function OrdersPage() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewHover, setReviewHover] = useState(0);
   const [reviewComment, setReviewComment] = useState('');
+  const [reviewImages, setReviewImages] = useState<string[]>([]);
+  const [isReviewUploading, setIsReviewUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [reviewedItems, setReviewedItems] = useState<Set<string>>(new Set());
+  const [paymentLoading, setPaymentLoading] = useState<string | null>(null);
+
+  const loadRazorpayScript = () =>
+    new Promise<boolean>((resolve) => {
+      if (window.Razorpay) return resolve(true);
+      const s = document.createElement('script');
+      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      s.onload = () => resolve(true);
+      s.onerror = () => resolve(false);
+      document.body.appendChild(s);
+    });
+
+  const handlePayNow = async (order: Order) => {
+    try {
+      setPaymentLoading(order.id);
+      
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        toast.error('Payment gateway failed to load.');
+        return;
+      }
+
+      const confRes = await fetch('/api/config/razorpay');
+      const confData = await confRes.json();
+      if (!confData.key) {
+        toast.error('Payment configuration missing.');
+        return;
+      }
+
+      const options = {
+        key: confData.key,
+        amount: Math.round(order.total * 100),
+        currency: 'INR',
+        name: 'Amoli Fashion Jewellery',
+        description: 'Order Payment',
+        order_id: order.razorpayOrderId,
+        prefill: {
+          name: order.customerName,
+          email: order.customerEmail,
+          contact: order.customerPhone,
+        },
+        theme: { color: '#1A1A1A' },
+        handler: async (response: any) => {
+          try {
+            const vRes = await fetch('/api/orders/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+              body: JSON.stringify({
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+                isBuyNow: false,
+              }),
+            });
+            const vData = await vRes.json();
+            if (vData.success) {
+              toast.success('Payment successful!');
+              fetchOrders(); // Refresh orders to show paid status
+            } else {
+              toast.error('Payment verification failed.');
+            }
+          } catch {
+            toast.error('Payment verification failed');
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            toast.error('Payment cancelled');
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      toast.error('Failed to initiate payment');
+      console.error(error);
+    } finally {
+      setPaymentLoading(null);
+    }
+  };
 
   useEffect(() => {
     if (isAuthenticated && token) fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, token]);
 
   const fetchOrders = async () => {
@@ -156,6 +245,7 @@ export default function OrdersPage() {
           productId: reviewModal.productId,
           rating: reviewRating,
           comment: reviewComment.trim(),
+          images: reviewImages,
         }),
       });
       const data = await res.json();
@@ -235,6 +325,18 @@ export default function OrdersPage() {
                       {order.orderStatus}
                     </span>
                     <span className="font-semibold text-[#1C1C1C]">{formatPrice(order.total)}</span>
+                    {order.paymentMethod === 'razorpay' && order.paymentStatus === 'pending' && order.orderStatus !== 'cancelled' && (
+                      <Button
+                        size="sm"
+                        onClick={() => handlePayNow(order)}
+                        disabled={paymentLoading === order.id}
+                        className="rounded-none h-8 text-xs px-4"
+                        style={{ backgroundColor: '#1A1A1A', color: 'white' }}
+                      >
+                        {paymentLoading === order.id ? 'Loading...' : 'Pay Now'}
+                      </Button>
+                    )}
+
                     <button
                       onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
                       className="text-gray-400 hover:text-[#1A1A1A] transition-colors"
@@ -287,13 +389,31 @@ export default function OrdersPage() {
                             size="sm"
                             variant="outline"
                             onClick={async () => {
-                              if (confirm('Are you sure you want to request a return for this item?')) {
-                                toast.loading('Sending request...');
-                                // Add API call here later
-                                setTimeout(() => {
-                                  toast.dismiss();
-                                  toast.success('Return request sent! Our team will contact you.');
-                                }, 1500);
+                              const reason = prompt('Please enter the reason for returning this item (e.g., Defective, Wrong Size):');
+                              if (reason) {
+                                toast.loading('Sending request...', { id: 'return' });
+                                try {
+                                  const res = await fetch('/api/returns', {
+                                    method: 'POST',
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      Authorization: `Bearer ${token}`
+                                    },
+                                    body: JSON.stringify({
+                                      orderId: order.id,
+                                      orderItemId: item.id,
+                                      reason: reason
+                                    })
+                                  });
+                                  const data = await res.json();
+                                  if (res.ok) {
+                                    toast.success('Return request sent! Our team will contact you.', { id: 'return' });
+                                  } else {
+                                    toast.error(data.error || 'Failed to send return request', { id: 'return' });
+                                  }
+                                } catch (error) {
+                                  toast.error('Network error', { id: 'return' });
+                                }
                               }
                             }}
                             className="flex-shrink-0 rounded-none text-[10px] tracking-widest uppercase border-gray-200 text-gray-500 hover:border-red-400 hover:text-red-500 transition-colors h-7"
@@ -374,6 +494,50 @@ export default function OrdersPage() {
               />
             </div>
 
+            {/* Image Upload */}
+            <div className="mb-5">
+              <label className="block text-xs font-elegant tracking-widest uppercase text-gray-500 mb-2">Attach Photos (Optional)</label>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {reviewImages.map((img, i) => (
+                  <div key={i} className="relative w-16 h-16 border border-gray-200">
+                    <Image src={img} alt="Review upload" fill className="object-cover" />
+                    <button
+                      onClick={() => setReviewImages(reviewImages.filter((_, idx) => idx !== i))}
+                      className="absolute -top-2 -right-2 bg-white rounded-full border border-gray-200 text-red-500 p-0.5 hover:bg-red-50"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+                {reviewImages.length < 3 && (
+                  <label className="w-16 h-16 border border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      disabled={isReviewUploading}
+                      onChange={async (e) => {
+                        const files = e.target.files;
+                        if (!files || files.length === 0) return;
+                        setIsReviewUploading(true);
+                        try {
+                          const uploadPromises = Array.from(files).slice(0, 3 - reviewImages.length).map(f => uploadToCloudinary(f, 'image'));
+                          const urls = await Promise.all(uploadPromises);
+                          setReviewImages(prev => [...prev, ...urls.filter((u): u is string => !!u)]);
+                        } catch (err) {
+                          toast.error('Failed to upload image');
+                        } finally {
+                          setIsReviewUploading(false);
+                        }
+                      }}
+                    />
+                    <Upload className={`h-5 w-5 ${isReviewUploading ? 'animate-pulse text-blue-400' : 'text-gray-400'}`} />
+                  </label>
+                )}
+              </div>
+            </div>
+
             <div className="flex gap-3">
               <Button
                 variant="outline"
@@ -384,7 +548,7 @@ export default function OrdersPage() {
               </Button>
               <Button
                 onClick={handleSubmitReview}
-                disabled={submitting || !reviewComment.trim()}
+                disabled={submitting || isReviewUploading || !reviewComment.trim()}
                 className="flex-1 text-white rounded-none text-xs tracking-widest uppercase"
                 style={{ backgroundColor: '#1A1A1A' }}
               >

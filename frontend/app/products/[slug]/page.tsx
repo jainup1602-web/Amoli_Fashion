@@ -16,6 +16,7 @@ import { addToCart, addToCartAsync } from '@/store/slices/cartSlice';
 import { addToWishlist, removeFromWishlist, addToWishlistAsync, removeFromWishlistAsync } from '@/store/slices/wishlistSlice';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { ProductCard } from '@/components/products/ProductCard';
+import { ProductLightbox } from '@/components/products/ProductLightbox';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackViewItem, trackAddToCart } from '@/lib/analytics';
@@ -74,6 +75,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     reviews: false,
   });
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
 
 
@@ -86,6 +88,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     fetchProduct();
     setSelectedImage(0);
     setQuantity(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug]);
 
   // Inject Product JSON-LD for SEO (client-side fallback for crawlers that execute JS)
@@ -299,12 +302,29 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         </div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-14">
 
-          {/* Images */}
-          <div>
+          {/* Images Section */}
+          <div className="flex flex-col-reverse md:flex-row gap-4 md:h-[750px]">
+            {/* Thumbnails (Vertical on desktop, horizontal on mobile) */}
+            {product.images.length > 1 && (
+              <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto w-full md:w-24 shrink-0 no-scrollbar hide-scrollbar snap-x pr-2">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={`relative aspect-[3/4] md:aspect-square w-20 md:w-full shrink-0 snap-start border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#1A1A1A]' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                  >
+                    <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="96px" className="object-cover" unoptimized={img.startsWith('data:')} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Main Image */}
             <div
-              className="relative aspect-square bg-white border border-gold/10 overflow-hidden group cursor-zoom-in"
+              className="relative w-full aspect-[4/5] md:aspect-auto md:h-full bg-white border border-gold/10 overflow-hidden group cursor-zoom-in grow"
+              onClick={() => setIsLightboxOpen(true)}
               onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -319,35 +339,22 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 src={product.images[selectedImage] || '/placeholder.svg'}
                 alt={product.name}
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 65vw"
                 className="zoom-img object-cover transition-transform duration-300 group-hover:scale-[2.2]"
                 priority
                 unoptimized={product.images[selectedImage]?.startsWith('data:')}
                 loading="eager"
               />
               {discount > 0 && (
-                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-2 py-1 tracking-widest uppercase z-10" style={{ backgroundColor: '#1A1A1A' }}>
+                <div className="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1.5 tracking-widest uppercase z-10" style={{ backgroundColor: '#1A1A1A' }}>
                   -{discount}%
                 </div>
               )}
               {/* Zoom hint */}
-              <div className="absolute bottom-3 right-3 bg-black/50 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none select-none hidden md:block">
+              <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none select-none hidden md:block tracking-wider uppercase">
                 Hover to zoom
               </div>
             </div>
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-3">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setSelectedImage(idx)}
-                    className={`relative aspect-square border-2 overflow-hidden transition-all ${selectedImage === idx ? 'border-[#1A1A1A]' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                  >
-                    <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="80px" className="object-cover" unoptimized={img.startsWith('data:')} loading="lazy" />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* Info */}
@@ -736,6 +743,14 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       </div>
 
       {showAuthModal && <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />}
+      
+      {/* Lightbox */}
+      <ProductLightbox
+        images={product.images}
+        initialIndex={selectedImage}
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+      />
     </div>
   );
 }

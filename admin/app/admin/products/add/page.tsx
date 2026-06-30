@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Upload, X } from 'lucide-react';
 import { alertSuccess, alertError } from '@/lib/alert';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [subcategories, setSubcategories] = useState<any[]>([]);
   const [specifications, setSpecifications] = useState<{ key: string; value: string }[]>([]);
@@ -107,16 +109,19 @@ export default function AddProductPage() {
     setSpecifications(updated);
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {
-      Array.from(files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImages((prev) => [...prev, reader.result as string]);
-        };
-        reader.readAsDataURL(file);
-      });
+    if (files && files.length > 0) {
+      setIsUploading(true);
+      try {
+        const uploadPromises = Array.from(files).map(file => uploadToCloudinary(file, 'image'));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        setImages((prev) => [...prev, ...uploadedUrls.filter((url): url is string => !!url)]);
+      } catch (error) {
+        alertError('Failed to upload images');
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -437,10 +442,11 @@ export default function AddProductPage() {
                 onChange={handleImageUpload}
                 className="hidden"
                 id="product-images"
+                disabled={isUploading}
               />
               <label htmlFor="product-images" className="cursor-pointer block text-center">
                 <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                <p className="mt-2">Click to upload images</p>
+                <p className="mt-2">{isUploading ? 'Uploading...' : 'Click to upload images'}</p>
                 <p className="text-sm text-gray-500">PNG, JPG, GIF up to 10MB</p>
               </label>
             </div>
@@ -527,7 +533,7 @@ export default function AddProductPage() {
           <div className="flex gap-4 pt-4 border-t">
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || isUploading}
               className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 font-medium disabled:bg-gray-400"
             >
               {loading ? 'Creating...' : 'Create Product'}
